@@ -37,8 +37,7 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 	List<MuseoEntity> museos = new ArrayList<>();
 
 	@PodamExclude
-	@ManyToOne(
-		mappedBy = "lugarOrigen")
+	@ManyToOne
 	PaisEntity lugarOrigen;
 
 	@PodamExclude

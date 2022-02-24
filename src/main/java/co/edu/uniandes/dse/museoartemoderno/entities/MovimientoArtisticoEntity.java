@@ -23,17 +23,18 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 
 
 	@PodamExclude
-	@OneToMany
+	@OneToMany(
+		mappedBy = "movimiento")
 	List<ObraEntity> obras = new ArrayList<>();
 
 
 	@PodamExclude
-	@ManyToMany
+	@ManyToMany(
+		mappedBy = "movimientos")
 	List<ArtistaEntity> artistas = new ArrayList<>();
 
 	@PodamExclude
-	@ManyToMany(
-		mappedBy = "museos")
+	@ManyToMany
 	List<MuseoEntity> museos = new ArrayList<>();
 
 	@PodamExclude
@@ -42,5 +43,7 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 
 	@PodamExclude
 	@ManyToMany
+	(
+		mappedBy = "movimientoArtisticos")
 	List<FechaEntity> fechasApogeo = new ArrayList<>();
 }

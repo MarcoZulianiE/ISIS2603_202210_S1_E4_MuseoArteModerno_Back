@@ -1,8 +1,12 @@
 package co.edu.uniandes.dse.museoartemoderno.entities;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,20 +26,22 @@ public class FechaEntity extends BaseEntity {
  
  
  @PodamExclude
- @ManyToOne
- ArtistaEntity fechaFallecimiento;
+ @OneToMany
+ (mappedBy="fechaNacimiento")
+ List<ArtistaEntity> artistasNacimiento= new ArrayList<>();
  
  @PodamExclude
- @ManyToOne
- ArtistaEntity fechaNacimiento;
+ @OneToMany
+ (mappedBy="fechaFallecimiento")
+ List<ArtistaEntity> artistasFallecimiento= new ArrayList<>();
  
  @PodamExclude
- @ManyToOne
- ObraEntity fechaPublicacion;
+ @OneToMany
+ (mappedBy="fechaPublicacion")
+ List<ObraEntity> obras= new ArrayList<>();
  
  @PodamExclude
  @ManyToMany
- (mappedBy="movimientoArtisticos")
- MovimientoArtisticoEntity fechasApogeo;
+ MovimientoArtisticoEntity movimientoArtisticos;
  
 }

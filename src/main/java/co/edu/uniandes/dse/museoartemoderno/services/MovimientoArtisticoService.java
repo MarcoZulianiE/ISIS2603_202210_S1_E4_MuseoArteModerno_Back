@@ -12,7 +12,7 @@ import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 
 @Service
-public class MovimientoArtisticoEntityService {
+public class MovimientoArtisticoService {
 
 	@Autowired
 	MovimientoArtisticoRepository movimientoArtisticoRepository;

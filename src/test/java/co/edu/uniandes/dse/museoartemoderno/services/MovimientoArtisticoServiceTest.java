@@ -61,6 +61,14 @@ class MovimientoArtisticoServiceTest {
     	entityManager.getEntityManager().createQuery("delete from PaisEntity");
     }
 
+    /**
+     * Inserta los datos iniciales para el correcto funcionamiento de la prueba
+     */
+    private void insertData()
+    {
+    	
+    }
+    
 	@Test
 	void test() {
 		fail("Not yet implemented");

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import co.edu.uniandes.dse.bookstore.entities.BookEntity;
 import lombok.Getter;
 import lombok.Setter;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -16,6 +15,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Setter
 public class PaisEntity extends BaseEntity{
 	private String nombrePais;
+	private String coordenadasPais;
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "pais")
@@ -23,11 +23,11 @@ public class PaisEntity extends BaseEntity{
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarFallecimiento")
-	private List<ArtistaEntity> lugarFallecimiento = new ArrayList<>();
+	private List<ArtistaEntity> Artistafallecimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarNacimiento")
-	private List<ArtistaEntity> lugarNacimiento = new ArrayList<>();
+	private List<ArtistaEntity> Artistanacimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "ubicacion")

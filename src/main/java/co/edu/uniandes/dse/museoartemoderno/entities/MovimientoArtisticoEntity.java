@@ -28,7 +28,7 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)
-	private Date fechaApogeo = new Date();
+	private Date fechaApogeo;
 
 	@PodamExclude
 	@OneToMany(

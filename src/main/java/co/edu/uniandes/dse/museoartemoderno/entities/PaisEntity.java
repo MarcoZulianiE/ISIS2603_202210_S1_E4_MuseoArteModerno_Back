@@ -19,7 +19,7 @@ public class PaisEntity extends BaseEntity{
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "pais")
-	private List<CiudadEntity> pais = new ArrayList<>();
+	private List<CiudadEntity> ciudad = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarFallecimiento")
@@ -31,10 +31,10 @@ public class PaisEntity extends BaseEntity{
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "ubicacion")
-	private List<MuseoEntity> ubicacion = new ArrayList<>();
+	private List<MuseoEntity> museo = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarOrigen")
-	private List<MovimientoArtisticoEntity> lugarOrigen = new ArrayList<>();
+	private List<MovimientoArtisticoEntity> movimiento = new ArrayList<>();
 
 }

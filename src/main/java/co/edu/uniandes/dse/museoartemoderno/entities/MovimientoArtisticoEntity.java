@@ -8,10 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import co.edu.uniandes.dse.museoartemoderno.podam.DateStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import uk.co.jemos.podam.common.PodamExclude;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 @Entity
 @Getter
@@ -22,7 +26,9 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 
 	private String nombre;
 	
-	Date fechasApogeo = new Date();
+	@Temporal(TemporalType.DATE)
+	@PodamStrategyValue(DateStrategy.class)
+	Date fechaApogeo = new Date();
 
 	@PodamExclude
 	@OneToMany(

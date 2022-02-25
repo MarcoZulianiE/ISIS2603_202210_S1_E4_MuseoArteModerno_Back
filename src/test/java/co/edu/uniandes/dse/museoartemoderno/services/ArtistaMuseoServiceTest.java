@@ -117,17 +117,4 @@ public class ArtistaMuseoServiceTest {
 		});
 	}
 	
-	/**
-	 * Prueba para consultar la lista de museos de un artista.
-	 */
-	@Test
-	void testGetMuseos() throws EntityNotFoundException {
-		List<MuseoEntity> authorEntities = artistaMuseoService.getMuseos(artista.getId());
-
-		assertEquals(museoList.size(), authorEntities.size());
-
-		for (int i = 0; i < museoList.size(); i++) {
-			assertTrue(authorEntities.contains(museoList.get(0)));
-		}
-	}
 }

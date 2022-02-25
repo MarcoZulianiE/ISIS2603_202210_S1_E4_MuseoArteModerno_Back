@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.uniandes.dse.bookstore.entities.BookEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.CiudadEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
@@ -88,13 +88,11 @@ public class PaisService {
 		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("PAIS NOT FOUND");
 		
-		List<CiudadEntity> ciudades = paisEntity.get().getBooks();
-		if (!books.isEmpty())
-			throw new IllegalOperationException("Unable to delete the author because he/she has associated books");
-		
 		paisRepository.deleteById(paisId);
 		log.info("Termina proceso de borrar el pais con id: " + paisId);
 	}
+	
+	
 
 	
 }

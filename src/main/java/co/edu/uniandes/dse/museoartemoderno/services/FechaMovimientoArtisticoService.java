@@ -28,10 +28,11 @@ public class FechaMovimientoArtisticoService {
 	@Transactional
 	public MovimientoArtisticoEntity addFecha(long fechaId,long movimientoId) throws EntityNotFoundException{
 		log.info("inicio proceso de asociar fecha a un movimiento");
+		Optional<FechaEntity> fechaEntity = fechaRepository.findById(fechaId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoartisticoRepository.findById(movimientoId);
         if (movimientoEntity.isEmpty())
                 throw new EntityNotFoundException("MOVIMIENTO_NOT_FOUND");
-        FechaEntity.get().getMovimientos().add(movimientoEntity.get());
+        fechaEntity.get().getMovimientoArtisticos().add(movimientoEntity.get());
         log.info("Termina proceso de asociarle la fecha a un movimiento");
         return movimientoEntity.get();
 	}
@@ -43,7 +44,8 @@ public class FechaMovimientoArtisticoService {
             throw new EntityNotFoundException("FECHA_NOT_FOUND");
         log.info("fin");
 
-		return fechaEntity.get().getMovimientos();
+		return fechaEntity.get().getMovimientoArtisticos()
+;
 
 		
 	}
@@ -60,7 +62,7 @@ public class FechaMovimientoArtisticoService {
             if (fechaEntity.isEmpty())
                     throw new EntityNotFoundException("BOOK_NOT_FOUND");
             log.info("fin");
-            if (fechaEntity.get().getMovimientos().contains(movimientoEntity.get()))
+            if (fechaEntity.get().getMovimientoArtisticos().contains(movimientoEntity.get()))
                     return movimientoEntity.get();
 
             throw new IllegalOperationException("Operación Ilegal");

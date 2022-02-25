@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.repositories.FechaRepository;
+import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.FechaEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
@@ -42,7 +43,7 @@ public class FechaService {
             throw new EntityNotFoundException("FECHA_NO_ENCONTRADA");
     	log.info("fin proceso busqueda fecha especificada");
 
-    	return FechaEntity.get();
+    	return fechaEntity.get();
     }
     @Transactional
     public void  deleteFecha(Long fechaId) throws EntityNotFoundException, IllegalOperationException{
@@ -51,7 +52,7 @@ public class FechaService {
     	Optional<FechaEntity> fechaEntity = fechaRepository.findById(fechaId);
     	if (fechaEntity.isEmpty())
             throw new EntityNotFoundException("FECHA_NO_ENCONTRADA");
-        List<ArtistaEntity> artistas = fechaEntity.get().getArtistas();
+        List<ArtistaEntity> artistas = fechaEntity.get().getArtistasNacimiento();
         if (!artistas.isEmpty())
             throw new IllegalOperationException("No se pudo borrar por que hay artistas con esa fecha");
     	log.info("fin proceso borrado fecha especificada");

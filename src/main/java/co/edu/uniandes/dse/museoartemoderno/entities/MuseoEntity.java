@@ -21,24 +21,24 @@ public class MuseoEntity extends BaseEntity {
 	
 	private String direccion;
 	
-	private ArrayList<String> salasExposicion;
+	private List<String> salasExposicion = new ArrayList<>();
 	
 	private Integer totalObrasExhibidas;
 	
 	
 	@PodamExclude
 	@ManyToMany(mappedBy = "museos")
-	private ArrayList<ArtistaEntity> artistas;
+	private List<ArtistaEntity> artistas = new ArrayList<>();
 	
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "museo")
-	private ArrayList<ObraEntity> obras;
+	private List<ObraEntity> obras = new ArrayList<>();
 	
 	
 	@PodamExclude
 	@ManyToMany(mappedBy = "museos")
-	private ArrayList<MovimientoArtisticoEntity> movimientos;
+	private List<MovimientoArtisticoEntity> movimientos = new ArrayList<>();
 	
 	
 	@PodamExclude

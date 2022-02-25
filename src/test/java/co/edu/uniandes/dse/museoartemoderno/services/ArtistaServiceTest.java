@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -22,14 +23,15 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.FechaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
+import co.edu.uniandes.dse.museoartemoderno.podam.DateStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -46,8 +48,8 @@ public class ArtistaServiceTest {
 	private PodamFactory factory = new PodamFactoryImpl();
 	
 	private List<ArtistaEntity> artistaList = new ArrayList<>();
-	private List<FechaEntity> fechaNacimientoList = new ArrayList<>();
-	private List<FechaEntity> fechaFallecimientoList = new ArrayList<>();
+	private List<Date> fechaNacimientoList = new ArrayList<>();
+	private List<Date> fechaFallecimientoList = new ArrayList<>();
 	private List<PaisEntity> paisList = new ArrayList<>();
 	private List<MuseoEntity> museoList = new ArrayList<>();
 	private List<ObraEntity> obraList = new ArrayList<>();
@@ -77,13 +79,13 @@ public class ArtistaServiceTest {
      */
     private void insertData() {
             for (int i = 0; i < 3; i++) {
-            		FechaEntity fechaEntity = factory.manufacturePojo(FechaEntity.class);
+            		Date fechaEntity = factory.manufacturePojo(Date.class);
                     entityManager.persist(fechaEntity);
                     fechaNacimientoList.add(fechaEntity);
             }
             
             for (int i = 0; i < 3; i++) {
-        		FechaEntity fechaEntity = factory.manufacturePojo(FechaEntity.class);
+            	Date fechaEntity = factory.manufacturePojo(Date.class);
                 entityManager.persist(fechaEntity);
                 fechaFallecimientoList.add(fechaEntity);
             }
@@ -183,9 +185,8 @@ public class ArtistaServiceTest {
     void testCreateArtistaWithInvalidFechaNacimiento() {
     	assertThrows(IllegalOperationException.class, () -> {
     		ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
-    		FechaEntity fechaEntity = new FechaEntity();
-    		fechaEntity.setId(0L);
-    		newEntity.setFechaNacimiento(fechaEntity);
+    		Date fecha = new Date();
+    		newEntity.setFechaNacimiento(fecha);
     		artistaService.createArtista(newEntity);
     	});
     }
@@ -197,9 +198,8 @@ public class ArtistaServiceTest {
     void testCreateArtistaWithInvalidFechaFallecimiento() {
     	assertThrows(IllegalOperationException.class, () -> {
     		ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
-    		FechaEntity fechaEntity = new FechaEntity();
-    		fechaEntity.setId(0L);
-    		newEntity.setFechaFallecimiento(fechaEntity);
+    		Date fecha = new Date();
+    		newEntity.setFechaFallecimiento(fecha);
     		artistaService.createArtista(newEntity);
     	});
     }

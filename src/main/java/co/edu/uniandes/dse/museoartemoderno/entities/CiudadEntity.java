@@ -15,5 +15,6 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class CiudadEntity extends BaseEntity {
 	@PodamExclude
 	@ManyToOne
-	private PaisEntity ciudades;
+	private String nombreCiudad;
+	private String coordenadasCiudad;
 }

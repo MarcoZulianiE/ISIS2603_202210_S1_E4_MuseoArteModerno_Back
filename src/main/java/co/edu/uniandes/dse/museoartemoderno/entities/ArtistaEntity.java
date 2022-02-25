@@ -42,11 +42,11 @@ public class ArtistaEntity extends BaseEntity {
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)
-	private Date fechaNacimiento;
+	private Date fechaNacimiento = new Date();
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)
-	private Date fechaFallecimiento;
+	private Date fechaFallecimiento = new Date();
 	
 	@PodamExclude
 	@ManyToMany

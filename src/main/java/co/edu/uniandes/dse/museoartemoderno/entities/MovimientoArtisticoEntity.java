@@ -1,5 +1,6 @@
 package co.edu.uniandes.dse.museoartemoderno.entities;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,7 +21,8 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 	private Long id;
 
 	private String nombre;
-
+	
+	Date fechasApogeo = new Date();
 
 	@PodamExclude
 	@OneToMany(
@@ -41,9 +43,5 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 	@ManyToOne
 	PaisEntity lugarOrigen;
 
-	@PodamExclude
-	@ManyToMany
-	(
-		mappedBy = "movimientoArtisticos")
-	List<FechaEntity> fechasApogeo = new ArrayList<>();
+	
 }

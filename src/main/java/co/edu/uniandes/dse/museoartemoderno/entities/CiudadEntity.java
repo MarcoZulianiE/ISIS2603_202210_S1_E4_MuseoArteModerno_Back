@@ -1,7 +1,5 @@
 package co.edu.uniandes.dse.museoartemoderno.entities;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -13,8 +11,14 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Getter
 @Setter
 public class CiudadEntity extends BaseEntity {
+	
+	private String nombreCiudad;
+	
+	private String coordenadasCiudad;
+
+
 	@PodamExclude
 	@ManyToOne
-	private String nombreCiudad;
-	private String coordenadasCiudad;
+	private PaisEntity pais;
+
 }

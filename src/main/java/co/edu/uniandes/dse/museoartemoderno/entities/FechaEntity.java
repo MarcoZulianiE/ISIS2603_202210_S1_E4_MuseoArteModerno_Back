@@ -42,6 +42,6 @@ public class FechaEntity extends BaseEntity {
  
  @PodamExclude
  @ManyToMany
- MovimientoArtisticoEntity movimientoArtisticos;
+ List<MovimientoArtisticoEntity> movimientoArtisticos;
  
 }

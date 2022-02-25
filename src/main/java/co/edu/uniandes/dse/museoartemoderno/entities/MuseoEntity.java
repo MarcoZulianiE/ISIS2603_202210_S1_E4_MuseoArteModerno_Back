@@ -21,7 +21,7 @@ public class MuseoEntity extends BaseEntity {
 	
 	private String direccion;
 	
-	private List<String> salasExposicion = new ArrayList<>();
+//	private List<String> salasExposicion = new ArrayList<>();
 	
 	private Integer totalObrasExhibidas;
 	

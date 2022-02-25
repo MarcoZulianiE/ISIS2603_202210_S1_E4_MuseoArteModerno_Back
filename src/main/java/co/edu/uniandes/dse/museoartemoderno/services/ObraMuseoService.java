@@ -1,7 +1,5 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class ObraMuseoService {
 	public MuseoEntity addMuseo(Long obraId, Long museoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociar un museo a la obra con id = {0}", obraId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(museoId);
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
 		if (obraEntity.isEmpty())
 			throw new EntityNotFoundException("Obra no encontrada.");
@@ -49,9 +47,9 @@ public class ObraMuseoService {
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo no encontado.");
 		
-		obraEntity.get().setmuseoExhibicion(museoEntity.get());
+		obraEntity.get().setMuseoExhibicion(museoEntity.get());
 		log.info("Termina proceso de asociar un museo a la obra con id = {0}", obraId);
-		return MuseoEntity.get();
+		return museoEntity.get();
 	}
 
 	/**
@@ -68,7 +66,7 @@ public class ObraMuseoService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 		
 		log.info("Termina proceso de consultar el museo de la obra con id = {0}", obraId);
-		return (obraEntity.get()).getmuseoExhibicion();
+		return (obraEntity.get()).getMuseoExhibicion();
 	}
 
 
@@ -84,7 +82,7 @@ public class ObraMuseoService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 
 
-		obraEntity.get().removeMuseo();
+		obraEntity.get().setMuseoExhibicion(null);
 		log.info("Finaliza proceso de borrar un museo de la obra con id = {0}", obraId);
 	}
 

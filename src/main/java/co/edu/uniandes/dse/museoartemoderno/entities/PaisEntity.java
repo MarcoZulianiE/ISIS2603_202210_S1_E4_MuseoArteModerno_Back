@@ -23,11 +23,11 @@ public class PaisEntity extends BaseEntity{
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarFallecimiento")
-	private List<ArtistaEntity> Artistafallecimiento = new ArrayList<>();
+	private List<ArtistaEntity> artistaFallecimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarNacimiento")
-	private List<ArtistaEntity> Artistanacimiento = new ArrayList<>();
+	private List<ArtistaEntity> artistaNacimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "ubicacion")

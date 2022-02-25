@@ -33,18 +33,18 @@ public class MuseoPaisService {
 	@Transactional
 	public PaisEntity addPais(Long MuseoId, Long PaisId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociarle una Pais de  al Museo con id: " + MuseoId);
-		Optional<MuseoEntity> MuseoEntity = MuseoRepository.findById(MuseoId);
-		Optional<PaisEntity> PaisEntity = PaisRepository.findById(PaisId);
+		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+		Optional<PaisEntity> paisEntity = PaisRepository.findById(PaisId);
 
-		if (MuseoEntity.isEmpty())
+		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
-		if (PaisEntity.isEmpty())
+		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
-		PaisEntity.get().getMuseos().add(MuseoEntity.get());
+		paisEntity.get().getMuseos().add(museoEntity.get());
 		log.info("Termina proceso de asociarle una Pais de  al Museo con id: " + MuseoId);
-		return PaisEntity.get();
+		return paisEntity.get();
 	}
 	
 	
@@ -57,17 +57,17 @@ public class MuseoPaisService {
 	@Transactional
 	public PaisEntity getPais(Long MuseoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de consultar la Pais de  del Museo con id: " + MuseoId);
-		Optional<MuseoEntity> MuseoEntity = MuseoRepository.findById(MuseoId);
-		if (MuseoEntity.isEmpty())
+		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
-		PaisEntity PaisEntity = MuseoEntity.get().getPais();
+		PaisEntity paisEntity = museoEntity.get().getUbicacion();
 
-		if (PaisEntity == null)
+		if (paisEntity == null)
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
 		log.info("Termina proceso de consultar la Pais de  del Museo con id: " + MuseoId);
-		return PaisEntity;
+		return paisEntity;
 	}
 	
 	
@@ -81,17 +81,17 @@ public class MuseoPaisService {
 	@Transactional
 	public PaisEntity replacePais(Long MuseoId, Long PaisId) throws EntityNotFoundException {
 		log.info("Inicia proceso de actualizar la Pais de  del Museo con id:" + MuseoId);
-		Optional<PaisEntity> PaisEntity = PaisRepository.findById(PaisId);
-		if (PaisEntity.isEmpty())
+		Optional<PaisEntity> paisEntity = PaisRepository.findById(PaisId);
+		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
-		Optional<MuseoEntity> MuseoEntity = MuseoRepository.findById(MuseoId);
-		if (MuseoEntity.isEmpty())
+		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
-		MuseoEntity.get().setPais(PaisEntity.get());
+		museoEntity.get().setUbicacion(paisEntity.get());
 		log.info("Termina proceso de actualizar la Pais de  del Museo con id:" + MuseoId);
-		return PaisEntity.get();
+		return paisEntity.get();
 	}
 	
 	
@@ -103,18 +103,18 @@ public class MuseoPaisService {
 	@Transactional
 	public void removePais(Long MuseoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de borrar la Pais de  del Museo con id: ", MuseoId);
-		Optional<MuseoEntity> MuseoEntity = MuseoRepository.findById(MuseoId);
-		if (MuseoEntity.isEmpty())
+		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
-		if (MuseoEntity.get().getPais() == null) {
+		if (museoEntity.get().getUbicacion() == null) {
 			throw new EntityNotFoundException("El autor no tiene Pais de ");
 		}
-		Optional<PaisEntity> PaisEntity = PaisRepository.findById(MuseoEntity.get().getPais().getId());
+		Optional<PaisEntity> paisEntity = PaisRepository.findById(museoEntity.get().getUbicacion().getId());
 
-		PaisEntity.ifPresent(Pais -> {
-			MuseoEntity.get().setPais(null);
-			Pais.getMuseos().remove(MuseoEntity.get());
+		paisEntity.ifPresent(Pais -> {
+			museoEntity.get().setUbicacion(null);
+			Pais.getMuseos().remove(museoEntity.get());
 		});
 
 		log.info("Termina proceso de borrar el Pais del Museo con id: ", MuseoId);

@@ -27,7 +27,7 @@ public class ObraEntity extends BaseEntity{
 	
 	@PodamExclude
 	@ManyToOne
-	private MuseoEntity museoExhibicion;
+	private MuseoEntity museo;
 	
 	@PodamExclude
 	@ManyToOne

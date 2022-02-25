@@ -28,26 +28,26 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)
-	Date fechaApogeo = new Date();
+	private Date fechaApogeo = new Date();
 
 	@PodamExclude
 	@OneToMany(
 		mappedBy = "movimiento")
-	List<ObraEntity> obras = new ArrayList<>();
+	private List<ObraEntity> obras = new ArrayList<>();
 
 
 	@PodamExclude
 	@ManyToMany(
 		mappedBy = "movimientos")
-	List<ArtistaEntity> artistas = new ArrayList<>();
+	private List<ArtistaEntity> artistas = new ArrayList<>();
 
 	@PodamExclude
 	@ManyToMany
-	List<MuseoEntity> museos = new ArrayList<>();
+	private List<MuseoEntity> museos = new ArrayList<>();
 
 	@PodamExclude
 	@ManyToOne
-	PaisEntity lugarOrigen;
+	private PaisEntity lugarOrigen;
 
 	
 }

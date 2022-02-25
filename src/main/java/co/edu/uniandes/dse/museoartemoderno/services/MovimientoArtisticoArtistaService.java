@@ -1,9 +1,12 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
@@ -31,6 +34,7 @@ public class MovimientoArtisticoArtistaService
 	 * @return - instancia del artista que fue asociado
 	 * @throws EntityNotFoundException si no se encuentra alguna o cualquier entidad
 	 */
+	@Transactional
 	public ArtistaEntity addArtista(Long movimientoId, Long artistaId) throws EntityNotFoundException
 	{
 		log.info("Inicia proceso de asociar al movimiento "+movimientoId+" el artista "+artistaId);
@@ -48,5 +52,36 @@ public class MovimientoArtisticoArtistaService
 		artistaEntity.get().getMovimientos().add(movimientoEntity.get());
 		log.info("Termina proceso de asociar al movimiento "+movimientoId+" el artista "+artistaId);
 		return artistaEntity.get();
+	}
+	
+	/**
+	 * Obtiene una coleccion de instancias de ArtistaEntity asociadas a un MovimientoArtistico
+	 * @param movimientoId - Id del movimiento artistico
+	 * @throws EntityNotFoundException si el movimiento artistico no existe
+	 * @return Coleccion de artistas relacionados con un movimiento artistico
+	 */ 
+	@Transactional
+	public List<ArtistaEntity> getMovimientos(Long movimientoId) throws EntityNotFoundException
+	{
+		log.info("Inicia proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
+		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
+
+		if(movimientoEntity.isEmpty())
+		{
+			throw new EntityNotFoundException("Movimiento artistico not found");
+		}
+
+		List<ArtistaEntity> artistas = artistaRepository.findAll();
+		List<ArtistaEntity> artistaList = new ArrayList<>();
+
+		for(ArtistaEntity a: artistas)
+		{
+			if(a.getMovimientos().contains(movimientoEntity.get()))
+			{
+				artistaList.add(a);
+			}
+		}
+		log.info("Finaliza proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
+		return artistaList;
 	}
 }

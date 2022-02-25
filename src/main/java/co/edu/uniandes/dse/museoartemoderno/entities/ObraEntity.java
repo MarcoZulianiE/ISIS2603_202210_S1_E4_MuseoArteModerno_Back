@@ -1,10 +1,16 @@
 package co.edu.uniandes.dse.museoartemoderno.entities;
 
 import uk.co.jemos.podam.common.PodamExclude;
+import uk.co.jemos.podam.common.PodamStrategyValue;
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import co.edu.uniandes.dse.museoartemoderno.podam.DateStrategy;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +35,9 @@ public class ObraEntity extends BaseEntity{
 	
 	@PodamExclude
 	@ManyToOne
-	private FechaEntity fechaPublicacion;
+	@Temporal(TemporalType.DATE)
+	@PodamStrategyValue(DateStrategy.class)
+	private Date fechaPublicacion;
 	
 	@PodamExclude
 	@ManyToOne

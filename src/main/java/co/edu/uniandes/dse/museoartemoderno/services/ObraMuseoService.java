@@ -47,7 +47,7 @@ public class ObraMuseoService {
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo no encontado.");
 		
-		obraEntity.get().setMuseoExhibicion(museoEntity.get());
+		obraEntity.get().setMuseo(museoEntity.get());
 		log.info("Termina proceso de asociar un museo a la obra con id = {0}", obraId);
 		return museoEntity.get();
 	}
@@ -66,7 +66,7 @@ public class ObraMuseoService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 		
 		log.info("Termina proceso de consultar el museo de la obra con id = {0}", obraId);
-		return (obraEntity.get()).getMuseoExhibicion();
+		return (obraEntity.get()).getMuseo();
 	}
 
 
@@ -82,7 +82,7 @@ public class ObraMuseoService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 
 
-		obraEntity.get().setMuseoExhibicion(null);
+		obraEntity.get().setMuseo(null);
 		log.info("Finaliza proceso de borrar un museo de la obra con id = {0}", obraId);
 	}
 

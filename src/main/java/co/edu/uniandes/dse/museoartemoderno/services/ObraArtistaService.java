@@ -47,7 +47,7 @@ public class ObraArtistaService {
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("Artista no encontado.");
 		
-		(obraEntity.get()).setAutor(artistaEntity.get());
+		(obraEntity.get()).setArtista(artistaEntity.get());
 		log.info("Termina proceso de asociar un artista a la obra con id = {0}", obraId);
 		return artistaEntity.get();
 	}
@@ -66,7 +66,7 @@ public class ObraArtistaService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 		
 		log.info("Termina proceso de consultar el artista de la obra con id = {0}", obraId);
-		return (obraEntity.get()).getAutor();
+		return (obraEntity.get()).getArtista();
 	}
 
 
@@ -82,7 +82,7 @@ public class ObraArtistaService {
 			throw new EntityNotFoundException("Ninguna obra fue encontrada con el id dado.");
 
 
-		obraEntity.get().setAutor(null);
+		obraEntity.get().setArtista(null);
 		log.info("Finaliza proceso de borrar el artista de la obra con id = {0}", obraId);
 	}
 

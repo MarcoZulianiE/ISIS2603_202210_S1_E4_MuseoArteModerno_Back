@@ -36,11 +36,13 @@ public class MovimientoArtisticoService {
 	@Transactional
 	public MovimientoArtisticoEntity getMovimientoArtistico(Long pId) throws EntityNotFoundException
 	{
+		//log.info("Inicia proceso de obtener de un movimiento artisitico con id "+ pId);
 		Optional<MovimientoArtisticoEntity> movimientoBuscado = movimientoArtisticoRepository.findById(pId);
 		if(movimientoBuscado.isEmpty())
 		{
 			throw new EntityNotFoundException("Movimiento Artistico no encontrado");
 		}
+		//Log.info("Termina el proceso de obtener de un movimiento artisitico con id "+ pId);
 		return movimientoBuscado.get();
 	}
 	
@@ -53,6 +55,12 @@ public class MovimientoArtisticoService {
 	@Transactional
 	public MovimientoArtisticoEntity createMovimientoArtistico(MovimientoArtisticoEntity pMovimientoArtistico) throws EntityNotFoundException, IllegalOperationException
 	{
+		//Log.info("Inicia el proceso de creacion de un movimiento artistico");
+		if(pMovimientoArtistico.getNombre()==null)
+		{
+			throw new IllegalOperationException("El nombre no es valido");
+		}
+		//Log.info("Termina el proceso de creacion de un movimiento artistico");
 		return movimientoArtisticoRepository.save(pMovimientoArtistico);
 	}
 	
@@ -63,13 +71,14 @@ public class MovimientoArtisticoService {
 	@Transactional
 	public void deleteMovimientoArtistico(Long pId) throws EntityNotFoundException, IllegalOperationException
 	{
+		//Log.info("Inicia el proceso de eliminar de un movimiento artisitico con id  "+ pId);
 		Optional<MovimientoArtisticoEntity> movimientoBorrar = movimientoArtisticoRepository.findById(pId);
 
 		if(movimientoBorrar.isEmpty())
 		{
 			throw new EntityNotFoundException("Movimiento Artistico no encontrado");
 		}
-
+		//Log.info("Termina el proceso de eliminar de un movimiento artisitico con id  "+ pId);
 		movimientoArtisticoRepository.deleteById(pId);
 
 	}

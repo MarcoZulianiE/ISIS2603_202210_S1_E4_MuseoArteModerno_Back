@@ -62,7 +62,7 @@ public class MovimientoArtisticoArtistaService
 	 * @return Coleccion de artistas relacionados con un movimiento artistico
 	 */ 
 	@Transactional
-	public List<ArtistaEntity> getMovimientos(Long movimientoId) throws EntityNotFoundException
+	public List<ArtistaEntity> getArtitas(Long movimientoId) throws EntityNotFoundException
 	{
 		log.info("Inicia proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);

@@ -19,22 +19,22 @@ public class PaisEntity extends BaseEntity{
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "pais")
-	private List<CiudadEntity> ciudad = new ArrayList<>();
+	private List<CiudadEntity> ciudades = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarFallecimiento")
-	private List<ArtistaEntity> artistaFallecimiento = new ArrayList<>();
+	private List<ArtistaEntity> artistasFallecimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarNacimiento")
-	private List<ArtistaEntity> artistaNacimiento = new ArrayList<>();
+	private List<ArtistaEntity> artistasNacimiento = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "ubicacion")
-	private List<MuseoEntity> museo = new ArrayList<>();
+	private List<MuseoEntity> museos = new ArrayList<>();
 	
 	@PodamExclude
 	@OneToMany(mappedBy = "lugarOrigen")
-	private List<MovimientoArtisticoEntity> movimiento = new ArrayList<>();
+	private List<MovimientoArtisticoEntity> movimientosArtisticos = new ArrayList<>();
 
 }

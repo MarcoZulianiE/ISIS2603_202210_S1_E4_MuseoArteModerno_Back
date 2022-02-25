@@ -1,20 +1,18 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
-
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.repositories.FechaRepository;
-import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.FechaEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
+import lombok.extern.slf4j.Slf4j;
 
 
 
@@ -41,7 +39,7 @@ public class FechaService {
     	log.info("inicio proceso busqueda fecha especificada");
     	Optional<FechaEntity> fechaEntity = fechaRepository.findById(fechaId);
     	if (fechaEntity.isEmpty())
-            throw new EntityNotFoundException(ErrorMessage.FECHA_NO_ENCONTRADA);
+            throw new EntityNotFoundException("FECHA_NO_ENCONTRADA");
     	log.info("fin proceso busqueda fecha especificada");
 
     	return FechaEntity.get();
@@ -52,7 +50,7 @@ public class FechaService {
 
     	Optional<FechaEntity> fechaEntity = fechaRepository.findById(fechaId);
     	if (fechaEntity.isEmpty())
-            throw new EntityNotFoundException(ErrorMessage.FECHA_NO_ENCONTRADA);
+            throw new EntityNotFoundException("FECHA_NO_ENCONTRADA");
         List<ArtistaEntity> artistas = fechaEntity.get().getArtistas();
         if (!artistas.isEmpty())
             throw new IllegalOperationException("No se pudo borrar por que hay artistas con esa fecha");
@@ -66,4 +64,4 @@ public class FechaService {
      
     
     
-}
+

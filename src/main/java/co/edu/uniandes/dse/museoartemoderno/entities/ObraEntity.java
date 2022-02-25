@@ -33,8 +33,6 @@ public class ObraEntity extends BaseEntity{
 	@ManyToOne
 	private ArtistaEntity autor;
 	
-	@PodamExclude
-	@ManyToOne
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)
 	private Date fechaPublicacion;

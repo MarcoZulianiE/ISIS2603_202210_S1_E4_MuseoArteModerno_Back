@@ -43,7 +43,7 @@ public class MuseoEntity extends BaseEntity {
 	
 	@PodamExclude
 	@ManyToOne
-	private ArrayList<MovimientoArtisticoEntity> ubicacion;
+	private PaisEntity ubicacion;
 	
 	
 }

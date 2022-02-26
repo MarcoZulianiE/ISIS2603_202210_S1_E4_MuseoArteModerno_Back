@@ -21,8 +21,6 @@ import uk.co.jemos.podam.common.PodamStrategyValue;
 @Getter
 @Setter
 public class MovimientoArtisticoEntity extends BaseEntity{
-	@Id
-	private Long id;
 
 	private String nombre;
 	

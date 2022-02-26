@@ -1,6 +1,5 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
-import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

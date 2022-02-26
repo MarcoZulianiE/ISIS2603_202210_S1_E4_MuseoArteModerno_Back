@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;

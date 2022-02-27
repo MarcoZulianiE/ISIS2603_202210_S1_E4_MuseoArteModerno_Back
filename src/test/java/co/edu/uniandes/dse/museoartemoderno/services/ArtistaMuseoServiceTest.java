@@ -35,24 +35,27 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
-@Import(ArtistaObraService.class)
-public class ArtistaObraServiceTest {
-
+@Import(ArtistaMuseoService.class)
+public class ArtistaMuseoServiceTest {
+	
 	@Autowired
-	private ArtistaObraService artistaObraService;
+	private ArtistaMuseoService artistaMuseoService;
 
 	@Autowired
 	private TestEntityManager entityManager;
 
 	private PodamFactory factory = new PodamFactoryImpl();
-
+	
 	private ArtistaEntity artista = new ArtistaEntity();
-	private List<ObraEntity> obraList = new ArrayList<>();
 	private List<PaisEntity> paisList = new ArrayList<>();
 	private List<Date> fechaList = new ArrayList<>();
 	private List<MuseoEntity> museoList = new ArrayList<>();
+	private List<ObraEntity> obraList = new ArrayList<>();
 	private List<MovimientoArtisticoEntity> movimientoArtisticoList = new ArrayList<>();
-
+	
+	/**
+	 * Configuración inicial de la prueba.
+	 */
 	@BeforeEach
 	void setUp() {
 		clearData();
@@ -63,18 +66,17 @@ public class ArtistaObraServiceTest {
 	 * Limpia las tablas que están implicadas en la prueba.
 	 */
 	private void clearData() {
-		entityManager.getEntityManager().createQuery("delete from ArtistaEntity").executeUpdate();
-		entityManager.getEntityManager().createQuery("delete from PaisEntity").executeUpdate();
-		entityManager.getEntityManager().createQuery("delete from MuseoEntity").executeUpdate();
-		entityManager.getEntityManager().createQuery("delete from ObraEntity").executeUpdate();
-		entityManager.getEntityManager().createQuery("delete from MovimientoArtisticoEntity").executeUpdate();
+		entityManager.getEntityManager().createQuery("delete from ArtistaEntity");
+		entityManager.getEntityManager().createQuery("delete from PaisEntity");
+		entityManager.getEntityManager().createQuery("delete from MuseoEntity");
+		entityManager.getEntityManager().createQuery("delete from ObraEntity");
+		entityManager.getEntityManager().createQuery("delete from MovimientoArtisticoEntity");
 	}
 
 	/**
 	 * Inserta los datos iniciales para el correcto funcionamiento de las pruebas.
 	 */
 	private void insertData() {
-
 		for (int i = 0; i < 6; i++) {
 			PaisEntity paisEntity = factory.manufacturePojo(PaisEntity.class);
 			entityManager.persist(paisEntity);
@@ -82,9 +84,9 @@ public class ArtistaObraServiceTest {
 		}
 
 		for (int i = 0; i < 3; i++) {
-			MuseoEntity museoEntity = factory.manufacturePojo(MuseoEntity.class);
-			entityManager.persist(museoEntity);
-			museoList.add(museoEntity);
+			ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
+			entityManager.persist(obraEntity);
+			obraList.add(obraEntity);
 		}
 
 		for (int i = 0; i < 3; i++) {
@@ -109,28 +111,26 @@ public class ArtistaObraServiceTest {
 		artista.setFechaNacimiento(fechaList.get(0));
 		artista.setFechaFallecimiento(fechaList.get(1));
 		artista.setLugarNacimiento(paisList.get(0));
-		artista.setLugarFallecimiento(paisList.get(0));
+		artista.setLugarFallecimiento(paisList.get(1));
 		artista.setMuseos(museoList);
 		artista.setMovimientos(movimientoArtisticoList);
 		entityManager.persist(artista);
 
 		for (int i = 0; i < 3; i++) {
-			ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
-			entityManager.persist(obraEntity);
-			obraEntity.setArtista(artista);
-			obraList.add(obraEntity);
-			artista.getObras().add(obraEntity);	
+			MuseoEntity entity = factory.manufacturePojo(MuseoEntity.class);
+			entityManager.persist(entity);
+			entity.getArtistas().add(artista);
+			museoList.add(entity);
+			artista.getMuseos().add(entity);
 		}
-
-
 	}
-
+	
 	/**
-	 * Prueba para asociar una Obra a un Artista.
+	 * Prueba para asociar un Museo a un Artista.
 	 *
 	 */
 	@Test
-	void testAddObra() throws EntityNotFoundException, IllegalOperationException {
+	void testAddMuseo() throws EntityNotFoundException, IllegalOperationException {
 		ArtistaEntity newArtista = factory.manufacturePojo(ArtistaEntity.class);
 		//Datos que deben ser diferentes a null para crear un artista
 		newArtista.setFechaNacimiento(fechaList.get(0));
@@ -142,23 +142,22 @@ public class ArtistaObraServiceTest {
 		newArtista.setMovimientos(movimientoArtisticoList);
 		entityManager.persist(newArtista);
 
-		ObraEntity obra = factory.manufacturePojo(ObraEntity.class);
-		entityManager.persist(obra);
+		MuseoEntity museo = factory.manufacturePojo(MuseoEntity.class);
+		entityManager.persist(museo);
 
-		artistaObraService.addObra(newArtista.getId(), obra.getId());
+		artistaMuseoService.addMuseo(newArtista.getId(), museo.getId());
 
-		ObraEntity lastObra = artistaObraService.getObra(newArtista.getId(), obra.getId());
-		assertEquals(obra.getId(), lastObra.getId());
-		assertEquals(obra.getNombre(), lastObra.getNombre());
-		assertEquals(obra.getDescripcion(), lastObra.getDescripcion());
+		MuseoEntity lastMovimiento = artistaMuseoService.getMuseo(newArtista.getId(), museo.getId());
+		assertEquals(museo.getId(), lastMovimiento.getId());
+		assertEquals(museo.getNombre(), lastMovimiento.getNombre());
 	}
-
+	
 	/**
-	 * Prueba para asociar una Obra que no existe a un Artista.
+	 * Prueba para asociar un Museo que no existe a un Artista.
 	 *
 	 */
 	@Test
-	void testAddInvalidObra() {
+	void testAddInvalidMuseo() {
 		assertThrows(EntityNotFoundException.class, ()->{
 			ArtistaEntity newArtista = factory.manufacturePojo(ArtistaEntity.class);
 			//Datos que deben ser diferentes a null para crear un artista
@@ -170,94 +169,93 @@ public class ArtistaObraServiceTest {
 			newArtista.setMuseos(museoList);
 			newArtista.setMovimientos(movimientoArtisticoList);
 			entityManager.persist(newArtista);
-			artistaObraService.addObra(newArtista.getId(), 0L);
+			artistaMuseoService.addMuseo(newArtista.getId(), 0L);
 		});
 	}
-
+	
 	/**
-	 * Prueba para asociar una Obra a un Artista que no existe.
+	 * Prueba para asociar un Museo a un Artista que no existe.
 	 *
 	 */
 	@Test
-	void testAddObraInvalidArtista() throws EntityNotFoundException, IllegalOperationException {
+	void testAddMuseoInvalidArtista() throws EntityNotFoundException, IllegalOperationException {
 		assertThrows(EntityNotFoundException.class, ()->{
-			ObraEntity obra = factory.manufacturePojo(ObraEntity.class);
-			entityManager.persist(obra);
-			artistaObraService.addObra(0L, obra.getId());
+			MuseoEntity museo = factory.manufacturePojo(MuseoEntity.class);
+			entityManager.persist(museo);
+			artistaMuseoService.addMuseo(0L, museo.getId());
 		});
 	}
-
+	
 	/**
-	 * Prueba para consultar la lista de Obras de un Artista.
+	 * Prueba para consultar la lista de Museos de un Artista.
 	 */
 	@Test
-	void testGetObras() throws EntityNotFoundException {
-		List<ObraEntity> obraEntity = artistaObraService.getObras(artista.getId());
+	void testGetMuseos() throws EntityNotFoundException {
+		List<MuseoEntity> museoEntities = artistaMuseoService.getMuseos(artista.getId());
 
-		assertEquals(obraList.size(), obraEntity.size());
+		assertEquals(movimientoArtisticoList.size(), museoEntities.size());
 
-		for (int i = 0; i < obraList.size(); i++) {
-			assertTrue(obraEntity.contains(obraList.get(0)));
+		for (int i = 0; i < movimientoArtisticoList.size(); i++) {
+			assertTrue(museoEntities.contains(museoList.get(0)));
 		}
 	}
-
+	
 	/**
-	 * Prueba para consultar la lista de obras de un artista que no existe.
+	 * Prueba para consultar la lista de Museos de un Artista que no existe.
 	 */
 	@Test
-	void testGetObrasInvalidArtista(){
+	void testGetMuseosInvalidArtista(){
 		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.getObras(0L);
+			artistaMuseoService.getMuseos(0L);
 		});
 	}
-
+	
 	/**
-	 * Prueba para consultar una Obra de un Artista.
+	 * Prueba para consultar un Museo de un Artista.
 	 *
 	 * @throws throws EntityNotFoundException, IllegalOperationException
 	 */
 	@Test
-	void testGetObra() throws EntityNotFoundException, IllegalOperationException {
-		ObraEntity obraEntity = obraList.get(0);
-		ObraEntity obra = artistaObraService.getObra(artista.getId(), obraEntity.getId());
-		assertNotNull(obra);
+	void testGetMuseo() throws EntityNotFoundException, IllegalOperationException {
+		MuseoEntity museoEntity = museoList.get(0);
+		MuseoEntity museo = artistaMuseoService.getMuseo(artista.getId(), museoEntity.getId());
+		assertNotNull(museo);
 
-		assertEquals(obraEntity.getId(), obra.getId());
-		assertEquals(obraEntity.getNombre(), obra.getNombre());
-		assertEquals(obraEntity.getDescripcion(), obra.getDescripcion());
+		assertEquals(museoEntity.getId(), museo.getId());
+		assertEquals(museoEntity.getNombre(), museo.getNombre());
 	}
-
+	
 	/**
-	 * Prueba para consultar una Obra que no existe de un Artista.
+	 * Prueba para consultar un Museo que no existe de un Artista.
 	 *
 	 * @throws throws EntityNotFoundException, IllegalOperationException
 	 */
 	@Test
-	void testGetInvalidObra()  {
+	void testGetInvalidMuseo()  {
 		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.getObra(artista.getId(), 0L);
+			artistaMuseoService.getMuseo(artista.getId(), 0L);
 		});
 	}
-
+	
 	/**
-	 * Prueba para consultar una Obra de un Artista que no existe.
+	 * Prueba para consultar un Museo de un artista que no existe.
 	 *
 	 * @throws throws EntityNotFoundException, IllegalOperationException
 	 */
 	@Test
-	void testGetObraInvalidArtista() {
+	void testGetMuseoInvalidArtista() {
 		assertThrows(EntityNotFoundException.class, ()->{
-			ObraEntity authorEntity = obraList.get(0);
-			artistaObraService.getObra(0L, authorEntity.getId());
+			ArtistaEntity artistaEntity = artista;
+			artistaMuseoService.getMuseo(0L, artistaEntity.getId());
 		});
 	}
-
+	
 	/**
-	 * Prueba para obtener una Obra no asociada a un artista.
+	 * Prueba para obtener un Museo no asociado a un Artista.
 	 *
 	 */
 	@Test
-	void testGetNotAssociatedObra() {
+	void testGetNotAssociatedMuseo() {
 		assertThrows(IllegalOperationException.class, ()->{
 			ArtistaEntity newArtista = factory.manufacturePojo(ArtistaEntity.class);
 			//Datos que deben ser diferentes a null para crear un artista
@@ -269,120 +267,101 @@ public class ArtistaObraServiceTest {
 			newArtista.setMuseos(museoList);
 			newArtista.setMovimientos(movimientoArtisticoList);
 			entityManager.persist(newArtista);
-			ObraEntity obra = factory.manufacturePojo(ObraEntity.class);
-			entityManager.persist(obra);
-			artistaObraService.getObra(newArtista.getId(), obra.getId());
+			MuseoEntity museo = factory.manufacturePojo(MuseoEntity.class);
+			entityManager.persist(museo);
+			artistaMuseoService.getMuseo(newArtista.getId(), museo.getId());
 		});
 	}
-
+	
 	/**
-	 * Prueba para actualizar las Obras de un Artista.
+	 * Prueba para actualizar los Museos de un Artista.
 	 *
 	 * @throws EntityNotFoundException
 	 */
 	@Test
-	void testReplaceObras() throws EntityNotFoundException {
-		List<ObraEntity> nuevaLista = new ArrayList<>();
+	void testReplaceMuseos() throws EntityNotFoundException {
+		List<MuseoEntity> nuevaLista = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			ObraEntity entity = factory.manufacturePojo(ObraEntity.class);
+			MuseoEntity entity = factory.manufacturePojo(MuseoEntity.class);
 			entityManager.persist(entity);
-			artista.getObras().add(entity);
+			artista.getMuseos().add(entity);
+			entity.getArtistas().add(artista);
 			nuevaLista.add(entity);
 		}
-		artistaObraService.replaceObras(artista.getId(), nuevaLista);
+		artistaMuseoService.replaceMuseos(artista.getId(), nuevaLista);
 
-		List<ObraEntity> obraEntities = artistaObraService.getObras(artista.getId());
-		for (ObraEntity aNuevaLista : nuevaLista) {
-			assertTrue(obraEntities.contains(aNuevaLista));
+		List<MuseoEntity> museoEntity = artistaMuseoService.getMuseos(artista.getId());
+		for (MuseoEntity aNuevaLista : nuevaLista) {
+			assertTrue(museoEntity.contains(aNuevaLista));
 		}
 	}
-
+	
 	/**
-	 * Prueba para actualizar las Obras de un Artista que no existe.
+	 * Prueba para actualizar los Museos que no existen de un Artista.
 	 *
 	 * @throws EntityNotFoundException
 	 */
 	@Test
-	void testReplaceObrasInvalidArtista(){
+	void testReplaceInvalidMuseos() {
 		assertThrows(EntityNotFoundException.class, ()->{
-			List<ObraEntity> nuevaLista = new ArrayList<>();
-			for (int i = 0; i < 3; i++) {
-				ObraEntity entity = factory.manufacturePojo(ObraEntity.class);
-				entity.setArtista(artista);
-				entityManager.persist(entity);
-				nuevaLista.add(entity);
-			}
-			artistaObraService.replaceObras(0L, nuevaLista);
-		});
-	}
-
-	/**
-	 * Prueba para actualizar las Obras que no existen de un Artista.
-	 *
-	 * @throws EntityNotFoundException
-	 */
-	@Test
-	void testReplaceInvalidAuthors() {
-		assertThrows(EntityNotFoundException.class, ()->{
-			List<ObraEntity> nuevaLista = new ArrayList<>();
-			ObraEntity entity = factory.manufacturePojo(ObraEntity.class);
+			List<MuseoEntity> nuevaLista = new ArrayList<>();
+			MuseoEntity entity = factory.manufacturePojo(MuseoEntity.class);
 			entity.setId(0L);
 			nuevaLista.add(entity);
-			artistaObraService.replaceObras(artista.getId(), nuevaLista);
+			artistaMuseoService.replaceMuseos(artista.getId(), nuevaLista);
 		});
 	}
-
+	
 	/**
-	 * Prueba para actualizar una Obra de un Artista que no existe.
+	 * Prueba para actualizar un Museo de un Artista que no existe.
 	 *
 	 * @throws EntityNotFoundException
 	 */
 	@Test
-	void testReplaceObrasInvalidObra(){
+	void testReplaceMuseosInvalidArtista(){
 		assertThrows(EntityNotFoundException.class, ()->{
-			List<ObraEntity> nuevaLista = new ArrayList<>();
+			List<MuseoEntity> nuevaLista = new ArrayList<>();
 			for (int i = 0; i < 3; i++) {
-				ObraEntity entity = factory.manufacturePojo(ObraEntity.class);
-				entity.setArtista(artista);		
+				MuseoEntity entity = factory.manufacturePojo(MuseoEntity.class);
+				entity.getArtistas().add(artista);		
 				entityManager.persist(entity);
 				nuevaLista.add(entity);
 			}
-			artistaObraService.replaceObras(0L, nuevaLista);
+			artistaMuseoService.replaceMuseos(0L, nuevaLista);
 		});
 	}
-
+	
 	/**
-	 * Prueba desasociar una Obra con un Artista.
+	 * Prueba desasociar un Museo con un Artista.
 	 *
 	 */
 	@Test
-	void testRemoveArtista() throws EntityNotFoundException {
-		for (ObraEntity obra : obraList) {
-			artistaObraService.removeObra(artista.getId(), obra.getId());
+	void testRemoveMuseo() throws EntityNotFoundException {
+		for (MuseoEntity museo : museoList) {
+			artistaMuseoService.removeMuseo(artista.getId(), museo.getId());
 		}
-		assertTrue(artistaObraService.getObras(artista.getId()).isEmpty());
+		assertTrue(artistaMuseoService.getMuseos(artista.getId()).isEmpty());
 	}
-
+	
 	/**
-	 * Prueba desasociar una Obra que no existe con un Artista.
+	 * Prueba desasociar un Museo que no existe con un Artista.
 	 *
 	 */
 	@Test
-	void testRemoveInvalidObra(){
+	void testRemoveInvalidMuseo(){
 		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.removeObra(artista.getId(), 0L);
+			artistaMuseoService.removeMuseo(artista.getId(), 0L);
 		});
 	}
-
+	
 	/**
-	 * Prueba desasociar una Obra con un Artista que no existe.
+	 * Prueba desasociar un Museo con un Artista que no existe.
 	 *
 	 */
 	@Test
-	void testRemoveObraInvalidArtista(){
+	void testRemoveMuseoInvalidArtista(){
 		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.removeObra(0L, obraList.get(0).getId());
+			artistaMuseoService.removeMuseo(0L, artista.getId());
 		});
 	}
-
 }

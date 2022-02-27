@@ -73,8 +73,7 @@ public class ArtistaObraService {
 	 * @throws IllegalOperationException - Exception que se lanza si no se cumple alguna regla de negocio
 	 */
 	@Transactional
-	public ObraEntity getObra(Long artistaId, Long obraId)
-			throws EntityNotFoundException, IllegalOperationException {
+	public ObraEntity getObra(Long artistaId, Long obraId)throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar una obra del artista con id: " + artistaId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);

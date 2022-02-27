@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MuseoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +45,10 @@ public class ArtistaMuseoService {
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
 
 		museoEntity.get().getArtistas().add(artistaEntity.get());
-		log.info("Termina proceso de asociarle un museo al artista con id: ", artistaId);
+		log.info("Termina proceso de asociarle un museo al artista con id: " + artistaId);
 		return museoEntity.get();
 	}
 	
@@ -85,7 +87,7 @@ public class ArtistaMuseoService {
 	 */
 	@Transactional
 	public MuseoEntity getMuseo(Long artistaId, Long museoId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el libro con id: " + artistaId + ", del artista con id: " + museoId);
+		log.info("Inicia proceso de consultar el movimiento artistico con id: " + museoId + ", del artista con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
@@ -95,11 +97,11 @@ public class ArtistaMuseoService {
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("MUSEO NOT FOUND");
 
-		log.info("Termina proceso de consultar el libro con id: " + artistaId + ", del artista con id: " + museoId);
+		log.info("Termina proceso de consultar el museo con id: " + museoId + ", del artista con id: " + artistaId);
 		if (museoEntity.get().getArtistas().contains(artistaEntity.get()))
 			return museoEntity.get();
 
-		throw new IllegalOperationException("El Museo no esta asociado con el Artista");
+		throw new IllegalOperationException("El Movimiento artistico no esta asociado con el Artista");
 	}
 	
 	/**
@@ -143,10 +145,10 @@ public class ArtistaMuseoService {
 
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException("MUSEO ARTISTICO NOT FOUND");
 
 		museoEntity.get().getArtistas().remove(artistaEntity.get());
-		log.info("Finaliza proceso de borrar un libro del author con id: " + artistaId);
+		log.info("Finaliza proceso de borrar un museo del artista con id: " + artistaId);
 	}
 	
 }

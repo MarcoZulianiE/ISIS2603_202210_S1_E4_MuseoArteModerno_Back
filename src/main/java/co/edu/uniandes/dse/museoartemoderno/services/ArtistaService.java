@@ -1,5 +1,7 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -40,17 +42,17 @@ public class ArtistaService {
 		if (!artistaRepository.findByNombre(artistaEntity.getNombre()).isEmpty())
 			throw new IllegalOperationException("Nombre already exists");
 		
-		if (artistaEntity.getFechaNacimiento() == null)
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
-		
-		if (!validateFechaNacimiento(artistaEntity.getFechaNacimiento()))
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
-		
 		if (artistaEntity.getFechaFallecimiento() == null)
 			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
 		
 		if (!validateFechaFallecimiento(artistaEntity.getFechaFallecimiento()))
 			throw new IllegalOperationException("Fecha Fallecimiento is not valid");	
+		
+		if (artistaEntity.getFechaNacimiento() == null)
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+		
+		if (!validateFechaNacimiento(artistaEntity.getFechaNacimiento(),artistaEntity.getFechaFallecimiento()))
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
 		
 		if (artistaEntity.getLugarNacimiento() == null)
 			throw new IllegalOperationException("Lugar Nacimiento is not valid");	
@@ -75,7 +77,7 @@ public class ArtistaService {
 	 * @return Lista de todas las entidades de tipo Artista
 	 */
 	@Transactional
-    public List<ArtistaEntity> getBooks() {
+    public List<ArtistaEntity> getArtistas() {
             log.info("Inicia proceso de consulta de todos los artistas");
             return artistaRepository.findAll();
     }
@@ -91,7 +93,6 @@ public class ArtistaService {
 		log.info("Inicia proceso de consultar el artista con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		
-		//TODO
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 		
@@ -114,17 +115,20 @@ public class ArtistaService {
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
-		if (artista.getFechaNacimiento() == null)
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
-		
-		if (!validateFechaNacimiento(artista.getFechaNacimiento()))
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+		if (!validateNombre(artista.getNombre()))
+			throw new IllegalOperationException("Nombre is not valid");	
 		
 		if (artista.getFechaFallecimiento() == null)
 			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
 		
 		if (!validateFechaFallecimiento(artista.getFechaFallecimiento()))
-			throw new IllegalOperationException("Fecha Fallecimiento is not valid");	
+			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
+		
+		if (artista.getFechaNacimiento() == null)
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+		
+		if (!validateFechaNacimiento(artista.getFechaNacimiento(),artista.getFechaFallecimiento()))
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
 		
 		if (artista.getLugarNacimiento() == null)
 			throw new IllegalOperationException("Lugar Nacimiento is not valid");	
@@ -158,7 +162,6 @@ public class ArtistaService {
 		log.info("Inicia proceso de borrar el libro con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		
-		//TODO
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 		
@@ -187,8 +190,9 @@ public class ArtistaService {
 	 * @param fecha que se debe verificar
 	 * @return true si la Fecha de Nacimiento es valida.
 	 */
-	private boolean validateFechaNacimiento(Date fecha) {
-		return true;
+	private boolean validateFechaNacimiento(Date fechaNacimiento, Date fechaFallecimiento) {
+		System.out.println("------------------------" + fechaNacimiento.toString() + "<->" + fechaFallecimiento.toString() + "<->" + fechaNacimiento.before(fechaFallecimiento));
+		return fechaNacimiento.before(fechaFallecimiento);
 	}
 	
 	/**
@@ -198,6 +202,8 @@ public class ArtistaService {
 	 * @return true si la Fecha de Fallecimiento es valida.
 	 */
 	private boolean validateFechaFallecimiento(Date fecha) {
-		return true;
+		Date now = new Date();
+		System.out.println("------------------------" + fecha.toString() + "<->" + now.toString() + "<->" + fecha.before(now));
+		return fecha.before(now);
 	}
 }

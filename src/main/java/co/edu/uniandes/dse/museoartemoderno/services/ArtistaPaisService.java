@@ -24,141 +24,53 @@ public class ArtistaPaisService {
 	private ArtistaRepository artistaRepository;
 	
 	/**
-	 * Asocia un Pais de Nacimiento al artista cuyo id es dado por parametro
-	 * @param artistaId - Id del artista a asociar
-	 * @param paisNacimientoId - Id del Pais a asociar
-	 * @return - instancia de pais que fue asociada al artista
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 * Remplazar el pais de un artista.
+	 *
+	 * @param artistaId      id del artista que se quiere actualizar.
+	 * @param paisId El id del pais que se será del artista.
+	 * @return el nuevo artista.
 	 */
+
 	@Transactional
-	public PaisEntity addLugarNacimiento(Long artistaId, Long paisNacimientoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de asociarle un pais de Nacimiento al artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		Optional<PaisEntity> paisEntity = paisRepository.findById(paisNacimientoId);
-
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
-
-		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("PAIS NOT FOUND");
-
-		paisEntity.get().getArtistasNacimiento().add(artistaEntity.get());
-		log.info("Termina proceso de asociarle un pais de Nacimiento al artista con id: " + artistaId);
-		return paisEntity.get();
-	}
-	
-	/**
-	 * Asocia un pais de Fallecimiento al artista cuyo id es dado por parametro
-	 * @param artistaId - Id del artista a asociar
-	 * @param paisId - Id de la pais a asociar
-	 * @return - instancia de pais que fue asociada al artista
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity addLugarFallecimiento(Long artistaId, Long fechaFallecimientoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de asociarle una fecha de Fallecimiento al artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		Optional<PaisEntity> paisEntity = paisRepository.findById(fechaFallecimientoId);
-
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
-
-		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("FECHA NOT FOUND");
-
-		paisEntity.get().getArtistasFallecimiento().add(artistaEntity.get());
-		log.info("Termina proceso de asociarle una fecha de Fallecimiento al artista con id: " + artistaId);
-		return paisEntity.get();
-	}
-	
-	/**
-	 * Devuelve el pais de Nacimiento asociado con el artista cuyo id llega por parametro
-	 * @param artistaId - Id del artista del que se desea conocer el pais de Nacimiento
-	 * @return - El pais de Nacimiento solicitado
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity getLugarNacimiento(Long artistaId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar el pais de Nacimiento del artista con id: " + artistaId);
+	public ArtistaEntity replaceLugarNacimiento(Long artistaId, Long paisId) throws EntityNotFoundException {
+		log.info("Inicia proceso de actualizar el artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
-		PaisEntity paisEntity = artistaEntity.get().getLugarNacimiento();
-
-		if (paisEntity == null)
-			throw new EntityNotFoundException("PAIS NOT FOUND");
-
-		log.info("Termina proceso de consultar el pais de Nacimiento del artista con id: " + artistaId);
-		return paisEntity;
-	}
-	
-	/**
-	 * Devuelve el pais de Fallecimiento asociado con el artista cuyo id llega por parametro
-	 * @param artistaId - Id del artista del que se desea conocer el pais de Fallecimiento
-	 * @return - El pais de Fallecimiento solicitado
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity getLugarFallecimiento(Long artistaId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar el pais de Fallecimiento del artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
-
-		PaisEntity paisEntity = artistaEntity.get().getLugarFallecimiento();
-
-		if (paisEntity == null)
-			throw new EntityNotFoundException("PAIS NOT FOUND");
-
-		log.info("Termina proceso de consultar el pais de Fallecimiento del artista con id: " + artistaId);
-		return paisEntity;
-	}
-	
-	/**
-	 * Remplaza el pais de Nacimiento del artista por una nueva
-	 * @param artistaId - Id del artistat del cual se quiere modificar el pais de Nacimiento
-	 * @param paisId - Id del nuevo pais de Nacimiento por el cual se quiere remplazar
-	 * @return - Nuevo pais de Nacimiento asociado al artista
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity replaceLugarNacimiento(Long artistaId, Long paisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de actualizar el pais de Nacimiento del artista con id:" + artistaId);
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("PAIS NOT FOUND");
-
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
 
 		artistaEntity.get().setLugarNacimiento(paisEntity.get());
-		log.info("Termina proceso de actualizar el pais de Nacimiento del artista con id:" + artistaId);
-		return paisEntity.get();
+		log.info("Termina proceso de actualizar el artista con id: ", artistaId);
+
+		return artistaEntity.get();
 	}
 	
 	/**
-	 * Remplaza el pais de Fallecimiento del artista por una nueva
-	 * @param artistaId - Id del artistat del cual se quiere modificar la fecha de Fallecimiento
-	 * @param paisId - Id de la nueva fecha de Fallecimiento por la cual se quiere remplazar
-	 * @return - Nueva fecha de Fallecimiento asociada al artista
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 * Remplazar el pais de un artista.
+	 *
+	 * @param artistaId      id del artista que se quiere actualizar.
+	 * @param paisId El id del pais que se será del artista.
+	 * @return el nuevo artista.
 	 */
-	@Transactional
-	public PaisEntity replaceLugarFallecimiento(Long artistaId, Long paisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de actualizar el pais de Fallecimiento del artista con id: " + artistaId);
-		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
-		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("PAIS NOT FOUND");
 
+	@Transactional
+	public ArtistaEntity replaceLugarFallecimiento(Long artistaId, Long paisId) throws EntityNotFoundException {
+		log.info("Inicia proceso de actualizar el artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
+		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
+		if (paisEntity.isEmpty())
+			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
+
 		artistaEntity.get().setLugarFallecimiento(paisEntity.get());
-		log.info("Termina proceso de actualizar el pais de Fallecimiento del artista con id: " + artistaId);
-		return paisEntity.get();
+		log.info("Termina proceso de actualizar el artista con id: ", artistaId);
+
+		return artistaEntity.get();
 	}
 	
 	/**
@@ -174,7 +86,7 @@ public class ArtistaPaisService {
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
 		if (artistaEntity.get().getLugarNacimiento() == null) {
-			throw new EntityNotFoundException("El autor no tiene lugar de Nacimiento");
+			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarNacimiento().getId());
 
@@ -199,7 +111,7 @@ public class ArtistaPaisService {
 			throw new EntityNotFoundException("ARTISTA NOT FOUND");
 
 		if (artistaEntity.get().getLugarFallecimiento() == null) {
-			throw new EntityNotFoundException("El autor no tiene fecha de Fallecimiento");
+			throw new EntityNotFoundException("PAIS FALLECIMIENTO NOT FOUND");
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarFallecimiento().getId());
 

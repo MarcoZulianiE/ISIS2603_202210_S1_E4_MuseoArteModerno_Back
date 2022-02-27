@@ -24,119 +24,119 @@ public class ArtistaObraService {
 
 	@Autowired
 	private ArtistaRepository artistaRepository;
-	
+
 	/**
-     * Asocia una obra existente a un artista
-     *
-     * @param artistaId - Id del artista a asociar
-     * @param obraId - Id de la obra a asociar
-     * @return Instancia de obra que fue asociada al artista
-     */
-    @Transactional
-    public ObraEntity addObra(Long artistaId, Long obraId) throws EntityNotFoundException {
-            log.info("Inicia proceso de asociarle una obra al artista con id: " + artistaId);
-            Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-            if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+	 * Asocia una obra existente a un artista
+	 *
+	 * @param artistaId - Id del artista a asociar
+	 * @param obraId - Id de la obra a asociar
+	 * @return Instancia de obra que fue asociada al artista
+	 */
+	@Transactional
+	public ObraEntity addObra(Long artistaId, Long obraId) throws EntityNotFoundException {
+		log.info("Inicia proceso de asociarle una obra al artista con id: " + artistaId);
+		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
+		if (obraEntity.isEmpty())
+			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
 
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
 
-            artistaEntity.get().getObras().add(obraEntity.get());
-            log.info("Termina proceso de asociarle una obra al artista con id: " + artistaId);
-            return obraEntity.get();
-    }
-    
-    /**
-     * Devuelve una lista de todas las obras asociadas con un artista
-     * @param artistaId - Id del artista a buscar en las obras
-     * @return - Lista de obras asociadas al artista
-     * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-     */
-    @Transactional
-    public List<ObraEntity> getObras(Long artistaId) throws EntityNotFoundException {
-            log.info("Inicia proceso de consultar todas la obras del artista con id: ", artistaId);
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
-            log.info("Finaliza proceso de consultar todos los autores del libro con id: ", artistaId);
-            return artistaEntity.get().getObras();
-    }
-    
-    /**
-     * 
-     * @param artistaId - Id de un artista
-     * @param obraId - Id de una obra
-     * @return la obra del artista
-     * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-     * @throws IllegalOperationException - Exception que se lanza si no se cumple alguna regla de negocio
-     */
-    @Transactional
-    public ObraEntity getObra(Long artistaId, Long obraId)
-                    throws EntityNotFoundException, IllegalOperationException {
-            log.info("Inicia proceso de consultar una obra del artista con id: " + artistaId);
-            Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		artistaEntity.get().getObras().add(obraEntity.get());
+		log.info("Termina proceso de asociarle una obra al artista con id: " + artistaId);
+		return obraEntity.get();
+	}
 
-            if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+	/**
+	 * Devuelve una lista de todas las obras asociadas con un artista
+	 * @param artistaId - Id del artista a buscar en las obras
+	 * @return - Lista de obras asociadas al artista
+	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 */
+	@Transactional
+	public List<ObraEntity> getObras(Long artistaId) throws EntityNotFoundException {
+		log.info("Inicia proceso de consultar todas la obras del artista con id: ", artistaId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+		log.info("Finaliza proceso de consultar todos los autores del libro con id: ", artistaId);
+		return artistaEntity.get().getObras();
+	}
 
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
-            log.info("Termina proceso de consultar una obra del artista con id: " + artistaId);
-            if (artistaEntity.get().getObras().contains(obraEntity.get()))
-                    return obraEntity.get();
+	/**
+	 * 
+	 * @param artistaId - Id de un artista
+	 * @param obraId - Id de una obra
+	 * @return la obra del artista
+	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 * @throws IllegalOperationException - Exception que se lanza si no se cumple alguna regla de negocio
+	 */
+	@Transactional
+	public ObraEntity getObra(Long artistaId, Long obraId)
+			throws EntityNotFoundException, IllegalOperationException {
+		log.info("Inicia proceso de consultar una obra del artista con id: " + artistaId);
+		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 
-            throw new IllegalOperationException("La obra no esta asociada con el artista");
-    }
-    
-    /**
-     * Remplaza la lista de obras de un artista
-     * @param artistaId - Id de un artista
-     * @param list - Lista de obras a relacionar con el artista
-     * @return - Lista de obras asociadas 
-     * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-     */
-    @Transactional
-    public List<ObraEntity> replaceObras(Long artistaId, List<ObraEntity> list) throws EntityNotFoundException {
-            log.info("Inicia proceso de reemplazar las obras del artista con id: " + artistaId);
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+		if (obraEntity.isEmpty())
+			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
 
-            for (ObraEntity obra : list) {
-                    Optional<ObraEntity> obraEntity = obraRepository.findById(obra.getId());
-                    if (obraEntity.isEmpty())
-                            throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+		log.info("Termina proceso de consultar una obra del artista con id: " + artistaId);
+		if (artistaEntity.get().getObras().contains(obraEntity.get()))
+			return obraEntity.get();
 
-                    if (!artistaEntity.get().getObras().contains(obraEntity.get()))
-                    		artistaEntity.get().getObras().add(obraEntity.get());
-            }
-            log.info("Termina proceso de reemplazar las obras del artista con id: " + artistaId);
-            return getObras(artistaId);
-    }
-    
-    /**
-     * Desasocia una obra existente de un artista existente
-     * @param artistaId   Identificador de la instancia de Book
-     * @param obraId Identificador de la instancia de Author
-     */
-    @Transactional
-    public void removeObra(Long artistaId, Long obraId) throws EntityNotFoundException {
-            log.info("Inicia proceso de borrar una obra del artista con id: " + artistaId);
-            Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		throw new IllegalOperationException("La obra no esta asociada con el artista");
+	}
 
-            if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+	/**
+	 * Remplaza la lista de obras de un artista
+	 * @param artistaId - Id de un artista
+	 * @param list - Lista de obras a relacionar con el artista
+	 * @return - Lista de obras asociadas 
+	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 */
+	@Transactional
+	public List<ObraEntity> replaceObras(Long artistaId, List<ObraEntity> list) throws EntityNotFoundException {
+		log.info("Inicia proceso de reemplazar las obras del artista con id: " + artistaId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
 
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+		for (ObraEntity obra : list) {
+			Optional<ObraEntity> obraEntity = obraRepository.findById(obra.getId());
+			if (obraEntity.isEmpty())
+				throw new EntityNotFoundException("OBRA NO ENCONTRADA");
 
-            artistaEntity.get().getObras().remove(obraEntity.get());
+			if (!artistaEntity.get().getObras().contains(obraEntity.get()))
+				artistaEntity.get().getObras().add(obraEntity.get());
+		}
+		log.info("Termina proceso de reemplazar las obras del artista con id: " + artistaId);
+		return getObras(artistaId);
+	}
 
-            log.info("Termina proceso de borrar una obra del artista con id: " + artistaId);
-    }
-    
+	/**
+	 * Desasocia una obra existente de un artista existente
+	 * @param artistaId - id del Artista
+	 * @param obraId - id de la Obra a remover
+	 */
+	@Transactional
+	public void removeObra(Long artistaId, Long obraId) throws EntityNotFoundException {
+		log.info("Inicia proceso de borrar una obra del artista con id: " + artistaId);
+		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+
+		if (obraEntity.isEmpty())
+			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+
+		artistaEntity.get().getObras().remove(obraEntity.get());
+
+		log.info("Termina proceso de borrar una obra del artista con id: " + artistaId);
+	}
+
 }

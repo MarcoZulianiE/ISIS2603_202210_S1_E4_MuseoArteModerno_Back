@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
@@ -40,10 +41,10 @@ public class ArtistaMovimientoArtisticoService {
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
 		movimientoArtisticoEntity.get().getArtistas().add(artistaEntity.get());
 		log.info("Termina proceso de asociarle un movimiento artistico al artista con id: " + artistaId);
@@ -61,7 +62,7 @@ public class ArtistaMovimientoArtisticoService {
 		log.info("Inicia proceso de consultar todos los movimientos artisticos del autor con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		List<MovimientoArtisticoEntity> movimientosArtisticos = movimientoArtisticoRepository.findAll();
 		List<MovimientoArtisticoEntity> movimientosArtisticosList = new ArrayList<>();
@@ -90,10 +91,10 @@ public class ArtistaMovimientoArtisticoService {
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
 		log.info("Termina proceso de consultar el movimiento artistico con id: " + artistaId + ", del artista con id: " + movimientoArtisticoId);
 		if (movimientoArtisticoEntity.get().getArtistas().contains(artistaEntity.get()))
@@ -114,12 +115,12 @@ public class ArtistaMovimientoArtisticoService {
             log.info("Inicia proceso de reemplazar los autores del libro con id: ", artistaId);
             Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
             if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NOT FOUND");
+                    throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
             for (MovimientoArtisticoEntity author : list) {
                     Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(author.getId());
                     if (movimientoArtisticoEntity.isEmpty())
-                            throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+                            throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
                     if (!artistaEntity.get().getMovimientos().contains(movimientoArtisticoEntity.get()))
                     	artistaEntity.get().getMovimientos().add(movimientoArtisticoEntity.get());
@@ -139,11 +140,11 @@ public class ArtistaMovimientoArtisticoService {
 		log.info("Inicia proceso de borrar un movimiento artistico del artista con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
 		movimientoArtisticoEntity.get().getArtistas().remove(artistaEntity.get());
 		log.info("Finaliza proceso de borrar un movimiento artistico del artista con id: " + artistaId);

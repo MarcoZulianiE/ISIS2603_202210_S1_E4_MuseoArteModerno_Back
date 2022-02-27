@@ -11,6 +11,7 @@ import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,11 +37,11 @@ public class ArtistaPaisService {
 		log.info("Inicia proceso de actualizar el artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 
 		artistaEntity.get().setLugarNacimiento(paisEntity.get());
 		log.info("Termina proceso de actualizar el artista con id: ", artistaId);
@@ -61,11 +62,11 @@ public class ArtistaPaisService {
 		log.info("Inicia proceso de actualizar el artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 
 		artistaEntity.get().setLugarFallecimiento(paisEntity.get());
 		log.info("Termina proceso de actualizar el artista con id: ", artistaId);
@@ -83,10 +84,10 @@ public class ArtistaPaisService {
 		log.info("Inicia proceso de borrar el pais de Nacimiento del artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (artistaEntity.get().getLugarNacimiento() == null) {
-			throw new EntityNotFoundException("PAIS NACIMIENTO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarNacimiento().getId());
 
@@ -108,10 +109,10 @@ public class ArtistaPaisService {
 		log.info("Inicia proceso de borrar el pais de Fallecimiento del artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (artistaEntity.get().getLugarFallecimiento() == null) {
-			throw new EntityNotFoundException("PAIS FALLECIMIENTO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarFallecimiento().getId());
 

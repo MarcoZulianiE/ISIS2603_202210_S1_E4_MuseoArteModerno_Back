@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MuseoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +41,10 @@ public class ArtistaMuseoService {
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
 		museoEntity.get().getArtistas().add(artistaEntity.get());
 		log.info("Termina proceso de asociarle un museo al artista con id: " + artistaId);
@@ -63,7 +62,7 @@ public class ArtistaMuseoService {
 		log.info("Inicia proceso de consultar todos los libros del autor con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		List<MuseoEntity> museos = museoRepository.findAll();
 		List<MuseoEntity> museosList = new ArrayList<>();
@@ -92,10 +91,10 @@ public class ArtistaMuseoService {
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
 		log.info("Termina proceso de consultar el museo con id: " + museoId + ", del artista con id: " + artistaId);
 		if (museoEntity.get().getArtistas().contains(artistaEntity.get()))
@@ -116,12 +115,12 @@ public class ArtistaMuseoService {
             log.info("Inicia proceso de reemplazar los autores del libro con id: ", artistaId);
             Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
             if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException("ARTISTA NOT FOUND");
+                    throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
             for (MuseoEntity author : list) {
                     Optional<MuseoEntity> museoEntity = museoRepository.findById(author.getId());
                     if (museoEntity.isEmpty())
-                            throw new EntityNotFoundException("MUSEO NOT FOUND");
+                            throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
                     if (!artistaEntity.get().getMuseos().contains(museoEntity.get()))
                             artistaEntity.get().getMuseos().add(museoEntity.get());
@@ -141,11 +140,11 @@ public class ArtistaMuseoService {
 		log.info("Inicia proceso de borrar un museo del artista con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO ARTISTICO NOT FOUND");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
 		museoEntity.get().getArtistas().remove(artistaEntity.get());
 		log.info("Finaliza proceso de borrar un museo del artista con id: " + artistaId);

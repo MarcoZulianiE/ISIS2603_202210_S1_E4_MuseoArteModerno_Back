@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
@@ -37,11 +38,11 @@ public class ArtistaObraService {
 		log.info("Inicia proceso de asociarle una obra al artista con id: " + artistaId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		if (obraEntity.isEmpty())
-			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		artistaEntity.get().getObras().add(obraEntity.get());
 		log.info("Termina proceso de asociarle una obra al artista con id: " + artistaId);
@@ -59,7 +60,7 @@ public class ArtistaObraService {
 		log.info("Inicia proceso de consultar todas la obras del artista con id: ", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		log.info("Finaliza proceso de consultar todos los autores del libro con id: ", artistaId);
 		return artistaEntity.get().getObras();
 	}
@@ -79,10 +80,10 @@ public class ArtistaObraService {
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 
 		if (obraEntity.isEmpty())
-			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		log.info("Termina proceso de consultar una obra del artista con id: " + artistaId);
 		if (artistaEntity.get().getObras().contains(obraEntity.get()))
 			return obraEntity.get();
@@ -102,12 +103,12 @@ public class ArtistaObraService {
 		log.info("Inicia proceso de reemplazar las obras del artista con id: " + artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		for (ObraEntity obra : list) {
 			Optional<ObraEntity> obraEntity = obraRepository.findById(obra.getId());
 			if (obraEntity.isEmpty())
-				throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+				throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 
 			if (!artistaEntity.get().getObras().contains(obraEntity.get()))
 				artistaEntity.get().getObras().add(obraEntity.get());
@@ -128,10 +129,10 @@ public class ArtistaObraService {
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 
 		if (obraEntity.isEmpty())
-			throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NO ENCONTRADO");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
 		artistaEntity.get().getObras().remove(obraEntity.get());
 

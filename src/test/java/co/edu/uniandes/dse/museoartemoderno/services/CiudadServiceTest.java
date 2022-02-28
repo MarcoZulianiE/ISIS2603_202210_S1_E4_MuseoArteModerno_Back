@@ -131,7 +131,7 @@ public class CiudadServiceTest {
 	 */
     @Test
 
-    void testGetBooks() {
+    void testGetCiudades() {
 
     List<CiudadEntity> list = ciudadService.getCiudades();
 

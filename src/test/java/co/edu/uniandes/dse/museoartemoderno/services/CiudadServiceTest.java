@@ -118,7 +118,7 @@ public class CiudadServiceTest {
 	 * Prueba para crear una ciudad con coordenadas ya existentes
 	 */
     @Test
-    void testCreateBookWithStoredISBN() {
+    void testCreateCiudadCoordenadasExistentes() {
             assertThrows(IllegalOperationException.class, () -> {
                     CiudadEntity newEntity = factory.manufacturePojo(CiudadEntity.class);
                     newEntity.setPais(paisList.get(0));
@@ -187,7 +187,7 @@ public class CiudadServiceTest {
 
     @Test
 
-    void testGetInvalidBook() {
+    void testGetInvalidCiudad() {
 
     assertThrows(EntityNotFoundException.class,()->{
 

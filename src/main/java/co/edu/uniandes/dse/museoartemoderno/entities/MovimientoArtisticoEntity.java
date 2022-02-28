@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -35,7 +36,7 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 
 	@PodamExclude
 	@ManyToMany(
-		mappedBy = "movimientos")
+		mappedBy = "movimientos", fetch = FetchType.LAZY)
 	private List<ArtistaEntity> artistas = new ArrayList<>();
 
 	@PodamExclude

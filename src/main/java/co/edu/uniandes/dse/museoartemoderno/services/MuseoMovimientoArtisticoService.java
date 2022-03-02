@@ -36,7 +36,7 @@ public class MuseoMovimientoArtisticoService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public MovimientoArtisticoEntity addmovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException {
+	public MovimientoArtisticoEntity addMovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociarle un movimientoArtistico al museo con id: " + museoId);
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
@@ -60,7 +60,7 @@ public class MuseoMovimientoArtisticoService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public List<MovimientoArtisticoEntity> getmovimientoArtisticos(Long museoId) throws EntityNotFoundException {
+	public List<MovimientoArtisticoEntity> getMovimientoArtisticos(Long museoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de consultar todos los movimientoArtisticos asociados al museo con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		
@@ -89,7 +89,7 @@ public class MuseoMovimientoArtisticoService {
 	 * @throws IllegalOperationException - Exception que se lanza si no se cumple alguna regla de negocio
 	 */
 	@Transactional
-	public MovimientoArtisticoEntity getmovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException, IllegalOperationException {
+	public MovimientoArtisticoEntity getMovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar el movimientoArtistico con id: " + movimientoArtisticoId + ", del museo con id: " + museoId);
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
@@ -116,7 +116,7 @@ public class MuseoMovimientoArtisticoService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public List<MovimientoArtisticoEntity> addmovimientoArtisticos(Long museoId, List<MovimientoArtisticoEntity> movimientoArtisticos) throws EntityNotFoundException {
+	public List<MovimientoArtisticoEntity> replaceMovimientoArtisticos(Long museoId, List<MovimientoArtisticoEntity> movimientoArtisticos) throws EntityNotFoundException {
 		log.info("Inicia proceso de reemplazar los movimientoArtisticos asociados al museo con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
@@ -142,7 +142,7 @@ public class MuseoMovimientoArtisticoService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public void removemovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException {
+	public void removeMovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de borrar un museo del movimientoArtistico con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())

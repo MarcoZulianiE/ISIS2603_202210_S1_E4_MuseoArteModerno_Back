@@ -36,7 +36,7 @@ public class MuseoArtistaService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public ArtistaEntity addartista(Long museoId, Long artistaId) throws EntityNotFoundException {
+	public ArtistaEntity addArtista(Long museoId, Long artistaId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociarle un artista al museo con id: " + museoId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
@@ -116,7 +116,7 @@ public class MuseoArtistaService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public List<ArtistaEntity> addArtistas(Long museoId, List<ArtistaEntity> artistas) throws EntityNotFoundException {
+	public List<ArtistaEntity> replaceArtistas(Long museoId, List<ArtistaEntity> artistas) throws EntityNotFoundException {
 		log.info("Inicia proceso de reemplazar los artistas asociados al museo con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())

@@ -57,7 +57,27 @@ class MovimientoArtisticoArtistaServiceTest
 
 	private List<PaisEntity> paisList = new ArrayList<>();
 
-	 
+	/**
+	 * Configuración inicial de la prueba.
+	 */
+	@BeforeEach
+	void setUp() 
+	{
+		clearData();
+		insertData();
+	}
+
+	/**
+	 * Limpia las tablas que estan implicadas en la prueba
+	 */
+	private void clearData()
+	{
+		entityManager.getEntityManager().createQuery("delete from MovimientoArtisticoEntity");
+		entityManager.getEntityManager().createQuery("delete from ObraEntity");
+		entityManager.getEntityManager().createQuery("delete from MuseoEntity");
+		entityManager.getEntityManager().createQuery("delete from ArtistaEntity");
+		entityManager.getEntityManager().createQuery("delete from PaisEntity");
+	}
 
 	/**
 	 * Inserta los datos iniciales para el correcto funcionamiento de la prueba

@@ -39,7 +39,6 @@ public class MovimientoArtisticoObraService
 		log.info("Inicia el proceso de agregar la obra "+obraId+" al movimiento artistico "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-
 		if(obraEntity.isEmpty())
 		{
 			throw new EntityNotFoundException("Obra not found");

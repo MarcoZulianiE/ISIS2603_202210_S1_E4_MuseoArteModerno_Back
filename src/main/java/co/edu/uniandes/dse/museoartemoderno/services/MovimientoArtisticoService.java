@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class MovimientoArtisticoService {
 		Optional<MovimientoArtisticoEntity> movimientoBuscado = movimientoArtisticoRepository.findById(pId);
 		if(movimientoBuscado.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento Artistico no encontrado");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		log.info("Termina el proceso de obtener de un movimiento artisitico con id "+ pId);
 		return movimientoBuscado.get();
@@ -79,7 +80,7 @@ public class MovimientoArtisticoService {
 
 		if(movimientoBorrar.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento Artistico no encontrado");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		log.info("Termina el proceso de eliminar de un movimiento artisitico con id  "+ pId);
 		movimientoArtisticoRepository.deleteById(pId);

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.PaisRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +45,11 @@ public class MovimientoArtisticoPaisService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(paisEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Pais not found");
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 		}
 
 		movimientoEntity.get().setLugarOrigen(paisEntity.get());
@@ -68,7 +69,7 @@ public class MovimientoArtisticoPaisService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not fount");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(movimientoEntity.get().getLugarOrigen().getId());
 		paisEntity.ifPresent(lugarOrigen -> lugarOrigen.getMovimientoArtisticos().remove(movimientoEntity.get()));

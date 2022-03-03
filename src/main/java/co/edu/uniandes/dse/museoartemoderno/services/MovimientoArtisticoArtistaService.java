@@ -15,7 +15,7 @@ import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import lombok.extern.slf4j.Slf4j;
-
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 @Slf4j
 @Service
 public class MovimientoArtisticoArtistaService 
@@ -43,11 +43,11 @@ public class MovimientoArtisticoArtistaService
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento Artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(artistaEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Artista not found");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 
 		artistaEntity.get().getMovimientos().add(movimientoEntity.get());
@@ -69,7 +69,7 @@ public class MovimientoArtisticoArtistaService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 		List<ArtistaEntity> artistas = artistaRepository.findAll();
@@ -102,11 +102,11 @@ public class MovimientoArtisticoArtistaService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(artistaEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Artista not found");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 		log.info("Termina el proceso de obtener el artista "+artistaId+" asociado con el movimiento "+movimientoId);
 		if(artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
@@ -131,7 +131,7 @@ public class MovimientoArtisticoArtistaService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 		for(ArtistaEntity artista: artistas)
@@ -139,7 +139,7 @@ public class MovimientoArtisticoArtistaService
 			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artista.getId());
 			if(artistaEntity.isEmpty())
 			{
-				throw new EntityNotFoundException("Artista not found");
+				throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 			}
 			if(!artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
 			{
@@ -164,13 +164,13 @@ public class MovimientoArtisticoArtistaService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if(artistaEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Artista not found");
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 
 		artistaEntity.get().getMovimientos().remove(movimientoEntity.get());

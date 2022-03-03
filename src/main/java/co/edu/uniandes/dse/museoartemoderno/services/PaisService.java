@@ -26,8 +26,28 @@ public class PaisService {
 	 * @throws EntityNotFoundException si no se encuentra la entidad
 	 * @throws IllegalOperationException si se cumple alguna regla
 	 */
+	@Transactional
 	public PaisEntity createPais(PaisEntity pais) throws EntityNotFoundException, IllegalOperationException{
 		log.info("inicia proceso de creacion de pais");
+
+		if (!paisRepository.findByNombrePais(pais.getNombrePais()).isEmpty()) {
+			throw new IllegalOperationException("Pais name already exists");
+		}
+		if (!validateNombre(pais.getNombrePais()))
+		{
+			throw new IllegalOperationException("Nombre Pais is not valid");
+		}
+		if (!validateNombre(pais.getCoordenadasPais())) {
+			throw new IllegalOperationException("Coordenadas are not valid");
+		}
+		
+		if (!paisRepository.findByCoordenadasPais(pais.getCoordenadasPais()).isEmpty())
+		{
+			throw new IllegalOperationException("Coordenadas Pais already exists");
+		}
+		
+		log.info("Termina proceso de creación del pais");
+
 		return paisRepository.save(pais);	
 	}
 	/**
@@ -65,12 +85,21 @@ public class PaisService {
 	 * @param paisId     Identificador de la instancia a actualizar
 	 * @param paisEntity Instancia de AuthorEntity con los nuevos datos.
 	 * @return Instancia de PaisEntity con los datos actualizados.
+	 * @throws IllegalOperationException 
 	 */
 	@Transactional
-	public PaisEntity updatePais(Long paisId, PaisEntity pais) throws EntityNotFoundException {
+	public PaisEntity updatePais(Long paisId, PaisEntity pais) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar el pais con id = ", paisId);
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		
+		if (!validateNombre(pais.getNombrePais()))
+		{
+			throw new IllegalOperationException("Nombre Pais is not valid");
+		}
+		if (!validateNombre(pais.getCoordenadasPais()))
+		{
+			throw new IllegalOperationException("Coordenadas are not valid");
+		}
 		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("PAIS_NOT_FOUND");
 		
@@ -93,6 +122,9 @@ public class PaisService {
 	}
 	
 	
+	private boolean validateNombre(String nombre) {
+		return !(nombre == null || nombre.isEmpty());
+	}
 
 	
 }

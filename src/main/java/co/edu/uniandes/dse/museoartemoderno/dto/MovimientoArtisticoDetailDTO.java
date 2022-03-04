@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class MovimientoArtisticoDetailDTO extends MovimientoArtisticoDTO
 {
-	//private List<ObraDTO> obras = new ArrayList<>();
+	private List<ObraDTO> obras = new ArrayList<>();
 
-	//private List<MuseoDTO> museos = new ArrayList<>();
+	private List<MuseoDTO> museos = new ArrayList<>();
 
-	//private PaisDTO lugarOrigen;
+	private PaisDTO lugarOrigen;
 
 	private List<ArtistaDTO> artistas = new ArrayList<>();
 }

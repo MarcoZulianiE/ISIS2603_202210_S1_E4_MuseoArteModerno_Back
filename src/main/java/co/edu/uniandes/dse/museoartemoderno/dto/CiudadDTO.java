@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class CiudadDTO {
 	private String nombre;
-	//private PaisDTO pais;
+	private PaisDTO pais;
+	private Long id;
 
 }

@@ -18,10 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 public class MuseoPaisService {
 
 	@Autowired
-	private PaisRepository PaisRepository;
+	private PaisRepository paisRepository;
 
 	@Autowired
-	private MuseoRepository MuseoRepository;
+	private MuseoRepository museoRepository;
 	
 	/**
 	 * Asocia una Pais al Museo cuyo id es dado por parametro
@@ -31,10 +31,10 @@ public class MuseoPaisService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public PaisEntity addPais(Long MuseoId, Long PaisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de asociarle una Pais de  al Museo con id: " + MuseoId);
-		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
-		Optional<PaisEntity> paisEntity = PaisRepository.findById(PaisId);
+	public PaisEntity addPais(Long museoId, Long paisId) throws EntityNotFoundException {
+		log.info("Inicia proceso de asociarle una Pais de  al Museo con id: " + museoId);
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
+		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
@@ -43,7 +43,7 @@ public class MuseoPaisService {
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
 		paisEntity.get().getMuseos().add(museoEntity.get());
-		log.info("Termina proceso de asociarle una Pais de  al Museo con id: " + MuseoId);
+		log.info("Termina proceso de asociarle una Pais de  al Museo con id: " + museoId);
 		return paisEntity.get();
 	}
 	
@@ -55,9 +55,9 @@ public class MuseoPaisService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public PaisEntity getPais(Long MuseoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar la Pais de  del Museo con id: " + MuseoId);
-		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+	public PaisEntity getPais(Long museoId) throws EntityNotFoundException {
+		log.info("Inicia proceso de consultar la Pais de  del Museo con id: " + museoId);
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
@@ -66,7 +66,7 @@ public class MuseoPaisService {
 		if (paisEntity == null)
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
-		log.info("Termina proceso de consultar la Pais de  del Museo con id: " + MuseoId);
+		log.info("Termina proceso de consultar la Pais de  del Museo con id: " + museoId);
 		return paisEntity;
 	}
 	
@@ -79,18 +79,18 @@ public class MuseoPaisService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public PaisEntity replacePais(Long MuseoId, Long PaisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de actualizar la Pais de  del Museo con id:" + MuseoId);
-		Optional<PaisEntity> paisEntity = PaisRepository.findById(PaisId);
+	public PaisEntity replacePais(Long museoId, Long paisId) throws EntityNotFoundException {
+		log.info("Inicia proceso de actualizar la Pais de  del Museo con id:" + museoId);
+		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("Pais NOT FOUND");
 
-		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
 		museoEntity.get().setUbicacion(paisEntity.get());
-		log.info("Termina proceso de actualizar la Pais de  del Museo con id:" + MuseoId);
+		log.info("Termina proceso de actualizar la Pais de  del Museo con id:" + museoId);
 		return paisEntity.get();
 	}
 	
@@ -101,23 +101,23 @@ public class MuseoPaisService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public void removePais(Long MuseoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de borrar la Pais de  del Museo con id: ", MuseoId);
-		Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+	public void removePais(Long museoId) throws EntityNotFoundException {
+		log.info("Inicia proceso de borrar la Pais de  del Museo con id: ", museoId);
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("Museo NOT FOUND");
 
 		if (museoEntity.get().getUbicacion() == null) {
 			throw new EntityNotFoundException("El autor no tiene Pais de ");
 		}
-		Optional<PaisEntity> paisEntity = PaisRepository.findById(museoEntity.get().getUbicacion().getId());
+		Optional<PaisEntity> paisEntity = paisRepository.findById(museoEntity.get().getUbicacion().getId());
 
 		paisEntity.ifPresent(Pais -> {
 			museoEntity.get().setUbicacion(null);
 			Pais.getMuseos().remove(museoEntity.get());
 		});
 
-		log.info("Termina proceso de borrar el Pais del Museo con id: ", MuseoId);
+		log.info("Termina proceso de borrar el Pais del Museo con id: ", museoId);
 	}
 	
 

@@ -23,6 +23,10 @@ public class MuseoPaisService {
 	@Autowired
 	private MuseoRepository museoRepository;
 	
+	private String museoNotFound = "Museo NOT FOUND";
+	
+	private String paisNotFound = "Pais NOT FOUND";
+	
 	/**
 	 * Asocia una Pais al Museo cuyo id es dado por parametro
 	 * @param MuseoId - Id del Museo a asociar
@@ -37,10 +41,10 @@ public class MuseoPaisService {
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("Museo NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("Pais NOT FOUND");
+			throw new EntityNotFoundException(paisNotFound);
 
 		paisEntity.get().getMuseos().add(museoEntity.get());
 		log.info("Termina proceso de asociarle una Pais de  al Museo con id: " + museoId);
@@ -59,12 +63,12 @@ public class MuseoPaisService {
 		log.info("Inicia proceso de consultar la Pais de  del Museo con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("Museo NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		PaisEntity paisEntity = museoEntity.get().getUbicacion();
 
 		if (paisEntity == null)
-			throw new EntityNotFoundException("Pais NOT FOUND");
+			throw new EntityNotFoundException(paisNotFound);
 
 		log.info("Termina proceso de consultar la Pais de  del Museo con id: " + museoId);
 		return paisEntity;
@@ -83,11 +87,11 @@ public class MuseoPaisService {
 		log.info("Inicia proceso de actualizar la Pais de  del Museo con id:" + museoId);
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException("Pais NOT FOUND");
+			throw new EntityNotFoundException(paisNotFound);
 
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("Museo NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		museoEntity.get().setUbicacion(paisEntity.get());
 		log.info("Termina proceso de actualizar la Pais de  del Museo con id:" + museoId);
@@ -105,16 +109,16 @@ public class MuseoPaisService {
 		log.info("Inicia proceso de borrar la Pais de  del Museo con id: ", museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("Museo NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		if (museoEntity.get().getUbicacion() == null) {
-			throw new EntityNotFoundException("El autor no tiene Pais de ");
+			throw new EntityNotFoundException("El museo no tiene Pais");
 		}
 		Optional<PaisEntity> paisEntity = paisRepository.findById(museoEntity.get().getUbicacion().getId());
 
-		paisEntity.ifPresent(Pais -> {
+		paisEntity.ifPresent(pais -> {
 			museoEntity.get().setUbicacion(null);
-			Pais.getMuseos().remove(museoEntity.get());
+			pais.getMuseos().remove(museoEntity.get());
 		});
 
 		log.info("Termina proceso de borrar el Pais del Museo con id: ", museoId);

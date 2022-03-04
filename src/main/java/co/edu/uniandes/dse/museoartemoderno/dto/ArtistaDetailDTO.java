@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ArtistaDetailDTO extends ArtistaDTO{
 	private PaisDTO lugarNacimiento;
 	private PaisDTO lugarFallecimiento;
-	//private List<MuseoDTO> museos = new ArrayList<>();
+	private List<MuseoDTO> museos = new ArrayList<>();
 	private List<ObraDTO> obras = new ArrayList<>();
 	private List<MovimientoArtisticoDTO> movimientos = new ArrayList<>();
 }

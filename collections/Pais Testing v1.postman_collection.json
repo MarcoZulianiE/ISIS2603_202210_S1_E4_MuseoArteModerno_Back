@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "f2cd4a31-cf0d-4e3e-aed8-1c04196c185c",
+		"name": "Pais Testing v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crear un pais",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"no genera error en el create pais\"] = responseCode.code === 201;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombrePais\": \"Suiza\",\r\n    \"coordenadas\": \"ejemplo5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{port}}/api/paises",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"paises"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

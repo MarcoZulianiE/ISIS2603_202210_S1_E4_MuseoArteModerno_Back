@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
+import co.edu.uniandes.dse.museoartemoderno.repositories.PaisRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
@@ -23,6 +25,9 @@ public class ArtistaService {
 
 	@Autowired
 	ArtistaRepository artistaRepository;
+	
+	@Autowired
+	PaisRepository paisRepository;
 	
 	/**
 	 * Guarda un nuevo artista en la base de datos si cumple con las reglas de negocio
@@ -56,7 +61,15 @@ public class ArtistaService {
 		if (artistaEntity.getLugarNacimiento() == null)
 			throw new IllegalOperationException("Lugar Nacimiento is not valid");	
 		
+		Optional<PaisEntity> paisEntity1 = paisRepository.findById(artistaEntity.getLugarNacimiento().getId());
+		if (paisEntity1.isEmpty())
+			throw new IllegalOperationException("Lugar Nacimiento is not valid");
+		
 		if (artistaEntity.getLugarFallecimiento() == null)
+			throw new IllegalOperationException("Lugar Fallecimiento is not valid");
+		
+		Optional<PaisEntity> paisEntity2 = paisRepository.findById(artistaEntity.getLugarFallecimiento().getId());
+		if (paisEntity2.isEmpty())
 			throw new IllegalOperationException("Lugar Fallecimiento is not valid");
 		
 		if (artistaEntity.getMovimientos() == null)

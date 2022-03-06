@@ -12,4 +12,6 @@ public class ArtistaDTO {
 	private String nombre;
 	private Date fechaNacimiento;
 	private Date fechaFallecimiento;	
+	private PaisDTO lugarNacimiento;
+	private PaisDTO lugarFallecimiento;
 }

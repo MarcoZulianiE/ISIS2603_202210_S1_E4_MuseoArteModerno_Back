@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import javax.transaction.Transactional;
 
@@ -17,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -30,7 +32,7 @@ import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
-import co.edu.uniandes.dse.museoartemoderno.services.ObraService;
+
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -45,8 +47,10 @@ public class ObraServiceTest {
 	private TestEntityManager entityManager;
 	
 	private PodamFactory factory = new PodamFactoryImpl();
-	
 	private List<ObraEntity> obraList = new ArrayList<>();
+	private ArtistaEntity artistaEntity;
+	private MuseoEntity museoEntity;
+	private MovimientoArtisticoEntity movimientoEntity;
 	
 	/**
 	 * Configuración inicial de la prueba.
@@ -65,16 +69,30 @@ public class ObraServiceTest {
 	}
 	
 	private void insertData() {
-		for (int i =0; i<3; i++) {
+		for (int i =0; i<4; i++) {
 			ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
 			entityManager.persist(obraEntity);
 			obraList.add(obraEntity);			
 		}
 		
 		ObraEntity obraEntity = obraList.get(2);
-		ArtistaEntity artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
-		artistaEntity.getObras().add(obraEntity);
+		artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
+		obraEntity.setArtista(artistaEntity);;
+		entityManager.persist(artistaEntity);
+		System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AQUI AUXILIO");
+		System.out.println(artistaEntity);
 		
+		
+		ObraEntity obraEntity2 = obraList.get(1);
+		movimientoEntity = factory.manufacturePojo(MovimientoArtisticoEntity.class);
+		obraEntity2.setMovimiento(movimientoEntity);
+		entityManager.persist(movimientoEntity);
+		
+		ObraEntity obraEntity3 = obraList.get(0);
+		museoEntity = factory.manufacturePojo(MuseoEntity.class);
+		museoEntity.getObras().add(obraEntity3);
+		obraEntity3.setMuseo(museoEntity);
+		entityManager.persist(museoEntity);
 	}
 
 	/**
@@ -84,11 +102,32 @@ public class ObraServiceTest {
 	@Test
 	void testCreateObra() throws EntityNotFoundException, IllegalOperationException {
 		ObraEntity newEntity = factory.manufacturePojo(ObraEntity.class);
-		ObraEntity result = obraService.createObra(newEntity);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			newEntity.setFechaPublicacion(sdf.parse("1995-05-20"));
+			} 
+		catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+		newEntity.setArtista(artistaEntity);
+		newEntity.setMuseo(museoEntity);
+		newEntity.setMovimiento(movimientoEntity);
+		
+		ObraEntity result = obraService.createObra(newEntity);	
+		
 		assertNotNull(result);
 
 		ObraEntity entity = entityManager.find(ObraEntity.class, result.getId());
-
+		
+		entity.setArtista(artistaEntity);
+		entity.setMuseo(museoEntity);
+		entity.setMovimiento(movimientoEntity);
+		
+		System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  22222 AQUI AUXILIO");
+		System.out.println(artistaEntity);
+		
 		assertEquals(newEntity.getId(), entity.getId());
 		assertEquals(newEntity.getNombre(), entity.getNombre());
 		assertEquals(newEntity.getArtista(), entity.getArtista());
@@ -105,7 +144,7 @@ public class ObraServiceTest {
 		assertThrows(IllegalOperationException.class, ()->{
 			ObraEntity newEntity = factory.manufacturePojo(ObraEntity.class);
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date()); 
+			calendar.setTime(new Date());        
 			calendar.add(Calendar.DATE, 15);
 			newEntity.setFechaPublicacion(calendar.getTime());
 			obraService.createObra(newEntity);
@@ -175,7 +214,7 @@ public class ObraServiceTest {
 	 */
 	@Test
 	void testDeleteObra() throws EntityNotFoundException, IllegalOperationException {
-		ObraEntity obraEntity = obraList.get(0);
+		ObraEntity obraEntity = obraList.get(3);
 		obraService.deleteObra(obraEntity.getId());
 		ObraEntity deleted = entityManager.find(ObraEntity.class, obraEntity.getId());
 		assertNull(deleted);

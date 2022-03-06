@@ -3,6 +3,8 @@ package co.edu.uniandes.dse.museoartemoderno.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,8 @@ import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 
 @Slf4j
 @Service
+@Component
+@ComponentScan
 public class CiudadPaisService {
 		
 		@Autowired
@@ -58,9 +62,9 @@ public class CiudadPaisService {
 		public PaisEntity getPais(Long ciudadId) throws EntityNotFoundException {
 			log.info("Inicia proceso de consultar el pais de la ciudad con id = ", ciudadId);
 			Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(ciudadId);
-			if (ciudadEntity.isEmpty())
+			if (ciudadEntity.isEmpty() )
 				throw new EntityNotFoundException("Ninguna ciudad fue encontrada con el id dado.");
-			
+
 			log.info("Termina proceso de consultar el pais de la ciudad con id = ", ciudadId);
 			return (ciudadEntity.get()).getPais();
 		}
@@ -82,6 +86,7 @@ public class CiudadPaisService {
 			log.info("Finaliza proceso de borrar un pais de la ciudad con id = ", ciudadId);
 		}
 
-	}
+	
 
 
+}

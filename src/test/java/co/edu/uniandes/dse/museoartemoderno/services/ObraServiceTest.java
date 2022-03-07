@@ -79,9 +79,7 @@ public class ObraServiceTest {
 		artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
 		obraEntity.setArtista(artistaEntity);;
 		entityManager.persist(artistaEntity);
-		System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AQUI AUXILIO");
-		System.out.println(artistaEntity);
-		
+
 		
 		ObraEntity obraEntity2 = obraList.get(1);
 		movimientoEntity = factory.manufacturePojo(MovimientoArtisticoEntity.class);
@@ -124,10 +122,7 @@ public class ObraServiceTest {
 		entity.setArtista(artistaEntity);
 		entity.setMuseo(museoEntity);
 		entity.setMovimiento(movimientoEntity);
-		
-		System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  22222 AQUI AUXILIO");
-		System.out.println(artistaEntity);
-		
+				
 		assertEquals(newEntity.getId(), entity.getId());
 		assertEquals(newEntity.getNombre(), entity.getNombre());
 		assertEquals(newEntity.getArtista(), entity.getArtista());

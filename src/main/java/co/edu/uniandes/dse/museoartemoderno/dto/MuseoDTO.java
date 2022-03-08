@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MuseoDTO {
+	
+	private Long id;
 
 	private String nombre;
 	

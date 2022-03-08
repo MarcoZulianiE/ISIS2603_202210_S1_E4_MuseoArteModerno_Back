@@ -75,21 +75,18 @@ public class ObraServiceTest {
 			obraList.add(obraEntity);			
 		}
 		
-		ObraEntity obraEntity = obraList.get(2);
 		artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
-		obraEntity.setArtista(artistaEntity);;
+		obraList.get(2).setArtista(artistaEntity);;
 		entityManager.persist(artistaEntity);
 
 		
-		ObraEntity obraEntity2 = obraList.get(1);
 		movimientoEntity = factory.manufacturePojo(MovimientoArtisticoEntity.class);
-		obraEntity2.setMovimiento(movimientoEntity);
+		obraList.get(1).setMovimiento(movimientoEntity);
 		entityManager.persist(movimientoEntity);
 		
-		ObraEntity obraEntity3 = obraList.get(0);
 		museoEntity = factory.manufacturePojo(MuseoEntity.class);
-		museoEntity.getObras().add(obraEntity3);
-		obraEntity3.setMuseo(museoEntity);
+		museoEntity.getObras().add(obraList.get(0));
+		obraList.get(0).setMuseo(museoEntity);
 		entityManager.persist(museoEntity);
 	}
 

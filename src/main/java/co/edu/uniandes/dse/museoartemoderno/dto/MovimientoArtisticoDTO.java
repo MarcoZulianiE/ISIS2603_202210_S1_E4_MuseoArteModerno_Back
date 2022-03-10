@@ -12,4 +12,5 @@ public class MovimientoArtisticoDTO
 	private Long id;
 	private String nombre;
 	private Date fechaApogeo;
+	private PaisDTO lugarOrigen;
 }

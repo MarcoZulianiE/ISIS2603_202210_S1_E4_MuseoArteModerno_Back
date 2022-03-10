@@ -7,6 +7,18 @@
 	"item": [
 		{
 			"name": "Crear un movimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"no genera en el Post con los datos correctos\"] = responseCode.code===201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -19,6 +31,26 @@
 						}
 					}
 				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/api/movimientoartisticos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"api",
+						"movimientoartisticos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos lo movimientos",
+			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "http://{{ip}}:{{puerto}}/api/movimientoartisticos",
 					"protocol": "http",

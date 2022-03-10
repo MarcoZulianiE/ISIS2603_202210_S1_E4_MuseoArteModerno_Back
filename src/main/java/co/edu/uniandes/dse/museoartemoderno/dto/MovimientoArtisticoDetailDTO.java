@@ -14,7 +14,5 @@ public class MovimientoArtisticoDetailDTO extends MovimientoArtisticoDTO
 
 	private List<MuseoDTO> museos = new ArrayList<>();
 
-	private PaisDTO lugarOrigen;
-
 	private List<ArtistaDTO> artistas = new ArrayList<>();
 }

@@ -36,7 +36,7 @@ public class ObraMovimientoArtisticoService {
 	 */
 
 	@Transactional
-	public MovimientoArtisticoEntity addMovimiento(Long obraId, Long movimientoId) throws EntityNotFoundException {
+	public MovimientoArtisticoEntity addMovimientoArtistico(Long obraId, Long movimientoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociar un movimiento artistico a la obra con id = {0}", obraId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		Optional<MovimientoArtisticoEntity> movEntity = movRepository.findById(movimientoId);

@@ -75,7 +75,7 @@ public class ObraMovimientoArtisticoService {
 	 * @param obraId Identificador de la instancia de obra
 	 */
 	@Transactional
-	public void removerMovimientoArtistico(Long obraId) throws EntityNotFoundException {
+	public void removeMovimientoArtistico(Long obraId) throws EntityNotFoundException {
 		log.info("Inicia proceso de borrar el movimiento artistico de la obra con id = {0}", obraId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		if (obraEntity.isEmpty())

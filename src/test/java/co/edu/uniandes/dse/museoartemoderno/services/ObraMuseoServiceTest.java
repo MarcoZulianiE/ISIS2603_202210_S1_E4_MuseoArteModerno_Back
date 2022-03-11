@@ -257,13 +257,16 @@ public class ObraMuseoServiceTest {
 		
 		ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
 		entityManager.persist(obraEntity);
+		
+		MuseoEntity museoEntity2 = factory.manufacturePojo(MuseoEntity.class);
+		obraEntity.setMuseo(museoEntity2);
 
 		MuseoEntity museoEntity = factory.manufacturePojo(MuseoEntity.class);
 		museoEntity.getArtistas().add(artistaEntity);
 		museoEntity.getMovimientos().add(movimientoEntity);
 		entityManager.persist(museoEntity);
 		
-		assertTrue(obraEntity.getId() != museoEntity.getId());
+		assertTrue(obraEntity.getMuseo().getId() != museoEntity.getId());
 		
 	}
 

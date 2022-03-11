@@ -68,6 +68,8 @@ public class ObraMuseoService {
 		log.info("Termina proceso de consultar el museo de la obra con id = {0}", obraId);
 		return (obraEntity.get()).getMuseo();
 	}
+	
+	
 
 
 	/**

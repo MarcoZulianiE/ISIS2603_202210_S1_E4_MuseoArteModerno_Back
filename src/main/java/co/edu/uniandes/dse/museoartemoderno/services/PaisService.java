@@ -55,6 +55,7 @@ public class PaisService {
 	 *
 	 * @return Colección de objetos de PaisEntity.
 	 */
+	@Transactional
 	public List<PaisEntity> getPaises() {
 		log.info("Inicia proceso de consultar todos los paises");
 		return paisRepository.findAll();

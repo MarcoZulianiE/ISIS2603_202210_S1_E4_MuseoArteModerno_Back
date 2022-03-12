@@ -91,6 +91,7 @@ public class ArtistaService {
 	@Transactional
     public List<ArtistaEntity> getArtistas() {
             log.info("Inicia proceso de consulta de todos los artistas");
+            log.info("Finaliza proceso de consulta de todos los artistas");
             return artistaRepository.findAll();
     }
 	
@@ -129,23 +130,23 @@ public class ArtistaService {
 		if (!validateNombre(artista.getNombre()))
 			throw new IllegalOperationException("Nombre is not valid");	
 		
-//		if (artista.getFechaFallecimiento() == null)
-//			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
-//		
-//		if (!validateFechaFallecimiento(artista.getFechaFallecimiento()))
-//			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
-//		
-//		if (artista.getFechaNacimiento() == null)
-//			throw new IllegalOperationException("Fecha Nacimiento is not valid");
-//		
-//		if (!validateFechaNacimiento(artista.getFechaNacimiento(),artista.getFechaFallecimiento()))
-//			throw new IllegalOperationException("Fecha Nacimiento is not valid");
-//		
-//		if (artista.getLugarNacimiento() == null)
-//			throw new IllegalOperationException("Lugar Nacimiento is not valid");	
-//		
-//		if (artista.getLugarFallecimiento() == null)
-//			throw new IllegalOperationException("Lugar Fallecimiento is not valid");		
+		if (artista.getFechaFallecimiento() == null)
+			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
+		
+		if (!validateFechaFallecimiento(artista.getFechaFallecimiento()))
+			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
+		
+		if (artista.getFechaNacimiento() == null)
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+		
+		if (!validateFechaNacimiento(artista.getFechaNacimiento(),artista.getFechaFallecimiento()))
+			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+		
+		if (artista.getLugarNacimiento() == null)
+			throw new IllegalOperationException("Lugar Nacimiento is not valid");	
+		
+		if (artista.getLugarFallecimiento() == null)
+			throw new IllegalOperationException("Lugar Fallecimiento is not valid");		
 
 		artista.setId(artistaId);
 		log.info("Termina proceso de actualizar el artista con id: ", artistaId);

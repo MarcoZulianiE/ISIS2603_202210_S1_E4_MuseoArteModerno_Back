@@ -47,16 +47,16 @@ public class ArtistaService {
 			throw new IllegalOperationException("Nombre already exists");
 		
 		if (artistaEntity.getFechaFallecimiento() == null)
-			throw new IllegalOperationException("Fecha Fallecimiento is not valid");
+			throw new IllegalOperationException(ErrorMessage.FECHA_FALLECIMIENTO_INVALIDA);
 		
 		if (!validateFechaFallecimiento(artistaEntity.getFechaFallecimiento()))
-			throw new IllegalOperationException("Fecha Fallecimiento is not valid");	
+			throw new IllegalOperationException(ErrorMessage.FECHA_FALLECIMIENTO_INVALIDA);	
 		
 		if (artistaEntity.getFechaNacimiento() == null)
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+			throw new IllegalOperationException(ErrorMessage.FECHA_NACIMIENTO_INVALIDA);
 		
 		if (!validateFechaNacimiento(artistaEntity.getFechaNacimiento(),artistaEntity.getFechaFallecimiento()))
-			throw new IllegalOperationException("Fecha Nacimiento is not valid");
+			throw new IllegalOperationException(ErrorMessage.FECHA_NACIMIENTO_INVALIDA);
 		
 		if (artistaEntity.getLugarNacimiento() == null)
 			throw new IllegalOperationException("Lugar Nacimiento is not valid");	

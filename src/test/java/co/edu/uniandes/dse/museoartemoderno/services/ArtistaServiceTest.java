@@ -306,6 +306,34 @@ public class ArtistaServiceTest {
 	}
 	
 	/**
+	 * Prueba para crear un Artista con un Lugar Nacimiento que no existe
+	 */
+	@Test
+	void testCreateBookWithInvalidLugarNacimiento() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
+			PaisEntity paisEntity = new PaisEntity();
+			paisEntity.setId(0L);
+			artistaEntity.setLugarNacimiento(paisEntity);
+			artistaService.createArtista(artistaEntity);
+		});		
+	}
+	
+	/**
+	 * Prueba para crear un Artista con un Lugar Fallecimiento que no existe
+	 */
+	@Test
+	void testCreateBookWithInvalidLugarFallecimiento() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
+			PaisEntity paisEntity = new PaisEntity();
+			paisEntity.setId(0L);
+			artistaEntity.setLugarFallecimiento(paisEntity);
+			artistaService.createArtista(artistaEntity);
+		});		
+	}
+	
+	/**
 	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
 	 */
 	@Test

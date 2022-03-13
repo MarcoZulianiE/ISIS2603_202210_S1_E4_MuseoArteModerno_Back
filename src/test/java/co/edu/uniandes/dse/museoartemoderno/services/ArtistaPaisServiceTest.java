@@ -157,7 +157,7 @@ public class ArtistaPaisServiceTest {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Test
-	void testReplaceLugarNacimientoInvalidBook() {
+	void testReplaceLugarNacimientoInvalidArtista() {
 		assertThrows(EntityNotFoundException.class, ()->{
 			artistaPaisService.replaceLugarNacimiento(0L, paisList.get(1).getId());
 		});
@@ -169,7 +169,7 @@ public class ArtistaPaisServiceTest {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Test
-	void testReplaceLugarFallecimientoInvalidBook() {
+	void testReplaceLugarFallecimientoInvalidArtista() {
 		assertThrows(EntityNotFoundException.class, ()->{
 			artistaPaisService.replaceLugarFallecimiento(0L, paisList.get(1).getId());
 		});
@@ -180,7 +180,7 @@ public class ArtistaPaisServiceTest {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Test
-	void testReplaceInvalidPais() {
+	void testReplaceLugarNacimientoInvalidPais() {
 		assertThrows(EntityNotFoundException.class, ()->{
 			ArtistaEntity entity = artista;
 			artistaPaisService.replaceLugarNacimiento(entity.getId(), 0L);
@@ -192,7 +192,7 @@ public class ArtistaPaisServiceTest {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Test
-	void testReplaceInvalidPais2() {
+	void testReplaceLugarFallecimientoInvalidPais() {
 		assertThrows(EntityNotFoundException.class, ()->{
 			ArtistaEntity entity = artista;
 			artistaPaisService.replaceLugarFallecimiento(entity.getId(), 0L);
@@ -239,7 +239,31 @@ public class ArtistaPaisServiceTest {
 	@Test
 	void testRemoveLugarFallecimientoInvalidArtista() throws EntityNotFoundException {
 		assertThrows(EntityNotFoundException.class, ()->{
-			artistaPaisService.removeLugarNacimiento(0L);
+			artistaPaisService.removeLugarFallecimiento(0L);
+		});
+	}
+	
+	/**
+	 * Prueba para desasociar un Artista que no existe de un Pais de Fallecimiento existente
+	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 */
+	@Test
+	void testRemoveLugarFallecimientoInvalidPais() throws EntityNotFoundException {
+		assertThrows(EntityNotFoundException.class, ()->{
+			artista.setLugarFallecimiento(null);
+			artistaPaisService.removeLugarFallecimiento(artista.getId());
+		});
+	}
+	
+	/**
+	 * Prueba para desasociar un Artista que no existe de un Pais de Fallecimiento existente
+	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
+	 */
+	@Test
+	void testRemoveLugarNacimientoInvalidPais() throws EntityNotFoundException {
+		assertThrows(EntityNotFoundException.class, ()->{
+			artista.setLugarNacimiento(null);
+			artistaPaisService.removeLugarNacimiento(artista.getId());
 		});
 	}
 }

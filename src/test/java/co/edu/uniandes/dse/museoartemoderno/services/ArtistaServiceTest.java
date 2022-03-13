@@ -268,6 +268,101 @@ public class ArtistaServiceTest {
 	}
 
 	/**
+	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
+	 */
+	@Test
+	void testCreateArtistaWithNullLugarNacimiento() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
+			//Datos que deben ser diferentes a null para crear un artista
+			newEntity.setFechaNacimiento(fechaList.get(0));
+			newEntity.setFechaFallecimiento(fechaList.get(1));
+			newEntity.setObras(obraList);
+			newEntity.setLugarNacimiento(null);
+			newEntity.setLugarFallecimiento(paisList.get(1));
+			newEntity.setMuseos(museoList);
+			newEntity.setMovimientos(movimientoArtisticoList);
+			artistaService.createArtista(newEntity);
+		});
+	}
+	
+	/**
+	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
+	 */
+	@Test
+	void testCreateArtistaWithNullLugarFallecimiento() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
+			//Datos que deben ser diferentes a null para crear un artista
+			newEntity.setFechaNacimiento(fechaList.get(0));
+			newEntity.setFechaFallecimiento(fechaList.get(1));
+			newEntity.setObras(obraList);
+			newEntity.setLugarNacimiento(paisList.get(0));
+			newEntity.setLugarFallecimiento(null);
+			newEntity.setMuseos(museoList);
+			newEntity.setMovimientos(movimientoArtisticoList);
+			artistaService.createArtista(newEntity);
+		});
+	}
+	
+	/**
+	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
+	 */
+	@Test
+	void testCreateArtistaWithNullMuseos() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
+			//Datos que deben ser diferentes a null para crear un artista
+			newEntity.setFechaNacimiento(fechaList.get(0));
+			newEntity.setFechaFallecimiento(fechaList.get(1));
+			newEntity.setObras(obraList);
+			newEntity.setLugarNacimiento(paisList.get(0));
+			newEntity.setLugarFallecimiento(paisList.get(1));
+			newEntity.setMuseos(null);
+			newEntity.setMovimientos(movimientoArtisticoList);
+			artistaService.createArtista(newEntity);
+		});
+	}
+	
+	/**
+	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
+	 */
+	@Test
+	void testCreateArtistaWithNullObras() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
+			//Datos que deben ser diferentes a null para crear un artista
+			newEntity.setFechaNacimiento(fechaList.get(0));
+			newEntity.setFechaFallecimiento(fechaList.get(1));
+			newEntity.setObras(null);
+			newEntity.setLugarNacimiento(paisList.get(0));
+			newEntity.setLugarFallecimiento(paisList.get(1));
+			newEntity.setMuseos(museoList);
+			newEntity.setMovimientos(movimientoArtisticoList);
+			artistaService.createArtista(newEntity);
+		});
+	}
+	
+	/**
+	 * Prueba para crear un Artista con una Fecha de Fallecimiento nula.
+	 */
+	@Test
+	void testCreateArtistaWithNullMovimientos() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
+			//Datos que deben ser diferentes a null para crear un artista
+			newEntity.setFechaNacimiento(fechaList.get(0));
+			newEntity.setFechaFallecimiento(fechaList.get(1));
+			newEntity.setObras(obraList);
+			newEntity.setLugarNacimiento(paisList.get(0));
+			newEntity.setLugarFallecimiento(paisList.get(1));
+			newEntity.setMuseos(museoList);
+			newEntity.setMovimientos(null);
+			artistaService.createArtista(newEntity);
+		});
+	}
+
+	/**
 	 * Prueba para consultar la lista de Artistas.
 	 */
 	@Test

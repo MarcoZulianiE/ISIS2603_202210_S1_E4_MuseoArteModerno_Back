@@ -15,7 +15,6 @@ import co.edu.uniandes.dse.museoartemoderno.dto.PaisDTO;
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.services.ArtistaPaisService;
-import co.edu.uniandes.dse.museoartemoderno.services.ArtistaService;
 
 @RestController
 @RequestMapping("/artistas")

@@ -36,18 +36,17 @@ public class ArtistaMovimientoArtisticoService {
 	 */
 	@Transactional
 	public MovimientoArtisticoEntity addMovimientoArtistico(Long artistaId, Long movimientoArtisticoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de asociarle un movimiento artistico al artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		log.info("Inicia proceso de asociarle un autor al libro con id = {0}", artistaId);
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
-
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
 		if (movimientoArtisticoEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
-		movimientoArtisticoEntity.get().getArtistas().add(artistaEntity.get());
-		log.info("Termina proceso de asociarle un movimiento artistico al artista con id: " + artistaId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+
+		artistaEntity.get().getMovimientos().add(movimientoArtisticoEntity.get());
+		log.info("Termina proceso de asociarle un autor al libro con id = {0}", artistaId);
 		return movimientoArtisticoEntity.get();
 	}
 	
@@ -59,21 +58,12 @@ public class ArtistaMovimientoArtisticoService {
 	 */
 	@Transactional
 	public List<MovimientoArtisticoEntity> getMovimientosArtisticos(Long artistaId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar todos los movimientos artisticos del autor con id: " + artistaId);
+		log.info("Inicia proceso de consultar todos los autores del libro con id = {0}", artistaId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
-		List<MovimientoArtisticoEntity> movimientosArtisticos = movimientoArtisticoRepository.findAll();
-		List<MovimientoArtisticoEntity> movimientosArtisticosList = new ArrayList<>();
-
-		for (MovimientoArtisticoEntity movimientoArtistico : movimientosArtisticos) {
-			if (movimientoArtistico.getArtistas().contains(artistaEntity.get())) {
-				movimientosArtisticosList.add(movimientoArtistico);
-			}
-		}
-		log.info("Termina proceso de consultar todos los movimientos artisticos del autor con id: " + artistaId);
-		return movimientosArtisticosList;
+		log.info("Finaliza proceso de consultar todos los autores del libro con id = {0}", artistaId);
+		return artistaEntity.get().getMovimientos();
 	}
 	
 	/**
@@ -86,21 +76,21 @@ public class ArtistaMovimientoArtisticoService {
 	 */
 	@Transactional
 	public MovimientoArtisticoEntity getMovimientoArtistico(Long artistaId, Long movimientoArtisticoId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el movimiento artistico con id: " + artistaId + ", del artista con id: " + movimientoArtisticoId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
+			log.info("Inicia proceso de consultar un movimiento del artista con id = {0}", artistaId);
+			Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
+			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+			if (movimientoEntity.isEmpty())
+				throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
-		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			if (artistaEntity.isEmpty())
+				throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+			
+			log.info("Termina proceso de consultar un movimiento del artista con id = {0}", artistaId);
+			if (artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
+				return movimientoEntity.get();
 
-		log.info("Termina proceso de consultar el movimiento artistico con id: " + artistaId + ", del artista con id: " + movimientoArtisticoId);
-		if (movimientoArtisticoEntity.get().getArtistas().contains(artistaEntity.get()))
-			return movimientoArtisticoEntity.get();
-
-		throw new IllegalOperationException("El Movimiento artistico no esta asociado con el Artista");
+			throw new IllegalOperationException("El movimiento no está asociado con el artista");
 	}
 	
 	/**
@@ -112,22 +102,22 @@ public class ArtistaMovimientoArtisticoService {
 	 */
 	@Transactional
     public List<MovimientoArtisticoEntity> replaceMovimientosArtisticos(Long artistaId, List<MovimientoArtisticoEntity> list) throws EntityNotFoundException {
-            log.info("Inicia proceso de reemplazar los autores del libro con id: ", artistaId);
-            Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+		log.info("Inicia proceso de reemplazar los movimientos del artista con id: " + artistaId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
-            for (MovimientoArtisticoEntity author : list) {
-                    Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(author.getId());
-                    if (movimientoArtisticoEntity.isEmpty())
-                            throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+		for (MovimientoArtisticoEntity movimiento : list) {
+			Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimiento.getId());
+			if (movimientoArtisticoEntity.isEmpty())
+				throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
-                    if (!artistaEntity.get().getMovimientos().contains(movimientoArtisticoEntity.get()))
-                    	artistaEntity.get().getMovimientos().add(movimientoArtisticoEntity.get());
-            }
-            log.info("Termina proceso de reemplazar los autores del libro con id: ", artistaId);
-            return getMovimientosArtisticos(artistaId);
-    }
+			if (!artistaEntity.get().getMovimientos().contains(movimientoArtisticoEntity.get()))
+				artistaEntity.get().getMovimientos().add(movimientoArtisticoEntity.get());
+		}
+		log.info("Termina proceso de reemplazar los autores del libro con id: " + artistaId);
+		return getMovimientosArtisticos(artistaId);
+	}
 	
 	/**
 	 * Elimina un movimiento artistico asociado al artista
@@ -137,17 +127,19 @@ public class ArtistaMovimientoArtisticoService {
 	 */
 	@Transactional
 	public void removeMovimientoArtistico(Long artistaId, Long movimientoArtisticoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de borrar un movimiento artistico del artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
+		log.info("Inicia proceso de borrar un autor del libro con id = {0}", artistaId);
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+
 		if (movimientoArtisticoEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 
-		movimientoArtisticoEntity.get().getArtistas().remove(artistaEntity.get());
-		log.info("Finaliza proceso de borrar un movimiento artistico del artista con id: " + artistaId);
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+
+		artistaEntity.get().getMovimientos().remove(movimientoArtisticoEntity.get());
+
+		log.info("Termina proceso de borrar un autor del libro con id = {0}", artistaId);
 	}
 	
 }

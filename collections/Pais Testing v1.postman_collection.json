@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f2cd4a31-cf0d-4e3e-aed8-1c04196c185c",
+		"_postman_id": "f4dfbf12-3861-428a-8b81-065d93402c29",
 		"name": "Pais Testing v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -33,12 +33,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{port}}/api/paises",
+					"raw": "http://{{ip}}:{{puerto}}/api/paises",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
 					],
-					"port": "{{port}}",
+					"port": "{{puerto}}",
 					"path": [
 						"api",
 						"paises"

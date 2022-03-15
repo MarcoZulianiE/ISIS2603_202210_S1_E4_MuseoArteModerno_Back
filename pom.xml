@@ -128,8 +128,7 @@
 								newman
 							</executable>
 							<commandlineArgs>
-								run it/composed.collection.json -e
-								collections/EntornoIT.postman_environment.json
+								run it/composed.collection.json -e collections/EntornoIT.postman_environment.json
 							</commandlineArgs>
 						</configuration>
 					</execution>

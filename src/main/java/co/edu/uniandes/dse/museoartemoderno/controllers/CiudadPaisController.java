@@ -17,49 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import co.edu.uniandes.dse.museoartemoderno.dto.CiudadDTO;
+import co.edu.uniandes.dse.museoartemoderno.dto.PaisDetailDTO;
 import co.edu.uniandes.dse.museoartemoderno.entities.CiudadEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
+import co.edu.uniandes.dse.museoartemoderno.services.CiudadPaisService;
 import co.edu.uniandes.dse.museoartemoderno.services.CiudadService;
 @RestController
-@RequestMapping("/ciudades")
-public class CiudadController {
-    @Autowired
-	private CiudadService ciudadService;
+public class CiudadPaisController {
+
+	@Autowired
+	private CiudadPaisService ciudadPaisService;
     @Autowired
     private ModelMapper modelMapper;
-    
-    @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public CiudadDTO create(@RequestBody CiudadDTO ciudadDTO) throws IllegalOperationException, EntityNotFoundException {
-    	CiudadEntity ciudadEntity = ciudadService.createCiudad(modelMapper.map(ciudadDTO, CiudadEntity.class));
-    	
-     return modelMapper.map(ciudadEntity, CiudadDTO.class);
-    }
-    
-    @GetMapping
+	@PostMapping(value = "/{ciudadId}/paises/{paisId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<CiudadDTO> findAll() {
-            List<CiudadEntity> ciudades = ciudadService.getCiudades();
-            return modelMapper.map(ciudades, new TypeToken<List<CiudadDTO>>() {
-            }.getType());
+    public PaisDetailDTO addAuthor(@PathVariable("paisId") Long paisId, @PathVariable("ciudadId") Long ciudadId)
+                    throws EntityNotFoundException {
+            PaisEntity paisEntity = ciudadPaisService.addPais(ciudadId, paisId);
+            return modelMapper.map(paisEntity, PaisDetailDTO.class);
     }
-    
-    @GetMapping(value = "/{id}")
+	
+	
+	@GetMapping(value = "/{ciudadId}/paises/{paisId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public CiudadDTO findOne(@PathVariable("id") Long id) throws EntityNotFoundException {
-            CiudadEntity ciudadEntity = ciudadService.getCiudad(id);
-            return modelMapper.map(ciudadEntity, CiudadDTO.class);
-    }
-    @PutMapping(value = "/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public CiudadDTO update(@PathVariable("id") Long id, @RequestBody CiudadDTO ciudadDTO)
+    public PaisDetailDTO getAuthor(@PathVariable("paisId") Long paisId, @PathVariable("ciudadId") Long ciudadId)
                     throws EntityNotFoundException, IllegalOperationException {
-            CiudadEntity ciudadEntity = ciudadService.updateCiudad(id, modelMapper.map(ciudadDTO, CiudadEntity.class));
-            return modelMapper.map(ciudadEntity, CiudadDTO.class);
+            PaisEntity paisEntity = ciudadPaisService.getPais(ciudadId);
+            return modelMapper.map(paisEntity, PaisDetailDTO.class);
     }
-    
+	
+	@DeleteMapping(value = "/{ciudadId}/paises/{paisId}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void removeAuthor(@PathVariable("paisId") Long paisId, @PathVariable("ciudadId") Long ciudadId)
+                    throws EntityNotFoundException {
+            ciudadPaisService.removePais(ciudadId);
+    }	
+
     
 }
-
-

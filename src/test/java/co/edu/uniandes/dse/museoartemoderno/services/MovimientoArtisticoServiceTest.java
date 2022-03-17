@@ -169,6 +169,20 @@ class MovimientoArtisticoServiceTest
  			movimientoArtisticoService.createMovimientoArtistico(newEntity);
  		});
      }
+     
+     /**
+      * Prueba para crear un movimiento artistico con nombre invalido
+      */
+      @Test
+      void testCrearNullNameMovimiento()
+      {
+     	 assertThrows(IllegalOperationException.class, () -> {
+  			MovimientoArtisticoEntity newEntity = factory.manufacturePojo(MovimientoArtisticoEntity.class);
+  			//Datos que deben ser diferentes a null para crear un artista
+  			newEntity.setNombre(null);
+  			movimientoArtisticoService.createMovimientoArtistico(newEntity);
+  		});
+      }
     
     /**
      * Prueba para consultar la lista de movimientos artisticos

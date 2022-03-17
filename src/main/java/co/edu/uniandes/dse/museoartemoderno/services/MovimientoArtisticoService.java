@@ -59,7 +59,7 @@ public class MovimientoArtisticoService {
 	public MovimientoArtisticoEntity createMovimientoArtistico(MovimientoArtisticoEntity pMovimientoArtistico) throws EntityNotFoundException, IllegalOperationException
 	{
 		log.info("Inicia el proceso de creacion de un movimiento artistico");
-		if(pMovimientoArtistico.getNombre().equals("")||pMovimientoArtistico.getNombre()==null)
+		if(pMovimientoArtistico.getNombre()==null||pMovimientoArtistico.getNombre().equals(""))
 		{
 			throw new IllegalOperationException("Nombre no valido");
 		}

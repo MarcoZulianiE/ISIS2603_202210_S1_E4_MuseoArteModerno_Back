@@ -39,7 +39,7 @@ class MovimientoArtisticoObraServiceTest
 {
 
 	@Autowired
-	private MovimientoArtisticoObraService movimientoArtisiticoObraService;
+	private MovimientoArtisticoObraService movimientoArtisticoObraService;
 
 	@Autowired
 	private TestEntityManager entityManager;
@@ -143,7 +143,7 @@ class MovimientoArtisticoObraServiceTest
 		MovimientoArtisticoEntity movimiento = movimientoArtistico;
 		ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
 		entityManager.persist(obraEntity);
-		ObraEntity respuesta = movimientoArtisiticoObraService.addObra(movimiento.getId(), obraEntity.getId());
+		ObraEntity respuesta = movimientoArtisticoObraService.addObra(movimiento.getId(), obraEntity.getId());
 
 		assertNotNull(respuesta);
 		assertEquals(obraEntity.getId(), respuesta.getId());
@@ -155,13 +155,24 @@ class MovimientoArtisticoObraServiceTest
 	@Test
 	void testGetObras() throws EntityNotFoundException
 	{
-		List<ObraEntity> obras = movimientoArtisiticoObraService.getObras(movimientoArtistico.getId());
+		List<ObraEntity> obras = movimientoArtisticoObraService.getObras(movimientoArtistico.getId());
 		assertEquals(obras.size(), obraList.size());
 
 		for(int i = 0; i<obraList.size();i++)
 		{
 			assertTrue(obras.contains(obraList.get(i)));
 		}
+	}
+	
+	/**
+	 * Prueba para obtener las obras asociadas a un movimiento artistico inexistente
+	 */
+	@Test
+	void testGetObrasInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoObraService.getObras(0L);
+		});
 	}
 
 	/**
@@ -171,7 +182,7 @@ class MovimientoArtisticoObraServiceTest
 	void testGetObra() throws EntityNotFoundException, IllegalOperationException
 	{
 		ObraEntity obraEntity = obraList.get(0);
-		ObraEntity obra = movimientoArtisiticoObraService.getObra(movimientoArtistico.getId(), obraEntity.getId());
+		ObraEntity obra = movimientoArtisticoObraService.getObra(movimientoArtistico.getId(), obraEntity.getId());
 		assertNotNull(obra);
 
 		assertEquals(obra.getId(), obraEntity.getId());
@@ -192,13 +203,40 @@ class MovimientoArtisticoObraServiceTest
 			newObras.add(obraEntity);
 		}
 
-		movimientoArtisiticoObraService.replaceObras(movimientoArtistico.getId(), newObras);
+		movimientoArtisticoObraService.replaceObras(movimientoArtistico.getId(), newObras);
 
 		for(ObraEntity obra: newObras)
 		{
 			ObraEntity o = entityManager.find(ObraEntity.class, obra.getId());
 			assertTrue(o.getMovimiento().equals(movimientoArtistico));
 		}
+	}
+	
+	/**
+	 * Prueva para actualizar las obras de un movimiento artistico enexistente
+	 */
+	@Test
+	void testReplaceObrasMovimientoInvalido()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			List<ObraEntity> obras = new ArrayList<>();
+			movimientoArtisticoObraService.replaceObras(0L, obras);
+		});
+	}
+	
+	/**
+	 * Prueva para actualizar las obras de un movimiento artistico con obras inexistentes
+	 */
+	@Test
+	void testReplaceObraInvalidas()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			List<ObraEntity> obras = new ArrayList<>();
+			ObraEntity obra1 = factory.manufacturePojo(ObraEntity.class);
+			obra1.setId(0L);
+			obras.add(obra1);
+			movimientoArtisticoObraService.replaceObras(movimientoArtistico.getId(), obras);
+		});
 	}
 
 }

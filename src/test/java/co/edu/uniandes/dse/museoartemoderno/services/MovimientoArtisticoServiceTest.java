@@ -157,6 +157,20 @@ class MovimientoArtisticoServiceTest
     }
     
     /**
+     * Prueba para crear un movimiento artistico con nombre invalido
+     */
+     @Test
+     void testCrearInvalidNameMovimiento()
+     {
+    	 assertThrows(IllegalOperationException.class, () -> {
+ 			MovimientoArtisticoEntity newEntity = factory.manufacturePojo(MovimientoArtisticoEntity.class);
+ 			//Datos que deben ser diferentes a null para crear un artista
+ 			newEntity.setNombre("");
+ 			movimientoArtisticoService.createMovimientoArtistico(newEntity);
+ 		});
+     }
+    
+    /**
      * Prueba para consultar la lista de movimientos artisticos
      */
     @Test
@@ -215,5 +229,16 @@ class MovimientoArtisticoServiceTest
             movimientoArtisticoService.deleteMovimientoArtistico(movimientoEntity.getId());
             MovimientoArtisticoEntity movimientoBorrado = entityManager.find(MovimientoArtisticoEntity.class, movimientoEntity.getId());
             assertNull(movimientoBorrado);
+    }
+    
+    /**
+     * Prueba para eliminar un movimiento que no existe
+     */
+    @Test
+    void testDeleteInvalidMovimientoArtistico()
+    {
+    	 assertThrows(EntityNotFoundException.class, ()->{
+             movimientoArtisticoService.deleteMovimientoArtistico(0L);
+     });
     }
 }

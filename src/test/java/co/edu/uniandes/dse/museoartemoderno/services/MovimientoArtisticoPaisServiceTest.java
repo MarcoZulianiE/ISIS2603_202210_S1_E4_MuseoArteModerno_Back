@@ -41,7 +41,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 class MovimientoArtisticoPaisServiceTest
 {
 	@Autowired
-	private MovimientoArtisticoPaisService movimientoArtisiticoPaisService;
+	private MovimientoArtisticoPaisService movimientoArtisticoPaisService;
 
 	@Autowired
 	private MovimientoArtisticoService movimientoArtisticoService;
@@ -145,10 +145,31 @@ class MovimientoArtisticoPaisServiceTest
 	void testReplacePais() throws EntityNotFoundException
 	{
 		PaisEntity pais = paisList.get(1);
-		movimientoArtisiticoPaisService.replacePais(movimientoArtistico.getId(), pais.getId());
+		movimientoArtisticoPaisService.replacePais(movimientoArtistico.getId(), pais.getId());
 		MovimientoArtisticoEntity movimientoEntity = movimientoArtisticoService.getMovimientoArtistico(movimientoArtistico.getId());
 		assertEquals(movimientoEntity.getLugarOrigen().getId(), pais.getId());
-
+	}
+	
+	/**
+	 * Prueba para reemplazar el pais de un movimiento artistico inexistente
+	 */
+	@Test 
+	void testReplacePaisMovimientoInvalido()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoPaisService.replacePais(0L, paisList.get(0).getId());
+		});
+	}
+	
+	/**
+	 * Prueba para reemplazar un pais inexistente de un movimiento artistico
+	 */
+	@Test
+	void testReplaceInvalidPais()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoPaisService.replacePais(movimientoArtistico.getId(), 0L);
+		});
 	}
 	
 	/**
@@ -157,8 +178,19 @@ class MovimientoArtisticoPaisServiceTest
 	@Test
 	void testRemoveMovimientoArtistico() throws EntityNotFoundException
 	{
-		movimientoArtisiticoPaisService.removeMovimientoArtistico(movimientoArtistico.getId());
+		movimientoArtisticoPaisService.removeMovimientoArtistico(movimientoArtistico.getId());
 		MovimientoArtisticoEntity movimientoEntity = movimientoArtisticoService.getMovimientoArtistico(movimientoArtistico.getId());
 		assertNull(movimientoEntity.getLugarOrigen());
+	}
+	
+	/**
+	 * Prueba para intentar desasociar un movimiento artistico inexistente
+	 */
+	@Test
+	void testRemoveMovimientoArtisticoInvalido()
+	{
+		 assertThrows(EntityNotFoundException.class, ()->{
+            movimientoArtisticoPaisService.removeMovimientoArtistico(0L);
+     });
 	}
 }

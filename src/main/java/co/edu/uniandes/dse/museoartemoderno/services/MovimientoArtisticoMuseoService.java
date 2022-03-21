@@ -68,8 +68,7 @@ public class MovimientoArtisticoMuseoService
 		{
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
-
-		
+		log.info("Fin proceso de obtener museos asociados con el movimiento "+movimientoId);
 		return movimientoEntity.get().getMuseos();
 	}
 	

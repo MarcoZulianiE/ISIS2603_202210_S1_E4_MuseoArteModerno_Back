@@ -50,7 +50,7 @@ public class MovimientoArtisticoArtistaService
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 
-		artistaEntity.get().getMovimientos().add(movimientoEntity.get());
+		movimientoEntity.get().getArtistas().add(artistaEntity.get());
 		log.info("Termina proceso de asociar al movimiento "+movimientoId+" el artista "+artistaId);
 		return artistaEntity.get();
 	}
@@ -67,23 +67,8 @@ public class MovimientoArtisticoArtistaService
 		log.info("Inicia proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 
-		if(movimientoEntity.isEmpty())
-		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
-		}
-
-		List<ArtistaEntity> artistas = artistaRepository.findAll();
-		List<ArtistaEntity> artistaList = new ArrayList<>();
-
-		for(ArtistaEntity a: artistas)
-		{
-			if(a.getMovimientos().contains(movimientoEntity.get()))
-			{
-				artistaList.add(a);
-			}
-		}
 		log.info("Finaliza proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
-		return artistaList;
+		return movimientoEntity.get().getArtistas();
 	}
 	
 	/**
@@ -109,7 +94,7 @@ public class MovimientoArtisticoArtistaService
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 		log.info("Termina el proceso de obtener el artista "+artistaId+" asociado con el movimiento "+movimientoId);
-		if(artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
+		if(movimientoEntity.get().getArtistas().contains(artistaEntity.get()))
 		{
 			return artistaEntity.get();
 		}
@@ -173,7 +158,7 @@ public class MovimientoArtisticoArtistaService
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 
-		artistaEntity.get().getMovimientos().remove(movimientoEntity.get());
+		movimientoEntity.get().getArtistas().remove(artistaEntity.get());
 		log.info("Inical el proceso de desasociar el artista "+artistaId+" del movimiento "+movimientoId);
 	}
 }

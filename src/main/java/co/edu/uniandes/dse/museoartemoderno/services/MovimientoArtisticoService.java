@@ -84,7 +84,30 @@ public class MovimientoArtisticoService {
 		}
 		log.info("Termina el proceso de eliminar de un movimiento artisitico con id  "+ pId);
 		movimientoArtisticoRepository.deleteById(pId);
-
+	}
+	
+	/**
+	 * Actualiza la informacion de un movimiento artistico
+	 * @param movimientoId - Id del movimiento a actualizar
+	 * @param movimientoArtistico - Informacion nueva
+	 * @return Movimiento artistico actualizado
+	 */
+	@Transactional
+	public MovimientoArtisticoEntity updateMovimientoArtistico(Long pId, MovimientoArtisticoEntity movimientoArtistico) throws EntityNotFoundException, IllegalOperationException
+	{
+		log.info("Inicia proceso de actualizar el movimiento artistico con id: ", pId);
+		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(pId);
+		if(movimientoEntity.isEmpty()) 
+		{
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+		}
+		if(movimientoArtistico.getNombre()==null||movimientoArtistico.getNombre().equals(""))
+		{
+			throw new IllegalOperationException("Nombre no valido");
+		}
+		movimientoArtistico.setId(pId);
+		log.info("Termina proceso de actualizar el movimiento artistico con id: ", pId);
+		return movimientoArtisticoRepository.save(movimientoArtistico);
 	}
 	
 }

@@ -18,5 +18,7 @@ public class MuseoDTO {
 	private List<String> salasExposicion = new ArrayList<>();
 	
 	private Integer totalObrasExhibidas;
+	
+	private PaisDTO ubicacion;
 
 }

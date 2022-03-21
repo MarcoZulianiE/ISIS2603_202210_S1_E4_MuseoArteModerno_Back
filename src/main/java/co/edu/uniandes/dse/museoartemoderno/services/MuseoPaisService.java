@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MuseoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.PaisRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
+import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,7 +49,7 @@ public class MuseoPaisService {
 			throw new EntityNotFoundException(paisNotFound);
 
 		paisEntity.get().getMuseos().add(museoEntity.get());
-		log.info("Termina proceso de asociarle una Pais de  al Museo con id: " + museoId);
+		log.info("Termina proceso de asociarle una Pais al Museo con id: " + museoId);
 		return paisEntity.get();
 	}
 	
@@ -83,19 +85,20 @@ public class MuseoPaisService {
 	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
 	 */
 	@Transactional
-	public PaisEntity replacePais(Long museoId, Long paisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de actualizar la Pais de  del Museo con id:" + museoId);
-		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
-		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException(paisNotFound);
-
+	public MuseoEntity replacePais(Long museoId, Long paisId) throws EntityNotFoundException {
+		log.info("Inicia proceso de actualizar el museo con id: ", museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException(museoNotFound);
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+
+		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
+		if (paisEntity.isEmpty())
+			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
 
 		museoEntity.get().setUbicacion(paisEntity.get());
-		log.info("Termina proceso de actualizar la Pais de  del Museo con id:" + museoId);
-		return paisEntity.get();
+		log.info("Termina proceso de actualizar el museo con id: ", museoId);
+
+		return museoEntity.get();
 	}
 	
 	

@@ -16,5 +16,4 @@ public class MuseoDetailDTO {
 	
 	private List<MovimientoArtisticoDTO> movimientos = new ArrayList<>();
 
-	private PaisDTO ubicacion;
 }

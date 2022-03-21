@@ -139,11 +139,11 @@ public class MovimientoArtisticoArtistaService
 			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artista.getId());
 			if(artistaEntity.isEmpty())
 			{
-				throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+				throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 			}
-			if(!artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
+			if(!movimientoEntity.get().getArtistas().contains(artistaEntity.get()))
 			{
-				artistaEntity.get().getMovimientos().add(movimientoEntity.get());
+				movimientoEntity.get().getArtistas().add(artistaEntity.get());
 			}
 		}
 

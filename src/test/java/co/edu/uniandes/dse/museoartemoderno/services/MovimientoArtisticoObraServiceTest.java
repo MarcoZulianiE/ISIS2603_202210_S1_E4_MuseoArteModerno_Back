@@ -204,11 +204,10 @@ class MovimientoArtisticoObraServiceTest
 		}
 
 		movimientoArtisticoObraService.replaceObras(movimientoArtistico.getId(), newObras);
-
-		for(ObraEntity obra: newObras)
+		List<ObraEntity> obras = movimientoArtisticoObraService.getObras(movimientoArtistico.getId());
+		for(ObraEntity obraEntity: newObras)
 		{
-			ObraEntity o = entityManager.find(ObraEntity.class, obra.getId());
-			assertTrue(o.getMovimiento().equals(movimientoArtistico));
+			assertTrue(obras.contains(obraEntity));
 		}
 	}
 	
@@ -237,6 +236,16 @@ class MovimientoArtisticoObraServiceTest
 			obras.add(obra1);
 			movimientoArtisticoObraService.replaceObras(movimientoArtistico.getId(), obras);
 		});
+	}
+	
+	@Test
+	void testRemoveObra() throws EntityNotFoundException, IllegalOperationException
+	{
+		for(ObraEntity obra: obraList)
+		{
+			movimientoArtisticoObraService.removeObra(movimientoArtistico.getId(), obra.getId());
+		}
+		assertTrue(movimientoArtisticoObraService.getObras(movimientoArtistico.getId()).isEmpty());
 	}
 
 }

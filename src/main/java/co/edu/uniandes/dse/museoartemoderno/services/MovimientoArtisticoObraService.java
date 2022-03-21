@@ -48,7 +48,7 @@ public class MovimientoArtisticoObraService
 		{
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
-		obraEntity.get().setMovimiento(movimientoEntity.get());
+		movimientoEntity.get().getObras().add(obraEntity.get());
 		log.info("Finaliza el proceso de agregar la obra "+obraId+" al movimiento artistico "+movimientoId);
 		return obraEntity.get();
 	}
@@ -129,9 +129,39 @@ public class MovimientoArtisticoObraService
 			{
 				throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 			}
-			o.get().setMovimiento(movimientoEntity.get());
+			if(!movimientoEntity.get().getObras().contains(o.get()))
+			{
+				movimientoEntity.get().getObras().add(o.get());
+			}
 		}
 		log.info("Incio proceso de actualizar las obras del movimiento "+movimientoId);
 		return pObras;
+	}
+	
+	/**
+	 * Desasocia una obra perteneciente a un movimiento artistico existente
+	 * @param movimientoId - Id del movimiento artistico
+	 * @param obraId - Id de la obra
+	 */
+	@Transactional
+	public void removeObra(Long movimientoId, Long obraId) throws EntityNotFoundException, IllegalOperationException
+	{
+		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
+		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
+		if(movimientoEntity.isEmpty())
+		{
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+		}
+		if(obraEntity.isEmpty())
+		{
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
+		}
+		
+		if(!movimientoEntity.get().getObras().contains(obraEntity.get()))
+		{
+			throw new IllegalOperationException("El movimiento y la obra no estan relacionados");
+		}
+		
+		movimientoEntity.get().getObras().remove(obraEntity.get());
 	}
 }

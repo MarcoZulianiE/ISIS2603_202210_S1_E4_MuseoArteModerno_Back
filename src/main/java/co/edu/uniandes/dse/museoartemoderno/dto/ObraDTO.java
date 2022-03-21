@@ -7,7 +7,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class ObraDTO {
-
+	
+	private Long id;
 	private String nombre;
 	private String tipo;
 	private String descripcion;

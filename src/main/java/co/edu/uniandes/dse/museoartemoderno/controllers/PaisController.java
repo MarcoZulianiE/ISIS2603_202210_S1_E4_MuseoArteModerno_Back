@@ -69,7 +69,6 @@ public class PaisController {
 	public void delete(@PathVariable("id") Long id) throws EntityNotFoundException, IllegalOperationException {
 		paisService.deletePais(id);
 	}
-	
 	}
 	
 	

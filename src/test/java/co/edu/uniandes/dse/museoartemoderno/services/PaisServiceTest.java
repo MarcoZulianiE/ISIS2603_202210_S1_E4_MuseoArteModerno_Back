@@ -96,6 +96,19 @@ public class PaisServiceTest {
     }
     
 	/**
+	 * Prueba para crear un pais con nombre invalido(no hay nombre)
+	 */
+    
+    @Test
+    void testCreatePaisNombreInvalido2() {
+            assertThrows(IllegalOperationException.class, () -> {
+                    PaisEntity newEntity = factory.manufacturePojo(PaisEntity.class);
+                    newEntity.setNombrePais(null);
+                    paisService.createPais(newEntity);
+            });
+    }
+    
+	/**
 	 * Prueba para crear un pais con nombre ya existente
 	 */
     @Test

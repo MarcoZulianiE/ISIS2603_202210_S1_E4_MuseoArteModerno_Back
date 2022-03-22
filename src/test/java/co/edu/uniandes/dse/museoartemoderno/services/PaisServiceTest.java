@@ -130,6 +130,17 @@ public class PaisServiceTest {
                     paisService.createPais(newEntity);
             });
     }
+    
+	/**
+	 * Prueba para crear un pais sin coordenadas
+	 */
+    void testCreatePaisCoordenadasInvalido2() {
+        assertThrows(IllegalOperationException.class, () -> {
+                PaisEntity newEntity = factory.manufacturePojo(PaisEntity.class);
+                newEntity.setCoordenadasPais(null);
+                paisService.createPais(newEntity);
+        });
+}
 	/**
 	 * Prueba para crear un pais con coordenadas ya existentes
 	 */

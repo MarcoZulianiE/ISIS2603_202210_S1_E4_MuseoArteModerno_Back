@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MuseoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.PaisRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
-import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
@@ -25,9 +24,9 @@ public class MuseoPaisService {
 	@Autowired
 	private MuseoRepository museoRepository;
 	
-	private String museoNotFound = "Museo NOT FOUND";
+	private String museoNotFound = "MUSEO NOT FOUND";
 	
-	private String paisNotFound = "Pais NOT FOUND";
+	private String paisNotFound = "PAIS NOT FOUND";
 	
 	/**
 	 * Asocia una Pais al Museo cuyo id es dado por parametro

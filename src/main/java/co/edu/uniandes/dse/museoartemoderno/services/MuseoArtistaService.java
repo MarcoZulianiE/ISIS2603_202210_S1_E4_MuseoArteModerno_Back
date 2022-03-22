@@ -27,6 +27,10 @@ public class MuseoArtistaService {
 	@Autowired
 	private ArtistaRepository artistaRepository;
 	
+	private String museoNotFound = "MUSEO NOT FOUND";
+	
+	private String artistaNotFound = "ARTISTA NOT FOUND";
+	
 	
 	/**
 	 * Asocia un artista al museo cuyo id es dado por parametro
@@ -42,10 +46,10 @@ public class MuseoArtistaService {
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 		
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(artistaNotFound);
 
 		artistaEntity.get().getMuseos().add(museoEntity.get());
 		log.info("Termina proceso de asociarle un artista al museo con id: ", museoId);
@@ -65,7 +69,7 @@ public class MuseoArtistaService {
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		List<ArtistaEntity> artistas = artistaRepository.findAll();
 		List<ArtistaEntity> artistasList = new ArrayList<>();
@@ -95,10 +99,10 @@ public class MuseoArtistaService {
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 		
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(artistaNotFound);
 
 		log.info("Termina proceso de consultar el artista con id: " + artistaId + ", del museo con id: " + museoId);
 		if (artistaEntity.get().getMuseos().contains(museoEntity.get()))
@@ -120,12 +124,12 @@ public class MuseoArtistaService {
 		log.info("Inicia proceso de reemplazar los artistas asociados al museo con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		for (ArtistaEntity artista : artistas) {
 			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artista.getId());
 			if (artistaEntity.isEmpty())
-				throw new EntityNotFoundException("ARTISTA NOT FOUND");
+				throw new EntityNotFoundException(artistaNotFound);
 
 			if (!artistaEntity.get().getMuseos().contains(museoEntity.get()))
 				artistaEntity.get().getMuseos().add(museoEntity.get());
@@ -146,11 +150,11 @@ public class MuseoArtistaService {
 		log.info("Inicia proceso de borrar un museo del artista con id: " + museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException("MUSEO NOT FOUND");
+			throw new EntityNotFoundException(museoNotFound);
 
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException("ARTISTA NOT FOUND");
+			throw new EntityNotFoundException(artistaNotFound);
 
 		artistaEntity.get().getMuseos().remove(museoEntity.get());
 		log.info("Finaliza proceso de borrar un museo del artista con id: " + museoId);

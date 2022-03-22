@@ -35,21 +35,21 @@ public class ArtistaMovimientoArtisticoController {
 	
 	@PostMapping(value = "/{artistaId}/movimientos/{movimientoId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public MovimientoArtisticoDetailDTO addAuthor(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
+    public MovimientoArtisticoDetailDTO addMovimiento(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
             MovimientoArtisticoEntity movimientoEntity = artistaMovimientoArtisticoService.addMovimientoArtistico(artistaId, movimientoId);
             return modelMapper.map(movimientoEntity, MovimientoArtisticoDetailDTO.class);
     }
 	
 	@GetMapping(value = "/{artistaId}/movimientos/{movimientoId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public MovimientoArtisticoDetailDTO getAuthor(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException, IllegalOperationException {
+    public MovimientoArtisticoDetailDTO getMovimiento(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException, IllegalOperationException {
 			MovimientoArtisticoEntity movimientoArtisticoEntity = artistaMovimientoArtisticoService.getMovimientoArtistico(artistaId, movimientoId);
             return modelMapper.map(movimientoArtisticoEntity, MovimientoArtisticoDetailDTO.class);
     }
 	
 	@PutMapping(value = "/{artistaId}/movimientos")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<MovimientoArtisticoDetailDTO> addAuthors(@PathVariable("artistaId") Long artistaId, @RequestBody List<MovimientoArtisticoDTO> movimientos) throws EntityNotFoundException {
+    public List<MovimientoArtisticoDetailDTO> addMovimientos(@PathVariable("artistaId") Long artistaId, @RequestBody List<MovimientoArtisticoDTO> movimientos) throws EntityNotFoundException {
             List<MovimientoArtisticoEntity> entities = modelMapper.map(movimientos, new TypeToken<List<MovimientoArtisticoEntity>>() {
             }.getType());
             List<MovimientoArtisticoEntity> authorsList = artistaMovimientoArtisticoService.replaceMovimientosArtisticos(artistaId, entities);
@@ -59,7 +59,7 @@ public class ArtistaMovimientoArtisticoController {
 	
 	@GetMapping(value = "/{artistaId}/movimientos")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<MovimientoArtisticoDetailDTO> getAuthors(@PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
+    public List<MovimientoArtisticoDetailDTO> getMovimientos(@PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
             List<MovimientoArtisticoEntity> movimientoArtisticoEntity = artistaMovimientoArtisticoService.getMovimientosArtisticos(artistaId);
             return modelMapper.map(movimientoArtisticoEntity, new TypeToken<List<MovimientoArtisticoDetailDTO>>() {
             }.getType());
@@ -67,7 +67,7 @@ public class ArtistaMovimientoArtisticoController {
 
 	@DeleteMapping(value = "/{artistaId}/movimientos/{movimientoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void removeAuthor(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
+	public void removeMovimiento(@PathVariable("movimientoId") Long movimientoId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
 		artistaMovimientoArtisticoService.removeMovimientoArtistico(artistaId, movimientoId);
 	}	
 }

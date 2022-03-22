@@ -64,6 +64,7 @@ public class MuseoService {
 	@Transactional
     public List<MuseoEntity> getMuseos() {
     	log.info("Inicia proceso de consulta de todos los museos");
+        log.info("Finaliza proceso de consulta de todos los museos");
     	return museoRepository.findAll();
     }
 	

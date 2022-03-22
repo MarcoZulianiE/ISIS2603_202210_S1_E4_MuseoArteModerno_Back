@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MuseoDetailDTO {
+public class MuseoDetailDTO extends MuseoDTO{
 
 	private List<ArtistaDTO> artistas = new ArrayList<>();
 	

@@ -24,7 +24,7 @@ public class MuseoPaisController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@PutMapping(value = "/{museoId}/lugarNacimiento")
+	@PutMapping(value = "/{museoId}/ubicacion")
 	@ResponseStatus(code = HttpStatus.OK)
 	public MuseoDetailDTO replacePais(@PathVariable("museoId") Long museoId, @RequestBody PaisDTO paisDTO) throws EntityNotFoundException {
 		MuseoEntity museoEntity = museoPaisService.replacePais(museoId, paisDTO.getId());

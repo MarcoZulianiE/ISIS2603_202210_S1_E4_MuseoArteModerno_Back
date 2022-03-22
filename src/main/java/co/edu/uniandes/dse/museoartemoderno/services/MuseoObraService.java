@@ -23,7 +23,11 @@ public class MuseoObraService {
 	private ObraRepository obraRepository;
 
 	@Autowired
-	private MuseoRepository MuseoRepository;
+	private MuseoRepository museoRepository;
+	
+	private String museoNotFound = "MUSEO NOT FOUND";
+	
+	private String obraNotFound = "OBRA NOT FOUND";
 	
 	/**
      * Asocia una obra existente a un Museo
@@ -33,18 +37,18 @@ public class MuseoObraService {
      * @return Instancia de obra que fue asociada al Museo
      */
     @Transactional
-    public ObraEntity addObra(Long MuseoId, Long obraId) throws EntityNotFoundException {
-            log.info("Inicia proceso de asociarle una obra al Museo con id: " + MuseoId);
+    public ObraEntity addObra(Long museoId, Long obraId) throws EntityNotFoundException {
+            log.info("Inicia proceso de asociarle una obra al Museo con id: " + museoId);
             Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
             if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+                    throw new EntityNotFoundException(obraNotFound);
 
-            Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+            Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
             if (museoEntity.isEmpty())
-                    throw new EntityNotFoundException("Museo NO ENCONTRADO");
+                    throw new EntityNotFoundException(museoNotFound);
 
             museoEntity.get().getObras().add(obraEntity.get());
-            log.info("Termina proceso de asociarle una obra al Museo con id: " + MuseoId);
+            log.info("Termina proceso de asociarle una obra al Museo con id: " + museoId);
             return obraEntity.get();
     }
     
@@ -55,12 +59,12 @@ public class MuseoObraService {
      * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
      */
     @Transactional
-    public List<ObraEntity> getObras(Long MuseoId) throws EntityNotFoundException {
-            log.info("Inicia proceso de consultar todas la obras del Museo con id: ", MuseoId);
-            Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+    public List<ObraEntity> getObras(Long museoId) throws EntityNotFoundException {
+            log.info("Inicia proceso de consultar todas la obras del Museo con id: ", museoId);
+            Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
             if (museoEntity.isEmpty())
-                    throw new EntityNotFoundException("Museo NO ENCONTRADO");
-            log.info("Finaliza proceso de consultar todos los autores del libro con id: ", MuseoId);
+                    throw new EntityNotFoundException(museoNotFound);
+            log.info("Finaliza proceso de consultar todos los autores del libro con id: ", museoId);
             return museoEntity.get().getObras();
     }
     
@@ -73,18 +77,18 @@ public class MuseoObraService {
      * @throws IllegalOperationException - Exception que se lanza si no se cumple alguna regla de negocio
      */
     @Transactional
-    public ObraEntity getObra(Long MuseoId, Long obraId)
+    public ObraEntity getObra(Long museoId, Long obraId)
                     throws EntityNotFoundException, IllegalOperationException {
-            log.info("Inicia proceso de consultar una obra del Museo con id: " + MuseoId);
+            log.info("Inicia proceso de consultar una obra del Museo con id: " + museoId);
             Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-            Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+            Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
             if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+                    throw new EntityNotFoundException(obraNotFound);
 
             if (museoEntity.isEmpty())
-                    throw new EntityNotFoundException("Museo NO ENCONTRADO");
-            log.info("Termina proceso de consultar una obra del Museo con id: " + MuseoId);
+                    throw new EntityNotFoundException(museoNotFound);
+            log.info("Termina proceso de consultar una obra del Museo con id: " + museoId);
             if (museoEntity.get().getObras().contains(obraEntity.get()))
                     return obraEntity.get();
 
@@ -99,22 +103,22 @@ public class MuseoObraService {
      * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
      */
     @Transactional
-    public List<ObraEntity> replaceObras(Long MuseoId, List<ObraEntity> list) throws EntityNotFoundException {
-            log.info("Inicia proceso de reemplazar las obras del Museo con id: " + MuseoId);
-            Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+    public List<ObraEntity> replaceObras(Long museoId, List<ObraEntity> list) throws EntityNotFoundException {
+            log.info("Inicia proceso de reemplazar las obras del Museo con id: " + museoId);
+            Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
             if (museoEntity.isEmpty())
-                    throw new EntityNotFoundException("Museo NO ENCONTRADO");
+                    throw new EntityNotFoundException(museoNotFound);
 
             for (ObraEntity obra : list) {
                     Optional<ObraEntity> obraEntity = obraRepository.findById(obra.getId());
                     if (obraEntity.isEmpty())
-                            throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+                            throw new EntityNotFoundException(obraNotFound);
 
                     if (!museoEntity.get().getObras().contains(obraEntity.get()))
                     		museoEntity.get().getObras().add(obraEntity.get());
             }
-            log.info("Termina proceso de reemplazar las obras del Museo con id: " + MuseoId);
-            return getObras(MuseoId);
+            log.info("Termina proceso de reemplazar las obras del Museo con id: " + museoId);
+            return getObras(museoId);
     }
     
     /**
@@ -123,20 +127,20 @@ public class MuseoObraService {
      * @param obraId Identificador de la instancia de Author
      */
     @Transactional
-    public void removeObra(Long MuseoId, Long obraId) throws EntityNotFoundException {
-            log.info("Inicia proceso de borrar una obra del Museo con id: " + MuseoId);
+    public void removeObra(Long museoId, Long obraId) throws EntityNotFoundException {
+            log.info("Inicia proceso de borrar una obra del Museo con id: " + museoId);
             Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-            Optional<MuseoEntity> museoEntity = MuseoRepository.findById(MuseoId);
+            Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
             if (obraEntity.isEmpty())
-                    throw new EntityNotFoundException("OBRA NO ENCONTRADA");
+                    throw new EntityNotFoundException(obraNotFound);
 
             if (museoEntity.isEmpty())
-                    throw new EntityNotFoundException("Museo NO ENCONTRADO");
+                    throw new EntityNotFoundException(museoNotFound);
 
             museoEntity.get().getObras().remove(obraEntity.get());
 
-            log.info("Termina proceso de borrar una obra del Museo con id: " + MuseoId);
+            log.info("Termina proceso de borrar una obra del Museo con id: " + museoId);
     }
 }
     

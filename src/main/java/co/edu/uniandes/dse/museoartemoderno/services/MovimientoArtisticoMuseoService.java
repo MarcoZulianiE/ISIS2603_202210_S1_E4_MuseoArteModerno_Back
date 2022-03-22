@@ -42,11 +42,11 @@ public class MovimientoArtisticoMuseoService
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Museo not found");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 		}
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		museoEntity.get().getMovimientos().add(movimientoEntity.get());
 		log.info("Fin proceso de asociar el museo "+museoId+" con el movimiento artistico "+movimientoId);
@@ -66,7 +66,7 @@ public class MovimientoArtisticoMuseoService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 		List<MuseoEntity> museos = museoRepository.findAll();
@@ -100,11 +100,11 @@ public class MovimientoArtisticoMuseoService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Museo not found");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 		}
 
 		log.info("Termina el proceso de obtener el museo "+museoId+" asociado con el movimiento "+movimientoId);
@@ -130,7 +130,7 @@ public class MovimientoArtisticoMuseoService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 		for(MuseoEntity museo: museos)
@@ -138,7 +138,7 @@ public class MovimientoArtisticoMuseoService
 			Optional<MuseoEntity> museoEntity = museoRepository.findById(museo.getId());
 			if(museoEntity.isEmpty())
 			{
-				throw new EntityNotFoundException("Museo not found");
+				throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 			}
 			if(!museoEntity.get().getMovimientos().contains(movimientoEntity.get()))
 			{
@@ -164,11 +164,11 @@ public class MovimientoArtisticoMuseoService
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Museo not found");
+			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 		}
 
 		museoEntity.get().getMovimientos().remove(movimientoEntity.get());

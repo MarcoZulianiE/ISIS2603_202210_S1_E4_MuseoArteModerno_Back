@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ObraRepository;
@@ -42,11 +43,11 @@ public class MovimientoArtisticoObraService
 
 		if(obraEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Obra not found");
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 		}
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		obraEntity.get().setMovimiento(movimientoEntity.get());
 		log.info("Finaliza el proceso de agregar la obra "+obraId+" al movimiento artistico "+movimientoId);
@@ -67,7 +68,7 @@ public class MovimientoArtisticoObraService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 
 
@@ -91,11 +92,11 @@ public class MovimientoArtisticoObraService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
 		if(obraEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Obra not found");
+			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 		}
 
 		log.info("Finaliza el proceso de obtener la obra "+obraId+" asociada al movimiento "+movimientoId);		
@@ -120,7 +121,7 @@ public class MovimientoArtisticoObraService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException("Movimiento artistico not found");
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}	
 
 		for(ObraEntity obra: pObras)
@@ -128,7 +129,7 @@ public class MovimientoArtisticoObraService
 			Optional<ObraEntity> o = obraRepository.findById(obra.getId());
 			if(o.isEmpty())
 			{
-				throw new EntityNotFoundException("Obra not found");
+				throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
 			}
 			o.get().setMovimiento(movimientoEntity.get());
 		}

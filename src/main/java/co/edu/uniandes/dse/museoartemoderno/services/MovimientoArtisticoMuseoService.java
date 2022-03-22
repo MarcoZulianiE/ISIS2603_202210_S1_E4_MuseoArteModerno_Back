@@ -26,7 +26,7 @@ public class MovimientoArtisticoMuseoService
 
 	@Autowired
 	private MuseoRepository museoRepository;
-	
+
 	/**
 	 * Asocia un museo a un movimiento artistico cuyo Id se recibe por parametro
 	 * @param movimientoId - ID del movimiento artistico
@@ -42,17 +42,17 @@ public class MovimientoArtisticoMuseoService
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+			throw new EntityNotFoundException("Museo not found");
 		}
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
-		movimientoEntity.get().getMuseos().add(museoEntity.get());
+		museoEntity.get().getMovimientos().add(movimientoEntity.get());
 		log.info("Fin proceso de asociar el museo "+museoId+" con el movimiento artistico "+movimientoId);
 		return museoEntity.get();
 	}
-	
+
 	/**
 	 * Obtiene una coleccion de instancias de MuseoEntity asociadas a una instancia de MovimientoArtisticoEntity
 	 * @param movimientoId - Id del movimiento artistico
@@ -66,12 +66,24 @@ public class MovimientoArtisticoMuseoService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
-		log.info("Fin proceso de obtener museos asociados con el movimiento "+movimientoId);
-		return movimientoEntity.get().getMuseos();
+
+		List<MuseoEntity> museos = museoRepository.findAll();
+		List<MuseoEntity> museoList = new ArrayList<>();
+
+		for(MuseoEntity m: museos)
+		{
+			if(m.getMovimientos().contains(movimientoEntity.get()))
+			{
+				museoList.add(m);
+			}
+		}
+
+		log.info("Inicio proceso de obtener museos asociados con el movimiento "+movimientoId);
+		return museoList;
 	}
-	
+
 	/**
 	 * Obtiene una instancia de MuseoEntity asociada a una instancia de MovimientoArtisticoEntity
 	 * @param movimientoId - Id del movimiento artistico
@@ -88,22 +100,22 @@ public class MovimientoArtisticoMuseoService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+			throw new EntityNotFoundException("Museo not found");
 		}
 
 		log.info("Termina el proceso de obtener el museo "+museoId+" asociado con el movimiento "+movimientoId);
-		if(movimientoEntity.get().getMuseos().contains(museoEntity.get()))
+		if(museoEntity.get().getMovimientos().contains(movimientoEntity.get()))
 		{
 			return museoEntity.get();
 		}
 
 		throw new IllegalOperationException("El museo no esta asociado con el movimiento artistico");
 	}
-	
+
 	/**
 	 * Reemplaza las instancias de Museo asociadas a una instancia de MovimientoArtistico
 	 * @param museos - Coleccion de instancias de MuseoEntity
@@ -118,7 +130,7 @@ public class MovimientoArtisticoMuseoService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
 
 		for(MuseoEntity museo: museos)
@@ -126,18 +138,18 @@ public class MovimientoArtisticoMuseoService
 			Optional<MuseoEntity> museoEntity = museoRepository.findById(museo.getId());
 			if(museoEntity.isEmpty())
 			{
-				throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+				throw new EntityNotFoundException("Museo not found");
 			}
-			if(!movimientoEntity.get().getMuseos().contains(museoEntity.get()))
+			if(!museoEntity.get().getMovimientos().contains(movimientoEntity.get()))
 			{
-				movimientoEntity.get().getMuseos().add(museoEntity.get());
+				museoEntity.get().getMovimientos().add(movimientoEntity.get());
 			}
 		}
 
 		log.info("Termina el proceso de reemplazar la coleccion de instancias de MuseoEntity del movimiento "+movimientoId);
 		return museos;
 	}
-	
+
 	/**
 	 * Desasocia un Museo de un MovimientoAristico existente
 	 * @param movimientoId - Id del movimiento
@@ -152,14 +164,14 @@ public class MovimientoArtisticoMuseoService
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
 		if(museoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+			throw new EntityNotFoundException("Museo not found");
 		}
 
-		movimientoEntity.get().getMuseos().remove(museoEntity.get());
+		museoEntity.get().getMovimientos().remove(movimientoEntity.get());
 
 		log.info("Fin proceso desasociacion del museo "+museoId+" con el movimiento "+movimientoId);
 	}

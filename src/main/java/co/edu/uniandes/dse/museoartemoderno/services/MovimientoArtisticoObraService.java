@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.ObraEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
-import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ObraRepository;
@@ -40,15 +39,16 @@ public class MovimientoArtisticoObraService
 		log.info("Inicia el proceso de agregar la obra "+obraId+" al movimiento artistico "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
+
 		if(obraEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
+			throw new EntityNotFoundException("Obra not found");
 		}
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
-		movimientoEntity.get().getObras().add(obraEntity.get());
+		obraEntity.get().setMovimiento(movimientoEntity.get());
 		log.info("Finaliza el proceso de agregar la obra "+obraId+" al movimiento artistico "+movimientoId);
 		return obraEntity.get();
 	}
@@ -67,8 +67,9 @@ public class MovimientoArtisticoObraService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
+
 
 		log.info("Fin proceso de obtener las obras asociadas al movimiento "+movimientoId);
 		return movimientoEntity.get().getObras();
@@ -90,11 +91,11 @@ public class MovimientoArtisticoObraService
 
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}
 		if(obraEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
+			throw new EntityNotFoundException("Obra not found");
 		}
 
 		log.info("Finaliza el proceso de obtener la obra "+obraId+" asociada al movimiento "+movimientoId);		
@@ -119,7 +120,7 @@ public class MovimientoArtisticoObraService
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		if(movimientoEntity.isEmpty())
 		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+			throw new EntityNotFoundException("Movimiento artistico not found");
 		}	
 
 		for(ObraEntity obra: pObras)
@@ -127,41 +128,11 @@ public class MovimientoArtisticoObraService
 			Optional<ObraEntity> o = obraRepository.findById(obra.getId());
 			if(o.isEmpty())
 			{
-				throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
+				throw new EntityNotFoundException("Obra not found");
 			}
-			if(!movimientoEntity.get().getObras().contains(o.get()))
-			{
-				movimientoEntity.get().getObras().add(o.get());
-			}
+			o.get().setMovimiento(movimientoEntity.get());
 		}
 		log.info("Incio proceso de actualizar las obras del movimiento "+movimientoId);
 		return pObras;
-	}
-	
-	/**
-	 * Desasocia una obra perteneciente a un movimiento artistico existente
-	 * @param movimientoId - Id del movimiento artistico
-	 * @param obraId - Id de la obra
-	 */
-	@Transactional
-	public void removeObra(Long movimientoId, Long obraId) throws EntityNotFoundException, IllegalOperationException
-	{
-		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
-		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
-		if(movimientoEntity.isEmpty())
-		{
-			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
-		}
-		if(obraEntity.isEmpty())
-		{
-			throw new EntityNotFoundException(ErrorMessage.OBRA_NOT_FOUND);
-		}
-		
-		if(!movimientoEntity.get().getObras().contains(obraEntity.get()))
-		{
-			throw new IllegalOperationException("El movimiento y la obra no estan relacionados");
-		}
-		
-		movimientoEntity.get().getObras().remove(obraEntity.get());
 	}
 }

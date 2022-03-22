@@ -82,13 +82,4 @@ public class MovimientoArtisticoObraController
         }.getType());
 	}
 	
-	/**
-	 * Desasocia una obra de un movimiento artistico
-	 */
-	@DeleteMapping(value = "/{movimientoId}/obras/{obraId}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void removeObra(@PathVariable("movimientoId") Long movimientoId, @PathVariable("obraId") Long obraId) throws EntityNotFoundException, IllegalOperationException
-	{
-		movimientoArtisticoObraService.removeObra(movimientoId, obraId);
-	}
 }

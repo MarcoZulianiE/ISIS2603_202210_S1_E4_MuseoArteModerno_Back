@@ -1,33 +1,27 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;
 import co.edu.uniandes.dse.museoartemoderno.repositories.ArtistaRepository;
 import co.edu.uniandes.dse.museoartemoderno.repositories.MovimientoArtisticoRepository;
 import lombok.extern.slf4j.Slf4j;
-import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 @Slf4j
 @Service
 public class MovimientoArtisticoArtistaService 
 {
 	@Autowired
 	private MovimientoArtisticoRepository movimientoArtisticoRepository;
-
 	@Autowired
 	private ArtistaRepository artistaRepository;
 	
-
-
 	/**
 	 * Asocia un artista a un movimiento artistico cuyo Id es dado por parametro
 	 * @param movimientoId - Id del movimiento al que se le asociara el artista
@@ -49,8 +43,7 @@ public class MovimientoArtisticoArtistaService
 		{
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
-
-		movimientoEntity.get().getArtistas().add(artistaEntity.get());
+		artistaEntity.get().getMovimientos().add(movimientoEntity.get());
 		log.info("Termina proceso de asociar al movimiento "+movimientoId+" el artista "+artistaId);
 		return artistaEntity.get();
 	}
@@ -66,9 +59,21 @@ public class MovimientoArtisticoArtistaService
 	{
 		log.info("Inicia proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
-
+		if(movimientoEntity.isEmpty())
+		{
+			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+		}
+		List<ArtistaEntity> artistas = artistaRepository.findAll();
+		List<ArtistaEntity> artistaList = new ArrayList<>();
+		for(ArtistaEntity a: artistas)
+		{
+			if(a.getMovimientos().contains(movimientoEntity.get()))
+			{
+				artistaList.add(a);
+			}
+		}
 		log.info("Finaliza proceso de obtener todos los artistas asociados con el movimiento artistico "+movimientoId);
-		return movimientoEntity.get().getArtistas();
+		return artistaList;
 	}
 	
 	/**
@@ -84,7 +89,6 @@ public class MovimientoArtisticoArtistaService
 		log.info("Inicia el proceso de obtener el artista "+artistaId+" asociado con el movimiento "+movimientoId);
 		Optional<MovimientoArtisticoEntity> movimientoEntity = movimientoArtisticoRepository.findById(movimientoId);
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-
 		if(movimientoEntity.isEmpty())
 		{
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
@@ -94,14 +98,14 @@ public class MovimientoArtisticoArtistaService
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 		log.info("Termina el proceso de obtener el artista "+artistaId+" asociado con el movimiento "+movimientoId);
-		if(movimientoEntity.get().getArtistas().contains(artistaEntity.get()))
+		if(artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
 		{
 			return artistaEntity.get();
 		}
 
 		throw new IllegalOperationException("El artista no esta asociado con el movimiento artistico");
 	}
-	
+
 	/**
 	 * Reemplaza las instancias de Artista asociadas a un Movimiento Artistico
 	 * @param artistas - Coleccion de instancias de ArtistaEntity a asociar con la instancia de MovimientoArtistico
@@ -124,11 +128,11 @@ public class MovimientoArtisticoArtistaService
 			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artista.getId());
 			if(artistaEntity.isEmpty())
 			{
-				throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
+				throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 			}
-			if(!movimientoEntity.get().getArtistas().contains(artistaEntity.get()))
+			if(!artistaEntity.get().getMovimientos().contains(movimientoEntity.get()))
 			{
-				movimientoEntity.get().getArtistas().add(artistaEntity.get());
+				artistaEntity.get().getMovimientos().add(movimientoEntity.get());
 			}
 		}
 
@@ -158,7 +162,7 @@ public class MovimientoArtisticoArtistaService
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 		}
 
-		movimientoEntity.get().getArtistas().remove(artistaEntity.get());
+		artistaEntity.get().getMovimientos().remove(movimientoEntity.get());
 		log.info("Inical el proceso de desasociar el artista "+artistaId+" del movimiento "+movimientoId);
 	}
 }

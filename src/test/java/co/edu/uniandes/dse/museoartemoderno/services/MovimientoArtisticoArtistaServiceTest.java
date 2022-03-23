@@ -154,7 +154,29 @@ class MovimientoArtisticoArtistaServiceTest
 		assertEquals(artistaEntity.getId(), lastArtista.getId());
 		assertEquals(artistaEntity.getNombre(), lastArtista.getNombre());
 	}
+
+	/** 
+	 * Prueba de asociar un artista inexistente a un movimiento artistico
+	 */
+	@Test
+	void testAddInvalidArtista()
+	{
+		assertThrows(EntityNotFoundException.class, () -> {
+			movimientoArtisticoArtistaService.addArtista(movimientoArtistico.getId(), 0L);
+		});
+	}
 	
+	/**
+	 * Prueba de asociar un artista a un movimiento artistico inexistente
+	 */
+	@Test
+	void testAddArtistaInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.addArtista(0L, artistaList.get(0).getId());
+		});
+	}
+
 	/**
 	 * Prueba para obtener la coleccion de artistas de un movimiento artistico
 	 */
@@ -172,6 +194,18 @@ class MovimientoArtisticoArtistaServiceTest
 	}
 	
 	/**
+	 * Prueba para obtener la coleccion de artistas de un movimiento artistico inexistente
+	 */
+	@Test
+	void testGetArtistasInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.getArtistas(0L);
+		});
+	}
+
+
+	/**
 	 * Prueba para obtener un artista asiciado a un movimiento artistico
 	 */
 	@Test
@@ -180,11 +214,46 @@ class MovimientoArtisticoArtistaServiceTest
 		ArtistaEntity artistaEntity = artistaList.get(0);
 		ArtistaEntity artista = movimientoArtisticoArtistaService.getArtista(movimientoArtistico.getId(), artistaEntity.getId());
 		assertNotNull(artista);
-		
+
 		assertEquals(artista.getId(), artistaEntity.getId());
 		assertEquals(artista.getNombre(), artistaEntity.getNombre());
 	}
 	
+	/**
+	 * Prueba para obtener un artista inexistente asociado a un movimiento artistico
+	 */
+	@Test
+	void testGetInvalidArtista()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.getArtista(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba para obtener un artista asociado a un movimiento artistico inexistente
+	 */
+	@Test
+	void testGetArtistaInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.getArtista(0L, artistaList.get(0).getId());
+		});
+	}
+	
+	/**
+	 * Prueba para obtener un artista que no esta asociado a un movimiento artistico
+	 */
+	@Test
+	void testGetNotAssociatedArtista()
+	{
+		assertThrows(IllegalOperationException.class, ()->{
+			ArtistaEntity nuevoArtiata = factory.manufacturePojo(ArtistaEntity.class);
+			entityManager.persist(nuevoArtiata);
+			movimientoArtisticoArtistaService.getArtista(movimientoArtistico.getId(), nuevoArtiata.getId());
+		});
+	}
+
 	/**
 	 * Prueba para desasociar una instancia de artista asociada a una instancia de movimiento artistico
 	 */
@@ -197,5 +266,63 @@ class MovimientoArtisticoArtistaServiceTest
 		}
 		assertTrue(movimientoArtisticoArtistaService.getArtistas(movimientoArtistico.getId()).isEmpty());
 	}
+	
+	/**
+	 * Prueba para desasociar una instancia inexistente de artista a un movimiento artistico
+	 */
+	@Test
+	void testRemoveInvalidArtista()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.removeArtista(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba para desasociar una instancia de artista a un movimiento artistico inexistente
+	 */
+	@Test
+	void testRemoveArtistaInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoArtistaService.removeArtista(0L, artistaList.get(0).getId());
+		});
+	}
+	
+	/**
+	 * Prueba para actualizar los artistas de un movimiento artistico
+	 */
+	@Test
+	void testAddArtistas() throws EntityNotFoundException
+	{
+		List<ArtistaEntity> nuevosArtistas = new ArrayList<>();
+		for(int i = 1; i<4;i++)
+		{
+			ArtistaEntity artistaEntity = factory.manufacturePojo(ArtistaEntity.class);
+			entityManager.persist(artistaEntity);
+			nuevosArtistas.add(artistaEntity);
+		}
+		
+		movimientoArtisticoArtistaService.addArtistas(movimientoArtistico.getId(), nuevosArtistas);
+		
+		for(ArtistaEntity artista: nuevosArtistas)
+		{
+			ArtistaEntity artis = entityManager.find(ArtistaEntity.class, artista.getId());
+			assertTrue(artis.getMovimientos().contains(movimientoArtistico));
+		}
+	}
+	
+	/**
+	 * Pruba para actualizar los artistas de un movimiento artistico inexistente
+	 */
+	@Test 
+	void testAddArtistasInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			List<ArtistaEntity> nuevos = new ArrayList<>();
+			movimientoArtisticoArtistaService.addArtistas(0L, nuevos);
+		});
+	}
+	
 
 }

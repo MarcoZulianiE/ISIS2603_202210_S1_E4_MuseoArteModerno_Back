@@ -40,7 +40,7 @@ public class MovimientoArtisticoMuseoController
 	@ResponseStatus(code = HttpStatus.OK)
 	public MuseoDetailDTO getMuseo(@PathVariable("movimientoId") Long movimientoId, @PathVariable("museoId") Long museoId) throws EntityNotFoundException, IllegalOperationException
 	{
-		MuseoEntity museoEntity = movimientoArtisticoMuseoService.getMuseo(movimientoId, museoId);
+		MuseoEntity museoEntity = movimientoArtisticoMuseoService.getMuseo(museoId, movimientoId);
 		return modelMapper.map(museoEntity, MuseoDetailDTO.class);
 	}
 	
@@ -73,7 +73,7 @@ public class MovimientoArtisticoMuseoController
 	 */
 	@PutMapping(value = "/{movimientoId}/museos")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<MuseoDetailDTO> replaceArtistas(@PathVariable("movimientoId") Long movimientoId, @RequestBody List<MuseoDTO> museos) throws EntityNotFoundException
+	public List<MuseoDetailDTO> replaceMuseo(@PathVariable("movimientoId") Long movimientoId, @RequestBody List<MuseoDTO> museos) throws EntityNotFoundException
 	{
 		List<MuseoEntity> entidades = modelMapper.map(museos, new TypeToken<List<MuseoEntity>>() {
 		}.getType());

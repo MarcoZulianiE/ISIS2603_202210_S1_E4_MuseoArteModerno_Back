@@ -13,5 +13,9 @@ public class ObraDTO {
 	private String tipo;
 	private String descripcion;
 	private Date fechaPublicacion;
+	
+	private MuseoDTO museo;
+	private ArtistaDTO artista;
+	private MovimientoArtisticoDTO movimiento;
 
 }

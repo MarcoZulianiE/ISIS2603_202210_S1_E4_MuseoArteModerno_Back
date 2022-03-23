@@ -44,14 +44,14 @@ public class ObraService {
 //		if (!obraRepository.findByNombre(obraEntity.getNombre()).isEmpty())
 //			throw new IllegalOperationException("El nombre de la obra ingresado ya existe");
 		
-		if (obraEntity.getArtista() == null)
-			throw new IllegalOperationException("El Artista de la obra ingresada es nulo.");
+//		if (obraEntity.getArtista() == null)
+//			throw new IllegalOperationException("El Artista de la obra ingresada es nulo.");
 		
-		if (obraEntity.getMuseo() == null)
-			throw new IllegalOperationException("El Museo de la obra ingresada es nulo.");	
+//		if (obraEntity.getMuseo() == null)
+//			throw new IllegalOperationException("El Museo de la obra ingresada es nulo.");	
 		
-		if (obraEntity.getMovimiento() == null)
-			throw new IllegalOperationException("El Movimiento Artístico de la obra ingresada es nulo. ");
+//		if (obraEntity.getMovimiento() == null)
+//			throw new IllegalOperationException("El Movimiento Artístico de la obra ingresada es nulo. ");
 		
 		if ((obraEntity.getFechaPublicacion()).after(new Date()))
 			throw new IllegalOperationException("La fecha de publicación no es válida.");

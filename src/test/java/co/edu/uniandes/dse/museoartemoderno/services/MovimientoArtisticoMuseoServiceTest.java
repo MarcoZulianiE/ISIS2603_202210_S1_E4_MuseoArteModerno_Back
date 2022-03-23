@@ -159,6 +159,28 @@ class MovimientoArtisticoMuseoServiceTest
 		assertEquals(museoEntity.getNombre(), lastMuseo.getNombre());
 		assertEquals(museoEntity.getDireccion(), lastMuseo.getDireccion());
 	}
+	
+	/** 
+	 * Prueba de asociar un museo inexistente a un movimiento artistico
+	 */
+	@Test
+	void testAddInvalidMuseo()
+	{
+		assertThrows(EntityNotFoundException.class, () -> {
+			movimientoArtisticoMuseoService.addMuseo(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba de asociar un artista a un movimiento artistico inexistente
+	 */
+	@Test
+	void testAddMuseoInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoMuseoService.addMuseo(0L, museoList.get(0).getId());
+		});
+	}
 
 	/**
 	 * Prueba de obtener la coleccion de instancias de Museo asociadas con una instancia de MovimientoArtistico
@@ -175,7 +197,18 @@ class MovimientoArtisticoMuseoServiceTest
 			assertTrue(museos.contains(museoList.get(i)));
 		}
 	}
-
+	
+	/**
+	 * Prueba de obtener la coleccion de instancias de museo asociadas con un movimiento inexistente
+	 */
+	@Test
+	void testGetMuseosInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class,()->{
+			movimientoArtisticoMuseoService.getMuseos(0L);
+		});
+	}
+	
 	/**
 	 * Prueba de obtener una instancia de Museo asociada a una instancia de MovimientoArtistico
 	 */
@@ -190,7 +223,42 @@ class MovimientoArtisticoMuseoServiceTest
 		assertEquals(museoEntity.getNombre(), museo.getNombre());
 		assertEquals(museoEntity.getDireccion(), museo.getDireccion());
 	}
+	
+	/**
+	 * Prueba de obtener un museo inexistente asociado con un movimiento
+	 */
+	@Test
+	void testGetInvalidMuseo()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoMuseoService.getMuseo(0L, movimientoArtistico.getId());
+		});
+	}
+	
+	/**
+	 * Prueba de obtener un museo asociado con un movimiento inexistente
+	 */
+	@Test
+	void testGetMuseoInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoMuseoService.getMuseo(museoList.get(0).getId(), 0L);
+		});
+	}
 
+	/**
+	 * Prueba de obtener un museo no asociado con un movimiento 
+	 */
+	@Test
+	void testGetMuseoNotAssociatedMuseo()
+	{
+		assertThrows(IllegalOperationException.class, ()->{
+			MuseoEntity museo = factory.manufacturePojo(MuseoEntity.class);
+			entityManager.persist(museo);
+			movimientoArtisticoMuseoService.getMuseo(museo.getId(), movimientoArtistico.getId());
+		});
+	}
+	
 	/**
 	 * Prueba de desasociar un Museo de un MovimientoArtistico
 	 */
@@ -203,4 +271,28 @@ class MovimientoArtisticoMuseoServiceTest
 		}
 		assertTrue(movimientoArtisticoMuseoService.getMuseos(movimientoArtistico.getId()).isEmpty());
 	}
+	
+	/**
+	 * Prueba de desasociar un museo inexistente de un movimiento artistico
+	 */
+	@Test
+	void testRemoveInvalidMuseo()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoMuseoService.removeMuseo(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba de desasociar un museo de un movimiento artistico inexistente
+	 */
+	@Test
+	void testRemoveMuseoInvalidMuseo()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoMuseoService.removeMuseo(0L, museoList.get(0).getId());
+		});
+	}
+	
+	
 }

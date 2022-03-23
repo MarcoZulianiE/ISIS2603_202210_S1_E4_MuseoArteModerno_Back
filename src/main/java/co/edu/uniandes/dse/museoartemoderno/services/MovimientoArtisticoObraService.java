@@ -70,8 +70,7 @@ public class MovimientoArtisticoObraService
 		{
 			throw new EntityNotFoundException(ErrorMessage.MOVIMIENTO_ARTISTICO_NOT_FOUND);
 		}
-
-
+		
 		log.info("Fin proceso de obtener las obras asociadas al movimiento "+movimientoId);
 		return movimientoEntity.get().getObras();
 	}
@@ -100,7 +99,7 @@ public class MovimientoArtisticoObraService
 		}
 
 		log.info("Finaliza el proceso de obtener la obra "+obraId+" asociada al movimiento "+movimientoId);		
-		if(movimientoEntity.get().getObras().contains(obraEntity.get()))
+		if(obraEntity.get().getMovimiento().equals(movimientoEntity.get()))
 		{
 			return obraEntity.get();
 		}

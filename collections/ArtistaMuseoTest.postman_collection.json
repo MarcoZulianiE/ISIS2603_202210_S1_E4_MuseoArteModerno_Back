@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e93fa79f-604d-470a-8b17-4f99fffd7abf",
+		"_postman_id": "db08a35a-14da-4b2e-b508-2cd7b2371507",
 		"name": "ArtistaMuseo Testing v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -656,7 +656,7 @@
 					"script": {
 						"exec": [
 							"tests[\"No se deberia eliminar ninguna asociacion ya que el author no existe\"] = responseCode.code === 404;",
-							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El *museo* con el id dado no fue encontrado\");"
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El *artista* con el id dado no fue encontrado\");"
 						],
 						"type": "text/javascript"
 					}
@@ -670,7 +670,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://{{ip}}:{{puerto}}/api/artistas/0/museos/{{new_id_movimiento1}}",
+					"raw": "http://{{ip}}:{{puerto}}/api/artistas/0/museos/{{new_id_museo1}}",
 					"protocol": "http",
 					"host": [
 						"{{ip}}"
@@ -681,7 +681,7 @@
 						"artistas",
 						"0",
 						"museos",
-						"{{new_id_movimiento1}}"
+						"{{new_id_museo1}}"
 					]
 				},
 				"description": "**Release: Paso-5**\r\n\r\nBorra la asociación entre a un libro y un autor que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /authors/0/books no existe.\".\r\n\r\n**Código http esperado: 404**"

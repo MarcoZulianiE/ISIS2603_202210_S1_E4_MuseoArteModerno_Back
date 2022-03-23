@@ -46,7 +46,7 @@ public class ArtistaMuseoService {
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
-		museoEntity.get().getArtistas().add(artistaEntity.get());
+		artistaEntity.get().getMuseos().add(museoEntity.get());
 		log.info("Termina proceso de asociarle un museo al artista con id: " + artistaId);
 		return museoEntity.get();
 	}
@@ -63,17 +63,8 @@ public class ArtistaMuseoService {
 		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 		if (artistaEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
-		List<MuseoEntity> museos = museoRepository.findAll();
-		List<MuseoEntity> museosList = new ArrayList<>();
-
-		for (MuseoEntity museo : museos) {
-			if (museo.getArtistas().contains(artistaEntity.get())) {
-				museosList.add(museo);
-			}
-		}
 		log.info("Termina proceso de consultar todos los libros del autor con id: " + artistaId);
-		return museosList;
+		return artistaEntity.get().getMuseos();
 	}
 	
 	/**
@@ -86,21 +77,20 @@ public class ArtistaMuseoService {
 	 */
 	@Transactional
 	public MuseoEntity getMuseo(Long artistaId, Long museoId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el movimiento artistico con id: " + museoId + ", del artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
+			log.info("Inicia proceso de consultar el movimiento artistico con id: " + museoId + ", del artista con id: " + artistaId);
+			Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
+			Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
 
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+			if (museoEntity.isEmpty())
+				throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
-		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+			if (artistaEntity.isEmpty())
+				throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+			log.info("Termina proceso de consultar el museo con id: " + museoId + ", del artista con id: " + artistaId);
+			if (artistaEntity.get().getMuseos().contains(museoEntity.get()))
+				return museoEntity.get();
 
-		log.info("Termina proceso de consultar el museo con id: " + museoId + ", del artista con id: " + artistaId);
-		if (museoEntity.get().getArtistas().contains(artistaEntity.get()))
-			return museoEntity.get();
-
-		throw new IllegalOperationException("El Movimiento artistico no esta asociado con el Artista");
+			throw new IllegalOperationException("El Museo no esta asociado con el Artista");
 	}
 	
 	/**
@@ -114,19 +104,19 @@ public class ArtistaMuseoService {
     public List<MuseoEntity> replaceMuseos(Long artistaId, List<MuseoEntity> list) throws EntityNotFoundException {
             log.info("Inicia proceso de reemplazar los autores del libro con id: ", artistaId);
             Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-            if (artistaEntity.isEmpty())
-                    throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+    		if (artistaEntity.isEmpty())
+    			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
 
-            for (MuseoEntity author : list) {
-                    Optional<MuseoEntity> museoEntity = museoRepository.findById(author.getId());
-                    if (museoEntity.isEmpty())
-                            throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
+    		for (MuseoEntity museo : list) {
+    			Optional<MuseoEntity> museoEntity = museoRepository.findById(museo.getId());
+    			if (museoEntity.isEmpty())
+    				throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
-                    if (!artistaEntity.get().getMuseos().contains(museoEntity.get()))
-                            artistaEntity.get().getMuseos().add(museoEntity.get());
-            }
-            log.info("Termina proceso de reemplazar los autores del libro con id: ", artistaId);
-            return getMuseos(artistaId);
+    			if (!artistaEntity.get().getMuseos().contains(museoEntity.get()))
+    				artistaEntity.get().getMuseos().add(museoEntity.get());
+    		}
+    		log.info("Termina proceso de reemplazar los autores del libro con id: ", artistaId);
+    		return getMuseos(artistaId);
     }
 	
 	/**
@@ -138,15 +128,17 @@ public class ArtistaMuseoService {
 	@Transactional
 	public void removeMuseo(Long artistaId, Long museoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de borrar un museo del artista con id: " + artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
+		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
+
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 
-		museoEntity.get().getArtistas().remove(artistaEntity.get());
+		if (artistaEntity.isEmpty())
+			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+
+		artistaEntity.get().getMuseos().remove(museoEntity.get());
+
 		log.info("Finaliza proceso de borrar un museo del artista con id: " + artistaId);
 	}
 	

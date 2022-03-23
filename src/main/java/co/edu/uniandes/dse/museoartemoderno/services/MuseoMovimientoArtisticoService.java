@@ -38,14 +38,17 @@ public class MuseoMovimientoArtisticoService {
 	@Transactional
 	public MovimientoArtisticoEntity addMovimientoArtistico(Long museoId, Long movimientoArtisticoId) throws EntityNotFoundException {
 		log.info("Inicia proceso de asociarle un movimientoArtistico al museo con id: " + museoId);
+		
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
-		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 
+		if (movimientoArtisticoEntity.isEmpty())
+			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
+		
+		
+		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
+		
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException("MUSEO NOT FOUND");
-		
-		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("movimientoArtistico NOT FOUND");
 
 		movimientoArtisticoEntity.get().getMuseos().add(museoEntity.get());
 		log.info("Termina proceso de asociarle un movimientoArtistico al museo con id: ", museoId);
@@ -98,13 +101,13 @@ public class MuseoMovimientoArtisticoService {
 			throw new EntityNotFoundException("MUSEO NOT FOUND");
 		
 		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("movimientoArtistico NOT FOUND");
+			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
 
 		log.info("Termina proceso de consultar el movimientoArtistico con id: " + movimientoArtisticoId + ", del museo con id: " + museoId);
 		if (movimientoArtisticoEntity.get().getMuseos().contains(museoEntity.get()))
 			return movimientoArtisticoEntity.get();
 
-		throw new IllegalOperationException("El movimientoArtistico no esta asociado con el Museo");
+		throw new IllegalOperationException("El Movimiento Artistico no esta asociado con el Museo");
 	}
 	
 	
@@ -125,12 +128,12 @@ public class MuseoMovimientoArtisticoService {
 		for (MovimientoArtisticoEntity movimientoArtistico : movimientoArtisticos) {
 			Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtistico.getId());
 			if (movimientoArtisticoEntity.isEmpty())
-				throw new EntityNotFoundException("movimientoArtistico NOT FOUND");
+				throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
 
 			if (!movimientoArtisticoEntity.get().getMuseos().contains(museoEntity.get()))
 				movimientoArtisticoEntity.get().getMuseos().add(museoEntity.get());
 		}
-		log.info("Finaliza proceso de reemplazar los movimientoArtisticos asociados al museo con id: " + museoId);
+		log.info("Finaliza proceso de reemplazar los movimientos artisticos asociados al museo con id: " + museoId);
 		return movimientoArtisticos;
 	}
 	
@@ -150,7 +153,7 @@ public class MuseoMovimientoArtisticoService {
 
 		Optional<MovimientoArtisticoEntity> movimientoArtisticoEntity = movimientoArtisticoRepository.findById(movimientoArtisticoId);
 		if (movimientoArtisticoEntity.isEmpty())
-			throw new EntityNotFoundException("movimientoArtistico NOT FOUND");
+			throw new EntityNotFoundException("MOVIMIENTO ARTISTICO NOT FOUND");
 
 		movimientoArtisticoEntity.get().getMuseos().remove(museoEntity.get());
 		log.info("Finaliza proceso de borrar un museo del movimientoArtistico con id: " + museoId);

@@ -72,55 +72,5 @@ public class ArtistaPaisService {
 		log.info("Termina proceso de actualizar el artista con id: ", artistaId);
 
 		return artistaEntity.get();
-	}
-	
-	/**
-	 * Elimina el pais de Nacimiento asociado a un artista
-	 * @param artistaId - Id del artista del cual se quiere eliminar el pais de Nacimiento
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public void removeLugarNacimiento(Long artistaId) throws EntityNotFoundException {
-		log.info("Inicia proceso de borrar el pais de Nacimiento del artista con id: ", artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
-		if (artistaEntity.get().getLugarNacimiento() == null) {
-			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
-		}
-		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarNacimiento().getId());
-
-		paisEntity.ifPresent(pais -> {
-			artistaEntity.get().setLugarNacimiento(null);
-			pais.getArtistasNacimiento().remove(artistaEntity.get());
-		});
-
-		log.info("Termina proceso de borrar el pais de Nacimiento del artista con id: ", artistaId);
-	}
-	
-	/**
-	 * Elimina la fecha de Fallecimiento asociada a un artista
-	 * @param artistaId - Id del artista del cual se quiere eliminar la fecha de Fallecimiento
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public void removeLugarFallecimiento(Long artistaId) throws EntityNotFoundException {
-		log.info("Inicia proceso de borrar el pais de Fallecimiento del artista con id: ", artistaId);
-		Optional<ArtistaEntity> artistaEntity = artistaRepository.findById(artistaId);
-		if (artistaEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
-
-		if (artistaEntity.get().getLugarFallecimiento() == null) {
-			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
-		}
-		Optional<PaisEntity> paisEntity = paisRepository.findById(artistaEntity.get().getLugarFallecimiento().getId());
-
-		paisEntity.ifPresent(pais -> {
-			artistaEntity.get().setLugarFallecimiento(null);
-			pais.getArtistasFallecimiento().remove(artistaEntity.get());
-		});
-
-		log.info("Termina proceso de borrar el pais de Fallecimiento del artista con id: ", artistaId);
 	}	
 }

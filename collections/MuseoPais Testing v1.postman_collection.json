@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "513b6a27-9390-4679-8bc3-d9c43ca28911",
+		"name": "MuseoPais Testing v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un Pais",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"newIdPais\",data.id);\r",
+							"tests[\"No genera error en el POST: Crear Pais\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombrePais\": \"Colombia\",\r\n    \"coordenadas\": \"xxxxx\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/api/paises",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"api",
+						"paises"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un Pais 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"newIdPais2\",data.id);\r",
+							"tests[\"No genera error en el POST: Crear Pais\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombrePais\": \"Paris\",\r\n    \"coordenadas\": \"yyyyy\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/api/paises",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"api",
+						"paises"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un Museo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"newIdMuseo\", data.id);\r",
+							"tests[\"no genera error en el create Museo\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"MOMA\",\r\n    \"direccion\": \"calle 45\",\r\n    \"total_obras_exhibidas\": 500,\r\n    \"ubicacion\": {\"id\": {{newIdPais}}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/api/Museos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"api",
+						"Museos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un Museo 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"newIdMuseo2\", data.id);\r",
+							"tests[\"no genera error en el create Museo\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Centro Pompidou\",\r\n    \"direccion\": \"calle 100\",\r\n    \"total_obras_exhibidas\": 100,\r\n    \"ubicacion\": {\"id\": {{newIdPais2}}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/api/Museos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"api",
+						"Museos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

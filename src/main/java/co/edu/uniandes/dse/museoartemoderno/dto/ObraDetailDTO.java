@@ -11,7 +11,7 @@ public class ObraDetailDTO extends ObraDTO {
 //	private String tipo;
 //	private String descripcion;
 	
-	private MuseoDTO museo;
-	private ArtistaDTO artista;
-	private MovimientoArtisticoDTO movimiento;
+//	private MuseoDTO museo;
+//	private ArtistaDTO artista;
+//	private MovimientoArtisticoDTO movimiento;
 }

@@ -24,7 +24,7 @@ import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException
 import co.edu.uniandes.dse.museoartemoderno.services.MuseoArtistaService;
 
 @RestController
-@RequestMapping("/museos")
+@RequestMapping("/Museos")
 public class MuseoArtistaController {
 
 	@Autowired

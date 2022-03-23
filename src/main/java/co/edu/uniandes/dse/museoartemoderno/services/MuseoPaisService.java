@@ -28,53 +28,6 @@ public class MuseoPaisService {
 	
 	private String paisNotFound = "PAIS NOT FOUND";
 	
-	/**
-	 * Asocia una Pais al Museo cuyo id es dado por parametro
-	 * @param MuseoId - Id del Museo a asociar
-	 * @param PaisId - Id de la Pais a asociar
-	 * @return - instancia de Pais que fue asociada al Museo
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity addPais(Long museoId, Long paisId) throws EntityNotFoundException {
-		log.info("Inicia proceso de asociarle una Pais de  al Museo con id: " + museoId);
-		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
-		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
-
-		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException(museoNotFound);
-
-		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException(paisNotFound);
-
-		paisEntity.get().getMuseos().add(museoEntity.get());
-		log.info("Termina proceso de asociarle una Pais al Museo con id: " + museoId);
-		return paisEntity.get();
-	}
-	
-	
-	/**
-	 * Devuelve el Pais asociado con el Museo cuyo id llega por parametro
-	 * @param MuseoId - Id del Museo del que se desea conocer el Pais
-	 * @return El Pais solicitado
-	 * @throws EntityNotFoundException - Exception que se lanza si no se encuentra la entidad
-	 */
-	@Transactional
-	public PaisEntity getPais(Long museoId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar la Pais de  del Museo con id: " + museoId);
-		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
-		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException(museoNotFound);
-
-		PaisEntity paisEntity = museoEntity.get().getUbicacion();
-
-		if (paisEntity == null)
-			throw new EntityNotFoundException(paisNotFound);
-
-		log.info("Termina proceso de consultar la Pais de  del Museo con id: " + museoId);
-		return paisEntity;
-	}
-	
 	
 	/**
 	 * Remplaza el Pais del Museo por una nuevo
@@ -88,11 +41,11 @@ public class MuseoPaisService {
 		log.info("Inicia proceso de actualizar el museo con id: ", museoId);
 		Optional<MuseoEntity> museoEntity = museoRepository.findById(museoId);
 		if (museoEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.ARTISTA_NOT_FOUND);
+			throw new EntityNotFoundException(museoNotFound);
 
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		if (paisEntity.isEmpty())
-			throw new EntityNotFoundException(ErrorMessage.PAIS_NOT_FOUND);
+			throw new EntityNotFoundException(paisNotFound);
 
 		museoEntity.get().setUbicacion(paisEntity.get());
 		log.info("Termina proceso de actualizar el museo con id: ", museoId);

@@ -15,7 +15,7 @@ import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.services.MuseoPaisService;
 
-@RequestMapping("/museos")
+@RequestMapping("/Museos")
 public class MuseoPaisController {
 
 	@Autowired
@@ -26,7 +26,7 @@ public class MuseoPaisController {
 	
 	@PutMapping(value = "/{museoId}/ubicacion")
 	@ResponseStatus(code = HttpStatus.OK)
-	public MuseoDetailDTO replacePais(@PathVariable("museoId") Long museoId, @RequestBody PaisDTO paisDTO) throws EntityNotFoundException {
+	public MuseoDetailDTO replacePaisNacimiento(@PathVariable("museoId") Long museoId, @RequestBody PaisDTO paisDTO) throws EntityNotFoundException {
 		MuseoEntity museoEntity = museoPaisService.replacePais(museoId, paisDTO.getId());
 		return modelMapper.map(museoEntity, MuseoDetailDTO.class);
 	}

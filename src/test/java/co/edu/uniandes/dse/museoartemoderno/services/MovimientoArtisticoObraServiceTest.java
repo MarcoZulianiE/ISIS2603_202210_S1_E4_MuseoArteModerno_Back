@@ -148,6 +148,28 @@ class MovimientoArtisticoObraServiceTest
 		assertNotNull(respuesta);
 		assertEquals(obraEntity.getId(), respuesta.getId());
 	}
+	
+	/**
+	 * Prueba para asociar una obra inexistente con un movimiento
+	 */
+	@Test 
+	void testAddInvalidObra()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoObraService.addObra(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba para asociar una obra con un movimiento inexistente
+	 */
+	@Test
+	void testAddObraInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoObraService.addObra(0L, obraList.get(0).getId());
+		});
+	}
 
 	/**
 	 * Prueba para obtener obtener las obras asociadas a un movimiento artistico
@@ -187,6 +209,44 @@ class MovimientoArtisticoObraServiceTest
 
 		assertEquals(obra.getId(), obraEntity.getId());
 		assertEquals(obra.getNombre(), obraEntity.getNombre());
+	}
+	
+	/**
+	 * Prueba para obtener una obra asociada a un movimiento artistico invalido
+	 */
+	@Test
+	void testGetObraInvalidMovimiento()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoObraService.getObra(0L, obraList.get(0).getId());
+		});
+	}
+	
+	/**
+	 * Prueba para obtener una obra inexistente asociado a un movimiento artistico
+	 */
+	@Test
+	void testGetInvalidObra()
+	{
+		assertThrows(EntityNotFoundException.class, ()->{
+			movimientoArtisticoObraService.getObra(movimientoArtistico.getId(), 0L);
+		});
+	}
+	
+	/**
+	 * Prueba para obtener una obra no asociada a un movimiento artistico
+	 */
+	@Test
+	void testGetNotAssociatedObra()
+	{
+		assertThrows(IllegalOperationException.class, ()->{
+			ObraEntity obra = factory.manufacturePojo(ObraEntity.class);
+			MovimientoArtisticoEntity movimiento = factory.manufacturePojo(MovimientoArtisticoEntity.class);
+			entityManager.persist(movimiento);
+			entityManager.persist(obra);
+			obra.setMovimiento(movimiento);
+			movimientoArtisticoObraService.getObra(movimientoArtistico.getId(), obra.getId());
+		});
 	}
 
 	/**

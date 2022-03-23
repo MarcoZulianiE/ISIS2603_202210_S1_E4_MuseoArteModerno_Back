@@ -64,10 +64,4 @@ public class ArtistaObraController {
             return modelMapper.map(obraEntity, new TypeToken<List<ObraDetailDTO>>() {
             }.getType());
     }
-
-	@DeleteMapping(value = "/{artistaId}/obras/{obraId}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void removeObra(@PathVariable("obraId") Long obraId, @PathVariable("artistaId") Long artistaId) throws EntityNotFoundException {
-		artistaObraService.removeObra(artistaId, obraId);
-	}	
 }

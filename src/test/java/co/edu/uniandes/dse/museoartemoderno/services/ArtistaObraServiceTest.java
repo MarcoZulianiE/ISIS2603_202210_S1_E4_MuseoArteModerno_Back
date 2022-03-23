@@ -142,15 +142,13 @@ public class ArtistaObraServiceTest {
 		newArtista.setMovimientos(movimientoArtisticoList);
 		entityManager.persist(newArtista);
 
-		ObraEntity obra = factory.manufacturePojo(ObraEntity.class);
-		entityManager.persist(obra);
+		ObraEntity obraEntity = factory.manufacturePojo(ObraEntity.class);
+		entityManager.persist(obraEntity);
 
-		artistaObraService.addObra(newArtista.getId(), obra.getId());
+		ObraEntity response = artistaObraService.addObra(obraEntity.getId(),newArtista.getId());
 
-		ObraEntity lastObra = artistaObraService.getObra(newArtista.getId(), obra.getId());
-		assertEquals(obra.getId(), lastObra.getId());
-		assertEquals(obra.getNombre(), lastObra.getNombre());
-		assertEquals(obra.getDescripcion(), lastObra.getDescripcion());
+		assertNotNull(response);
+		assertEquals(obraEntity.getId(), response.getId());
 	}
 
 	/**
@@ -350,39 +348,4 @@ public class ArtistaObraServiceTest {
 			artistaObraService.replaceObras(0L, nuevaLista);
 		});
 	}
-
-	/**
-	 * Prueba desasociar una Obra con un Artista.
-	 *
-	 */
-	@Test
-	void testRemoveArtista() throws EntityNotFoundException {
-		for (ObraEntity obra : obraList) {
-			artistaObraService.removeObra(artista.getId(), obra.getId());
-		}
-		assertTrue(artistaObraService.getObras(artista.getId()).isEmpty());
-	}
-
-	/**
-	 * Prueba desasociar una Obra que no existe con un Artista.
-	 *
-	 */
-	@Test
-	void testRemoveInvalidObra(){
-		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.removeObra(artista.getId(), 0L);
-		});
-	}
-
-	/**
-	 * Prueba desasociar una Obra con un Artista que no existe.
-	 *
-	 */
-	@Test
-	void testRemoveObraInvalidArtista(){
-		assertThrows(EntityNotFoundException.class, ()->{
-			artistaObraService.removeObra(0L, obraList.get(0).getId());
-		});
-	}
-
 }

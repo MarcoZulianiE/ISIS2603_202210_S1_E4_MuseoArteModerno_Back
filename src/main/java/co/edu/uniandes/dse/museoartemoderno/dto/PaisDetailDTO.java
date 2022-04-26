@@ -13,7 +13,7 @@ public class PaisDetailDTO extends PaisDTO{
 	private List<CiudadDTO> ciudades = new ArrayList<>();
 	private List<MovimientoArtisticoDTO> movimientos = new ArrayList<>();
 	private List<MuseoDTO> museos = new ArrayList<>();
-	private ArtistaDTO artistasFallecimiento;
-	private ArtistaDTO artistasNacimiento;
+	private List <ArtistaDTO> artistasFallecimiento = new ArrayList<>();
+	private List <ArtistaDTO> artistasNacimiento = new ArrayList<>();
 
 }

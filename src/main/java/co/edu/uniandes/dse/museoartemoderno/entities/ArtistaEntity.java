@@ -24,6 +24,9 @@ import uk.co.jemos.podam.common.PodamStrategyValue;
 @Entity
 public class ArtistaEntity extends BaseEntity {
 
+	private String nombre;
+	private String imagen;
+	
 	@PodamExclude
 	@ManyToOne
 	private PaisEntity lugarNacimiento;
@@ -52,5 +55,4 @@ public class ArtistaEntity extends BaseEntity {
 	@ManyToMany
 	private List<MovimientoArtisticoEntity> movimientos = new ArrayList<>();
 	
-	private String nombre;
 }

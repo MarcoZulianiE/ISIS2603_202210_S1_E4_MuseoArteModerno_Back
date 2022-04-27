@@ -10,6 +10,7 @@ public class ArtistaDTO {
 
 	private Long id;
 	private String nombre;
+	private String imagen;
 	private Date fechaNacimiento;
 	private Date fechaFallecimiento;	
 	private PaisDTO lugarNacimiento;

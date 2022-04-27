@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "028989de-3982-4b72-91ff-8fe2b179c87c",
+		"_postman_id": "a166a51d-ddd5-4338-a6a4-cb2a72c0ab2e",
 		"name": "ArtistaPais Testing v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -109,7 +109,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\":\"Leonardo\",\r\n    \"fechaNacimiento\":\"1900-05-05\",\r\n    \"fechaFallecimiento\":\"1976-07-08\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
+					"raw": "{\r\n    \"nombre\":\"Leonardo\",\r\n    \"imagen\":\"https://upload.wikimedia.org/wikipedia/commons/8/88/Albrecht_D%C3%BCrer%2C_Selbstbildnis_mit_26_Jahren_%28Prado%2C_Madrid%29.jpg\",\r\n    \"fechaNacimiento\":\"1900-05-05\",\r\n    \"fechaFallecimiento\":\"1976-07-08\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -151,7 +151,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\":\"Rafael\",\r\n    \"fechaNacimiento\":\"1900-05-05\",\r\n    \"fechaFallecimiento\":\"1976-07-08\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
+					"raw": "{\r\n    \"nombre\":\"Rafael\",\r\n    \"imagen\":\"https://www.ecured.cu/images/e/e0/Retratodelartistasinbarba.jpg\",\r\n    \"fechaNacimiento\":\"1900-05-05\",\r\n    \"fechaFallecimiento\":\"1976-07-08\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "32c36699-8640-4b6a-86e5-0466f87e8882",
+		"_postman_id": "1a10bf67-cf21-4d75-882b-cb6662d1cd67",
 		"name": "Artista Testing v1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -149,7 +149,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\":\"Carlos\",\r\n    \"fechaNacimiento\":\"1910-12-12\",\r\n    \"fechaFallecimiento\":\"2000-12-12\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
+					"raw": "{\r\n    \"nombre\":\"Carlos\",\r\n    \"imagen\":\"https://upload.wikimedia.org/wikipedia/commons/8/88/Albrecht_D%C3%BCrer%2C_Selbstbildnis_mit_26_Jahren_%28Prado%2C_Madrid%29.jpg\",\r\n    \"fechaNacimiento\":\"1910-12-12\",\r\n    \"fechaFallecimiento\":\"2000-12-12\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -191,7 +191,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\":\"Antonio\",\r\n    \"fechaNacimiento\":\"1895-10-12\",\r\n    \"fechaFallecimiento\":\"1960-03-05\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
+					"raw": "{\r\n    \"nombre\":\"Antonio\",\r\n    \"imagen\":\"https://www.ecured.cu/images/e/e0/Retratodelartistasinbarba.jpg\",\r\n    \"fechaNacimiento\":\"1895-10-12\",\r\n    \"fechaFallecimiento\":\"1960-03-05\",\r\n    \"lugarNacimiento\":{ \"id\":{{new_id_pais}} },\r\n    \"lugarFallecimiento\":{ \"id\":{{new_id_pais}} }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

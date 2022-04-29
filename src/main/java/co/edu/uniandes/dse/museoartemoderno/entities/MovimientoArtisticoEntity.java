@@ -23,6 +23,7 @@ import uk.co.jemos.podam.common.PodamStrategyValue;
 public class MovimientoArtisticoEntity extends BaseEntity{
 
 	private String nombre;
+	private String imagen;
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)

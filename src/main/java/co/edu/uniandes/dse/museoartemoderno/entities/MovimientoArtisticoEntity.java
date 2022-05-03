@@ -24,6 +24,7 @@ public class MovimientoArtisticoEntity extends BaseEntity{
 
 	private String nombre;
 	private String imagen;
+	private String descripcion;
 	
 	@Temporal(TemporalType.DATE)
 	@PodamStrategyValue(DateStrategy.class)

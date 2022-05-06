@@ -12,3 +12,29 @@ insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimient
 insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimiento, lugar_Nacimiento_id, lugar_Fallecimiento_id) values ('Barty Droogan', 'http://dummyimage.com/121x100.png/dddddd/000000', '1986-10-24', '1923-05-13', 3, 3);
 insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimiento, lugar_Nacimiento_id, lugar_Fallecimiento_id) values ('Ginger Fealey', 'http://dummyimage.com/190x100.png/cc0000/ffffff', '1925-05-17', '1910-07-03', 4, 2);
 insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimiento, lugar_Nacimiento_id, lugar_Fallecimiento_id) values ('Lola MacConnulty', 'http://dummyimage.com/218x100.png/cc0000/ffffff', '1912-08-14', '2021-06-28', 5, 1);
+
+--MOVIMIENTO ARTSITICO
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (1, '清凌', 'http://dummyimage.com/164x202.png/5fa2dd/ffffff', '全');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (2, '轩硕', 'http://dummyimage.com/149x226.png/5fa2dd/ffffff', '仇');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (3, '浩成', 'http://dummyimage.com/216x177.png/5fa2dd/ffffff', '鱼');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (4, '梓焓', 'http://dummyimage.com/214x232.png/dddddd/000000', '蒙');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (5, '晓烽', 'http://dummyimage.com/215x109.png/cc0000/ffffff', '诸');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (6, '松源', 'http://dummyimage.com/131x202.png/cc0000/ffffff', '浦');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (7, '玺越', 'http://dummyimage.com/130x179.png/dddddd/000000', '麻');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (8, '彤雨', 'http://dummyimage.com/151x127.png/dddddd/000000', '蔚');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (9, '凰羽', 'http://dummyimage.com/195x156.png/cc0000/ffffff', '尹');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (10, '军卿', 'http://dummyimage.com/196x189.png/ff4444/ffffff', '杭');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (11, '雨嘉', 'http://dummyimage.com/149x227.png/5fa2dd/ffffff', '岑');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (12, '雅芙', 'http://dummyimage.com/241x108.png/ff4444/ffffff', '贲');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (13, '亦涵', 'http://dummyimage.com/129x236.png/cc0000/ffffff', '阳');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (14, '海程', 'http://dummyimage.com/158x165.png/5fa2dd/ffffff', '却');
+insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (15, '博裕', 'http://dummyimage.com/235x196.png/dddddd/000000', '乐');
+
+--RELACION MOVIMIENTO-ARTSITA
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (1,1);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (1,2);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (1,3);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (2,1);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (2,2);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (3,1);
+insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (3,2);

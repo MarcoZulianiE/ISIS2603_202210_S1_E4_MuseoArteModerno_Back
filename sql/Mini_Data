@@ -13,6 +13,13 @@ insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimient
 insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimiento, lugar_Nacimiento_id, lugar_Fallecimiento_id) values ('Ginger Fealey', 'http://dummyimage.com/190x100.png/cc0000/ffffff', '1925-05-17', '1910-07-03', 4, 2);
 insert into ARTISTA_ENTITY (nombre, imagen, fecha_Nacimiento, fecha_Fallecimiento, lugar_Nacimiento_id, lugar_Fallecimiento_id) values ('Lola MacConnulty', 'http://dummyimage.com/218x100.png/cc0000/ffffff', '1912-08-14', '2021-06-28', 5, 1);
 
+--OBRA
+insert into OBRA_ENTITY (nombre, tipo , DESCRIPCION, FECHA_PUBLICACION) values ('Obra1','Barroco', 'Descripcion1', '1999-05-10');
+insert into OBRA_ENTITY (nombre, tipo , DESCRIPCION, FECHA_PUBLICACION) values ('Obra2','Renacimiento', 'Descripcion2', '1999-05-10');
+insert into OBRA_ENTITY (nombre, tipo , DESCRIPCION, FECHA_PUBLICACION) values ('Obra3','Barroco', 'Descripcion3', '1999-05-10');
+insert into OBRA_ENTITY (nombre, tipo , DESCRIPCION, FECHA_PUBLICACION) values ('Obra4','Renacimiento', 'Descripcion4', '1999-05-10');
+insert into OBRA_ENTITY (nombre, tipo , DESCRIPCION, FECHA_PUBLICACION) values ('Obra5','Barroco', 'Descripcion5', '1999-05-10');
+
 --MOVIMIENTO ARTSITICO
 insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (1, '清凌', 'http://dummyimage.com/164x202.png/5fa2dd/ffffff', '全');
 insert into MOVIMIENTO_ARTISTICO_ENTITY (id, nombre, imagen, descripcion) values (2, '轩硕', 'http://dummyimage.com/149x226.png/5fa2dd/ffffff', '仇');
@@ -38,3 +45,6 @@ insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (2,1
 insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (2,2);
 insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (3,1);
 insert into ARTISTA_ENTITY_MOVIMIENTOS (ARTISTAS_ID, MOVIMIENTOS_ID) values (3,2);
+
+--RELACION ARTSITA-OBRA
+update OBRA_ENTITY set artista_id = 1 where id = 1

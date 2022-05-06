@@ -24,6 +24,7 @@ public class ObraEntity extends BaseEntity{
 	private String nombre;
 	private String tipo;
 	private String descripcion;
+	private String imagen;
 	
 	@PodamExclude
 	@ManyToOne

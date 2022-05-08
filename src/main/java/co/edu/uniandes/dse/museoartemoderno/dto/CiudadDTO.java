@@ -11,7 +11,5 @@ public class CiudadDTO {
 	private String nombre;
 	private PaisDTO pais;
 	private Long id;
-	private int lat;
-	private int lon;
-
+    private String coordenadasCiudad;
 }

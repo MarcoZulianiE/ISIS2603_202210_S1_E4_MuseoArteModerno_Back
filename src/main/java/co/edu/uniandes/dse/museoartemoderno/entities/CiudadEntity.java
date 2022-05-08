@@ -15,6 +15,7 @@ public class CiudadEntity extends BaseEntity {
 	private String nombreCiudad;
 	
     private String coordenadasCiudad;
+    private String imagen;
 
 	@PodamExclude
 	@ManyToOne

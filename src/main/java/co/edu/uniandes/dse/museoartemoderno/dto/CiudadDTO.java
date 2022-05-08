@@ -12,4 +12,5 @@ public class CiudadDTO {
 	private PaisDTO pais;
 	private Long id;
     private String coordenadasCiudad;
+    private String imagen;
 }

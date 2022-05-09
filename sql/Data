@@ -11,6 +11,21 @@
 -- ARTISTA-MOVIMIENTO
 --*********************************
 
+
+--MUSEO
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('24 Schlimgen Road', 'http://dummyimage.com/124x100.png/ff4444/ffffff', 'imaccheyne0@flickr.com', 'Male', '237.43.53.83', 1);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('43346 Sunfield Parkway', 'http://dummyimage.com/142x100.png/5fa2dd/ffffff', 'twhorf1@bravesites.com', 'Male', '251.126.147.207', 3);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('581 Rockefeller Trail', 'http://dummyimage.com/246x100.png/ff4444/ffffff', 'gstelle2@nhs.uk', 'Male', '167.76.85.209', 4);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('14 Vera Point', 'http://dummyimage.com/195x100.png/5fa2dd/ffffff', 'tbax3@usda.gov', 'Male', '77.222.185.137', 5);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('119 Meadow Ridge Alley', 'http://dummyimage.com/111x100.png/cc0000/ffffff', 'tkibbel4@arstechnica.com', 'Male', '119.140.99.175', 2);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('58570 Daystar Road', 'http://dummyimage.com/247x100.png/dddddd/000000', 'texell5@networkadvertising.org', 'Male', '205.235.202.72', 4);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('0 Brickson Park Lane', 'http://dummyimage.com/156x100.png/5fa2dd/ffffff', 'mfrowd6@ehow.com', 'Female', '190.190.47.145', 5);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('40838 Mariners Cove Alley', 'http://dummyimage.com/242x100.png/5fa2dd/ffffff', 'schopy7@360.cn', 'Male', '71.52.86.214', 3);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('24469 Mesta Court', 'http://dummyimage.com/200x100.png/ff4444/ffffff', 'cpitkeathley8@thetimes.co.uk', 'Genderfluid', '22.179.231.139', 2);
+insert into MUSEO_ENTITY (direccion, img, nombre, total_obras_exhibidas, ip_address, ubicacion_id) values ('593 Spohn Junction', 'http://dummyimage.com/205x100.png/ff4444/ffffff', 'gkemmet9@vkontakte.ru', 'Female', '19.74.24.156', 1);
+
+
+
 --PAIS
 insert into PAIS_ENTITY (nombre_pais, coordenadas_pais, imagen) values ('Japan', 34.8148172, 'http://dummyimage.com/115x100.png/cc0000/ffffff');
 insert into PAIS_ENTITY (nombre_pais, coordenadas_pais, imagen) values ('France', 47.2215999, 'http://dummyimage.com/217x100.png/cc0000/ffffff');

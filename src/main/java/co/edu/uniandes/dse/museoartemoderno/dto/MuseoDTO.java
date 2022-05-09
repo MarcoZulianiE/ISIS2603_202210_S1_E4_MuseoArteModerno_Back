@@ -12,6 +12,8 @@ public class MuseoDTO {
 	private Long id;
 
 	private String nombre;
+
+	private String img;
 	
 	private String direccion;
 	

@@ -18,6 +18,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class MuseoEntity extends BaseEntity {
 	
 	private String nombre;
+
+	private String img;
 	
 	private String direccion;
 	

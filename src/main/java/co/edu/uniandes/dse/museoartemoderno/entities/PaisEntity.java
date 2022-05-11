@@ -16,7 +16,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class PaisEntity extends BaseEntity{
 	private String nombrePais;
 	private String coordenadasPais;
-	
+	private String imagen;
 	@PodamExclude
 	@OneToMany(mappedBy = "pais")
 	private List<CiudadEntity> ciudades = new ArrayList<>();

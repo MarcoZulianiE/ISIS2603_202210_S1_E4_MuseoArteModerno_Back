@@ -11,4 +11,5 @@ public class PaisDTO {
 	private Long id;
 	private String nombrePais;
 	private String coordenadas;
+	private String imagen;
 }

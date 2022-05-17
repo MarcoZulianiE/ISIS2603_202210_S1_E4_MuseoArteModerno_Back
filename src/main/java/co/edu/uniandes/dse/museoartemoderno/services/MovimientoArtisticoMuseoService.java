@@ -1,6 +1,5 @@
 package co.edu.uniandes.dse.museoartemoderno.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.uniandes.dse.museoartemoderno.entities.ArtistaEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MovimientoArtisticoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;

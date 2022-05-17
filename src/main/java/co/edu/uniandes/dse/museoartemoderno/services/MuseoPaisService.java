@@ -11,7 +11,6 @@ import co.edu.uniandes.dse.museoartemoderno.repositories.PaisRepository;
 import co.edu.uniandes.dse.museoartemoderno.entities.MuseoEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
-import co.edu.uniandes.dse.museoartemoderno.exceptions.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

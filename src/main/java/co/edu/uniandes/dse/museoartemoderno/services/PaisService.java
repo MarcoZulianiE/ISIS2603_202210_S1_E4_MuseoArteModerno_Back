@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.uniandes.dse.museoartemoderno.entities.CiudadEntity;
 import co.edu.uniandes.dse.museoartemoderno.entities.PaisEntity;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.EntityNotFoundException;
 import co.edu.uniandes.dse.museoartemoderno.exceptions.IllegalOperationException;

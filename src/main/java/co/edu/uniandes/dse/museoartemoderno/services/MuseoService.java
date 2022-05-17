@@ -141,10 +141,6 @@ public class MuseoService {
 		if (museoEntity.isEmpty())
 			throw new EntityNotFoundException(ErrorMessage.MUSEO_NOT_FOUND);
 		
-//		List<ObraEntity> obras = museoEntity.get().getObras();
-//		if (!obras.isEmpty())
-//			throw new EntityNotFoundException("Unable to delete museo because it has associated obras");
-		
 		museoRepository.deleteById(museoId);
 		log.info("Termina proceso de borrar el museo con id: " + museoId);
 	}

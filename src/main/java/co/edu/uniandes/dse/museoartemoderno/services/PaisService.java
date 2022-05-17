@@ -71,7 +71,6 @@ public class PaisService {
 		log.info("Inicia proceso de consultar el pais con id: " + paisId);
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		
-		//TODO
 		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("PAIS NOT FOUND");
 		
@@ -113,7 +112,6 @@ public class PaisService {
 		log.info("Inicia proceso de borrar el pais con id: ", paisId);
 		Optional<PaisEntity> paisEntity = paisRepository.findById(paisId);
 		
-		//TODO
 		if (paisEntity.isEmpty())
 			throw new EntityNotFoundException("PAIS NOT FOUND");
 		

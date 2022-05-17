@@ -41,18 +41,6 @@ public class ObraService {
 		if (obraEntity.getNombre() == null)
 			throw new IllegalOperationException("El Nombre de la Obra ingresado es nulo.");	
 		
-//		if (!obraRepository.findByNombre(obraEntity.getNombre()).isEmpty())
-//			throw new IllegalOperationException("El nombre de la obra ingresado ya existe");
-		
-//		if (obraEntity.getArtista() == null)
-//			throw new IllegalOperationException("El Artista de la obra ingresada es nulo.");
-		
-//		if (obraEntity.getMuseo() == null)
-//			throw new IllegalOperationException("El Museo de la obra ingresada es nulo.");	
-		
-//		if (obraEntity.getMovimiento() == null)
-//			throw new IllegalOperationException("El Movimiento Artístico de la obra ingresada es nulo. ");
-		
 		if ((obraEntity.getFechaPublicacion()).after(new Date()))
 			throw new IllegalOperationException("La fecha de publicación no es válida.");
 	
@@ -82,7 +70,6 @@ public class ObraService {
 		log.info("Inicia proceso de consultar la obra con id: " + obraId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		
-		//TODO
 		if (obraEntity.isEmpty())
 			throw new EntityNotFoundException("No encontró ninguna obra con el ID dado. ");
 		
@@ -104,7 +91,6 @@ public class ObraService {
 		log.info("Inicia proceso de actualizar la Obra con id: " + obraId);
 		Optional<ObraEntity> obraEntity = obraRepository.findById(obraId);
 		
-		//TODO
 		if (obraEntity.isEmpty())
 			throw new EntityNotFoundException("No se encontró ninguna obra con el ID dado. ");
 

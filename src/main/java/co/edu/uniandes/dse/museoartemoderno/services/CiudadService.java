@@ -60,7 +60,6 @@ public class CiudadService {
 		log.info("Inicia proceso de consultar la ciudad con id: " + ciudadId);
 		Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(ciudadId);
 		
-		//TODO
 		if (ciudadEntity.isEmpty())
 			throw new EntityNotFoundException("CIUDAD NOT FOUND");
 		
@@ -100,7 +99,6 @@ public class CiudadService {
 		log.info("Inicia proceso de borrar la ciudad con id: ", ciudadId);
 		Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(ciudadId);
 		
-		//TODO
 		if (ciudadEntity.isEmpty())
 			throw new EntityNotFoundException("CIUDAD NOT FOUND");
 		
